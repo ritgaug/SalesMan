@@ -2,6 +2,8 @@ package org.example.salesman;
 
 // ValuableTreasure class
 public class ValuableTreasure {
+    private int valueOfTreasure;
+    //Hello
     private int treasureId;
     private int xCoordinate;
     private int yCoordinate;
@@ -33,5 +35,6 @@ public class ValuableTreasure {
     public void setYCoordinate(int yCoordinate) {
         this.yCoordinate = yCoordinate;
     }
+    public int getValueOfTreasure(){return valueOfTreasure;}
 }
 
