@@ -3,7 +3,7 @@ package org.example.salesman;
 // ValuableTreasure class
 public class ValuableTreasure {
     private int valueOfTreasure;
-    //Hello
+    //Hellohjhjhj
     private int treasureId;
     private int xCoordinate;
     private int yCoordinate;
