@@ -2,6 +2,8 @@ package org.example.salesman;
 
 // ValuableTreasure class
 public class ValuableTreasure {
+    private boolean isInPlayerInventory;//lets you know if the object has been found by a player
+
     private String treasureName;
     private int valueOfTreasure;
     //Hellohjhjhj
@@ -93,6 +95,12 @@ public class ValuableTreasure {
 
     public void setTreasureName(String treasureName){
         this.treasureName=treasureName;
+    }
+    public void setInPlayerInventory(boolean isInPlayerInventory){
+        this.isInPlayerInventory=isInPlayerInventory;
+    }
+    public boolean getisInPlayerInventory(){
+        return isInPlayerInventory;
     }
 
 
