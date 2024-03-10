@@ -22,46 +22,41 @@ public class ValuableTreasure {
     //Constructor that prevents the occurance of more than 1 of each unique treasure
     //Each treasure has a unique number assigned to it from 1-8. Any other value
     //will result in the treasure being assigned a value of zero and the name "Empty"
-    public ValuableTreasure(int treasureId) {
+    public ValuableTreasure(int treasureId,int Value) {
+        this.valueOfTreasure=Value;
 
         this.treasureId = treasureId;
         if(treasureId==1&&DiamondRing==0){
             treasureName="Diamond Ring";
-            valueOfTreasure=1000;
             DiamondRing++;
+
         } else if (treasureId==2&&JewelEncrustedSword==0) {
             treasureName="Jewel Encrusted Sword";
-            valueOfTreasure=2000;
             JewelEncrustedSword++;
         }
         else if(treasureId==3&&CrystalGoblets==0){
             treasureName="Crystal Goblets";
-            valueOfTreasure=5000;
             CrystalGoblets++;
+
         }
         else if(treasureId==4&&WoodenBow==0){
             treasureName="Wooden Bow";
-            valueOfTreasure=100;
             WoodenBow++;
         }
         else if(treasureId==5&&GoldenGoblet==0){
             treasureName="Golden Goblet";
-            valueOfTreasure=500;
             GoldenGoblet++;
         }
         else if(treasureId==6&&PaladinsShield==0){
             treasureName="Paladin's Shield";
-            valueOfTreasure=700;
             PaladinsShield++;
         }
         else if(treasureId==7&&GoldenKey==0){
             treasureName="Golden Key";
-            valueOfTreasure=300;
             GoldenKey++;
         }
         else if(treasureId==8&&DragonsScroll==0){
             treasureName="Dragon's Scroll";
-            valueOfTreasure=7500;
             DragonsScroll++;
 
         }

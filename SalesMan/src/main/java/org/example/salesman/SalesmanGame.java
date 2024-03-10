@@ -50,14 +50,14 @@ public class SalesmanGame extends Application {
 
 
         // Create instances of valuable treasures based on the provided data
-        ValuableTreasure diamondRing = new ValuableTreasure(1);
-        ValuableTreasure jewelEncrustedSword = new ValuableTreasure(2);
-        ValuableTreasure crystalGoblets = new ValuableTreasure(3);
-        ValuableTreasure woodenBow = new ValuableTreasure(4);
-        ValuableTreasure goldenGoblet = new ValuableTreasure(5);
-        ValuableTreasure paladinsShield = new ValuableTreasure(6);
-        ValuableTreasure goldenKey = new ValuableTreasure(7);
-        ValuableTreasure dragonsScroll = new ValuableTreasure(8);
+        ValuableTreasure diamondRing = new ValuableTreasure(1,200);
+        ValuableTreasure jewelEncrustedSword = new ValuableTreasure(2,300);
+        ValuableTreasure crystalGoblets = new ValuableTreasure(3,400);
+        ValuableTreasure woodenBow = new ValuableTreasure(4,500);
+        ValuableTreasure goldenGoblet = new ValuableTreasure(5,600);
+        ValuableTreasure paladinsShield = new ValuableTreasure(6,700);
+        ValuableTreasure goldenKey = new ValuableTreasure(7,800);
+        ValuableTreasure dragonsScroll = new ValuableTreasure(8,900);
 
 
         // Add valuable treasures to the list
