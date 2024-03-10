@@ -19,7 +19,9 @@ public class ValuableTreasure {
     private static int GoldenKey=0;
     private static int DragonsScroll=0;
 
-
+    //Constructor that prevents the occurance of more than 1 of each unique treasure
+    //Each treasure has a unique number assigned to it from 1-8. Any other value
+    //will result in the treasure being assigned a value of zero and the name "Empty"
     public ValuableTreasure(int treasureId) {
 
         this.treasureId = treasureId;
@@ -94,9 +96,11 @@ public class ValuableTreasure {
     public int getValueOfTreasure(){return valueOfTreasure;}
     public void setValueOfTreasure(int value){valueOfTreasure=value;}
 
-    //Constructor that prevents the occurance of more than 1 of each unique treasure
-    //Each treasure has a unique number assigned to it from 1-8. Any other value
-    //will result in the treasure being assigned a value of zero and the name "Empty"
+    public void setTreasureName(String treasureName){
+        this.treasureName=treasureName;
+    }
+
+
 
     }
 
