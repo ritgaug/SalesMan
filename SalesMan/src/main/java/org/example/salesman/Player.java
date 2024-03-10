@@ -1,6 +1,7 @@
 package org.example.salesman;
-
+import java.util.ArrayList;
 public class Player {
+    private ArrayList<ValuableTreasure> treasuresList =new ArrayList<ValuableTreasure>(8);
     private int playerStrength;
     private int playerNumber;
     private Wallet playerWallet = new Wallet();
