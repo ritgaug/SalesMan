@@ -118,18 +118,18 @@ public class SalesmanGame extends Application {
         for (int row = 0; row < GRID_SIZE; row++) {
             for (int col = 0; col < GRID_SIZE; col++) {
                 Rectangle cell = new Rectangle(CELL_SIZE, CELL_SIZE);
-                cell.setStroke(Color.BLACK);
+                cell.setStroke(BLACK);
 
                 // Check if the cell contains a castle
                 if (row == 4 && col == 5) {
-                    cell.setFill(Color.YELLOW); // Castle color
+                    cell.setFill(YELLOW); // Castle color
                 }
 
                 // Check if the cell contains a market
                 boolean isMarketCell = false;
                 for (Market market : markets) {
                     if (row == market.getRow() && col == market.getCol()) {
-                        cell.setFill(Color.ORANGE); // Market color
+                        cell.setFill(ORANGE); // Market color
                         isMarketCell = true;
                         break;
                     }
@@ -138,7 +138,7 @@ public class SalesmanGame extends Application {
                 // Check if the cell is a wall
                 boolean isWallCell = false;
                 if (row == 0 && col == 1 || row == 0 && col == 8 || row == 4 && col == 0 || row == 6 && col == 9 || row == 8 && col == 0) {
-                    cell.setFill(Color.BLACK); // Wall color
+                    cell.setFill(BLACK); // Wall color
                     isWallCell = true;
                 }
 
@@ -146,7 +146,7 @@ public class SalesmanGame extends Application {
                 boolean isTrapCell = false;
                 for (Trap trap : traps) {
                     if (row == trap.getLocation().y && col == trap.getLocation().x) {
-                        cell.setFill(Color.RED); // Trap color
+                        cell.setFill(RED); // Trap color
                         isTrapCell = true;
                         break;
                     }
@@ -157,7 +157,7 @@ public class SalesmanGame extends Application {
                     boolean isMarkedObject = false;
                     for (Point loot : markedObjects) {
                         if (loot.equals(new Point(col, row))) {
-                            cell.setFill(Color.BLUE); // Marked object color
+                            cell.setFill(BLUE); // Marked object color
                             isMarkedObject = true;
                             break;
                         }
@@ -167,13 +167,13 @@ public class SalesmanGame extends Application {
                         boolean isTreasure = false;
                         for (ValuableTreasure treasure : valuableTreasures) {
                             if (treasure.getXCoordinate() == col && treasure.getYCoordinate() == row) {
-                                cell.setFill(Color.GREEN);
+                                cell.setFill(GREEN);
                                 isTreasure = true;
                                 break;
                             }
                         }
                         if (!isTreasure) {
-                            cell.setFill(Color.LIGHTGRAY); // Default cell color
+                            cell.setFill(LIGHTGRAY); // Default cell color
                         }
                     }
                 }
@@ -187,13 +187,22 @@ public class SalesmanGame extends Application {
         p1Piece = createPlayerPiece(PURPLE);
         p2Piece = createPlayerPiece(TAN);
 
-        gridPane.add(p1Piece, 0, 0);
-        gridPane.add(p2Piece, GRID_SIZE - 1, GRID_SIZE - 1);
-
-// Inside the SalesmanGame class
+        // Inside the SalesmanGame class
         Dice dice = new Dice();
         dice.addToGrid(gridPane, 0, 10);
 
+        // Movement buttons
+        Movement movement = new Movement();
+
+        movement.addLeftToGrid(gridPane, 2, 10);
+        movement.addRightToGrid(gridPane, 3, 10);
+        movement.addUpToGrid(gridPane, 4, 10);
+        movement.addDownToGrid(gridPane, 5, 10);
+
+        //
+
+        gridPane.add(p1Piece, 0, 0);
+        gridPane.add(p2Piece, GRID_SIZE - 1, GRID_SIZE - 1);
 
         // Add buy weapons button
         Button buyWeaponsButton = new Button("Buy Weapons");
