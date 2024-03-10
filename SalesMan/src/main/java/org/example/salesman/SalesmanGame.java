@@ -190,13 +190,10 @@ public class SalesmanGame extends Application {
         gridPane.add(p1Piece, 0, 0);
         gridPane.add(p2Piece, GRID_SIZE - 1, GRID_SIZE - 1);
 
-        Button dieRollButton = new Button("Roll Die");
-        dieRollButton.setOnAction(event -> {
-            int dieResult = dieRoll();
-            System.out.println("Die result: " + dieResult);
-        });
+// Inside the SalesmanGame class
+        Dice dice = new Dice();
+        dice.addToGrid(gridPane, 0, 10);
 
-        gridPane.add(dieRollButton, 0, GRID_SIZE);
 
         // Add buy weapons button
         Button buyWeaponsButton = new Button("Buy Weapons");
