@@ -176,8 +176,6 @@ public class SalesmanGame extends Application {
                             cell.setFill(Color.LIGHTGRAY); // Default cell color
                         }
                     }
-
-
                 }
 
                 gridPane.add(cell, col, row);
