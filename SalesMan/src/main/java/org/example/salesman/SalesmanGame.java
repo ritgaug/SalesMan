@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Random;
 
 import static javafx.scene.paint.Color.*;
-
+//hi
 public class SalesmanGame extends Application {
     private static final int GRID_SIZE = 10;
     private static final int CELL_SIZE = 50;
