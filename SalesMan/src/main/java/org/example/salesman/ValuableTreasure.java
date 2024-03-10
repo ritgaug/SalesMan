@@ -2,11 +2,23 @@ package org.example.salesman;
 
 // ValuableTreasure class
 public class ValuableTreasure {
+    private String treasureName;
     private int valueOfTreasure;
     //Hellohjhjhj
     private int treasureId;
     private int xCoordinate;
     private int yCoordinate;
+
+    //class instances of each type of treasure
+    private static int DiamondRing=0;
+    private static int JewelEncrustedSword=0;
+    private static int CrystalGoblets=0;
+    private static int WoodenBow=0;
+    private static int GoldenGoblet=0;
+    private static int PaladinShield=0;
+    private static int GoldenKey=0;
+    private static int DragonsScroll=0;
+
 
     public ValuableTreasure(int treasureId) {
         this.treasureId = treasureId;
