@@ -6,7 +6,6 @@ public class ValuableTreasure {
 
     private String treasureName;
     private int valueOfTreasure;
-    //Hellohjhjhj
     private int treasureId;
     private int xCoordinate;
     private int yCoordinate;
@@ -21,7 +20,7 @@ public class ValuableTreasure {
     private static int GoldenKey=0;
     private static int DragonsScroll=0;
 
-    //Constructor that prevents the occurance of more than 1 of each unique treasure
+    //Constructor that prevents the occurrence of more than 1 of each unique treasure
     //Each treasure has a unique number assigned to it from 1-8. Any other value
     //will result in the treasure being assigned a value of zero and the name "Empty"
     public ValuableTreasure(int treasureId,int Value) {

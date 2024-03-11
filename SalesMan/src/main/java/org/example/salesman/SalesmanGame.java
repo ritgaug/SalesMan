@@ -34,7 +34,6 @@ public class SalesmanGame extends Application {
     private Wallet wallet = new Wallet();
     private List<Trap> traps = new ArrayList<>();
     private House house = new House();
-    private List<Point> walls;
     private List<ValuableTreasure> valuableTreasures = new ArrayList<>();
 
 
@@ -46,7 +45,6 @@ public class SalesmanGame extends Application {
         // Initialize Traps
         traps = createTraps();
 
-        walls = createWalls();
 
 
         // Create instances of valuable treasures based on the provided data
@@ -250,17 +248,6 @@ public class SalesmanGame extends Application {
         return traps;
     }
 
-    // Method to create walls at custom locations
-    private List<Point> createWalls() {
-        List<Point> walls = new ArrayList<>();
-        // Define custom wall positions here
-        walls.add(new Point(0, 1));
-        walls.add(new Point(0, 8));
-        walls.add(new Point(4, 0));
-        walls.add(new Point(6, 9));
-        walls.add(new Point(8, 0));
-        return walls;
-    }
 
     private void initializeValuableTreasures() {
         Random random = new Random();
