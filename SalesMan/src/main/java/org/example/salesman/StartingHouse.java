@@ -1,12 +1,13 @@
 package org.example.salesman;
+
 import javafx.scene.shape.Rectangle;
 import static javafx.scene.paint.Color.*;
 
-class Castle extends Rectangle {
-    Castle(double size) {
+
+class StartingHouse extends Rectangle {
+    StartingHouse(double size) {
         super(size, size);
-        setFill(YELLOW);
+        setFill(TURQUOISE);
         setStroke(BLACK);
     }
 }
-

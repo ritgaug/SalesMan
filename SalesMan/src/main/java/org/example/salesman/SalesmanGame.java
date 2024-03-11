@@ -99,6 +99,7 @@ public class SalesmanGame extends Application {
         gridPane.setHgap(5);
         gridPane.setVgap(5);
 
+
         Button trapButton = new Button("Trigger Trap");
         trapButton.setOnAction(event -> {
             // Trigger the trap
@@ -118,10 +119,14 @@ public class SalesmanGame extends Application {
                 Rectangle cell = new Rectangle(CELL_SIZE, CELL_SIZE);
                 cell.setStroke(BLACK);
 
-                // Check if the cell contains a castle
-                if (row == 4 && col == 5) {
-                    cell.setFill(YELLOW); // Castle color
-                }
+                // Create starting house and add to the grid
+                StartingHouse startingHouse = new StartingHouse(CELL_SIZE);
+                gridPane.add(startingHouse ,0 , 0);
+
+                // Create castles and add them to the grid
+                Castle castle = new Castle(CELL_SIZE);
+                gridPane.add(castle, 5, 4);
+
 
                 // Check if the cell contains a market
                 boolean isMarketCell = false;
@@ -150,8 +155,8 @@ public class SalesmanGame extends Application {
                     }
                 }
 
-                // Check if the cell is not a market, castle, wall, or trap
-                if (!isMarketCell && !(row == 4 && col == 5) && !isWallCell && !isTrapCell) {
+                // Check if the cell is not a market, castle, wall, trap or Starting House
+                if (!isMarketCell && !(row == 4 && col == 5) && !isWallCell && !isTrapCell && !(row==0 && col==0)) {
                     boolean isMarkedObject = false;
                     for (Point loot : markedObjects) {
                         if (loot.equals(new Point(col, row))) {
@@ -200,7 +205,7 @@ public class SalesmanGame extends Application {
         //
 
         gridPane.add(p1Piece, 0, 0);
-        gridPane.add(p2Piece, GRID_SIZE - 1, GRID_SIZE - 1);
+        gridPane.add(p2Piece, 0, 0);
 
         // Add buy weapons button
         Button buyWeaponsButton = new Button("Buy Weapons");
