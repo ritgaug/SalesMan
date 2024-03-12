@@ -23,8 +23,6 @@ import static javafx.scene.paint.Color.*;
 public class SalesmanGame extends Application {
     private static final int GRID_SIZE = 10;
     private static final int CELL_SIZE = 50;
-    private Circle p1Piece; // player 1
-    private Circle p2Piece; // player 2
     private static final int MARKED_OBJECTS = 13;
     private static final int MIN_TRAPS = 1;
     private static final int MAX_TRAPS = 5;
@@ -39,6 +37,8 @@ public class SalesmanGame extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+
+
         // Initialize marked objects
         markedObjects = createLostItems();
 
@@ -113,19 +113,14 @@ public class SalesmanGame extends Application {
         house.setWall(true); // Example: Set the house as a wall
         house.setTrap(true); // Example: Set the house as a trap
 
+
+
         // Nested loop to create the map
         for (int row = 0; row < GRID_SIZE; row++) {
             for (int col = 0; col < GRID_SIZE; col++) {
                 Rectangle cell = new Rectangle(CELL_SIZE, CELL_SIZE);
                 cell.setStroke(BLACK);
 
-                // Create starting house and add to the grid
-                StartingHouse startingHouse = new StartingHouse(CELL_SIZE);
-                gridPane.add(startingHouse ,0 , 0);
-
-                // Create castles and add them to the grid
-                Castle castle = new Castle(CELL_SIZE);
-                gridPane.add(castle, 5, 4);
 
 
                 // Check if the cell contains a market
@@ -179,16 +174,32 @@ public class SalesmanGame extends Application {
                             cell.setFill(LIGHTGRAY); // Default cell color
                         }
                     }
+
                 }
 
                 gridPane.add(cell, col, row);
             }
         }
 
+        // Create starting house and add to the grid
+        StartingHouse startingHouse = new StartingHouse(CELL_SIZE);
+        gridPane.add(startingHouse ,0 , 0);
 
-        // Add player pieces and die roll button
-        p1Piece = createPlayerPiece(PURPLE);
-        p2Piece = createPlayerPiece(TAN);
+        // Player1
+        Player player1 = new Player(1, Color.PURPLE, 0, new Wallet() , new ArrayList<>() , 0 , 0 , CELL_SIZE/2);
+
+        //Player 2
+        Player player2 = new Player(2, Color.TAN , 0 , new Wallet() , new ArrayList<>() , 0, 0, CELL_SIZE/2);
+        // Add players to the grid
+        gridPane.add(player1.getShape(CELL_SIZE),player1.getxCoordinate(),player1.getyCoordinate());
+        gridPane.add(player2.getShape(CELL_SIZE),player2.getxCoordinate(),player2.getyCoordinate());
+
+
+
+        // Create castles and add them to the grid
+        Castle castle = new Castle(CELL_SIZE);
+        gridPane.add(castle, 5, 4);
+
 
         // Inside the SalesmanGame class
         Dice dice = new Dice();
@@ -202,10 +213,6 @@ public class SalesmanGame extends Application {
         movement.addUpToGrid(gridPane, 4, 10);
         movement.addDownToGrid(gridPane, 5, 10);
 
-        //
-
-        gridPane.add(p1Piece, 0, 0);
-        gridPane.add(p2Piece, 0, 0);
 
         // Add buy weapons button
         Button buyWeaponsButton = new Button("Buy Weapons");
@@ -238,6 +245,7 @@ public class SalesmanGame extends Application {
         primaryStage.setScene(scene);
         primaryStage.setTitle("Traveling Salesman Game");
         primaryStage.show();
+
     }
 
     // Method to create traps at random locations
@@ -252,7 +260,6 @@ public class SalesmanGame extends Application {
         }
         return traps;
     }
-
 
     private void initializeValuableTreasures() {
         Random random = new Random();
@@ -269,7 +276,6 @@ public class SalesmanGame extends Application {
             occupiedCells.add(new Point(x, y));
         }
     }
-
 
     // Method to display weapons in a market
     private void displayWeapons(List<Weapon> weapons, String marketName) {
@@ -304,12 +310,6 @@ public class SalesmanGame extends Application {
         return (int) (Math.random() * 6) + 1;
     }
 
-    // method for player pieces
-    private Circle createPlayerPiece(Color color) {
-        Circle piece = new Circle(CELL_SIZE / 2);
-        piece.setFill(color);
-        return piece;
-    }
 
     // method for creating random location of marked objects/ lost items (loot)
     private List<Point> createLostItems() {
@@ -327,7 +327,7 @@ public class SalesmanGame extends Application {
             }
             while (occupiedCells.contains(new Point(x, y)));
             occupiedCells.add(new Point(x, y));
-            System.out.println("Treasure initialized at coordinates: (" + x + ", " + y + ")");
+
 
         }
 
@@ -350,4 +350,5 @@ public class SalesmanGame extends Application {
         // Display the weapons available in the market
         displayWeapons(weapons, marketName);
     }
+
 }
