@@ -13,7 +13,7 @@ class Weapon {
         this.cost=cost;
     }
 
-    int getDamage() {
+    int getStrength() {
         return strength;
     }
 
@@ -23,10 +23,6 @@ class Weapon {
 
     public int getCost() {
         return cost;
-    }
-
-    public void setCost(int cost) {
-        this.cost = cost;
     }
 }
 

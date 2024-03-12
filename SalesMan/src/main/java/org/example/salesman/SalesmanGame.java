@@ -187,7 +187,7 @@ public class SalesmanGame extends Application {
 
         // Create and add Player1
         Player player1 = new Player(1, Color.PURPLE, 0, new Wallet() , new ArrayList<>() , 0 , 0 , CELL_SIZE/2);
-        gridPane.add(player1.getShape(CELL_SIZE),player1.getxCoordinate(),player1.getyCoordinate());
+        gridPane.add(player1.getShape(CELL_SIZE),player1.getXCoordinate(),player1.getYCoordinate());
 
         // Create and add Player 2
 
@@ -219,23 +219,18 @@ public class SalesmanGame extends Application {
 
         // Attach event handler to the buy weapons button
         buyWeaponsButton.setOnAction(event -> {
-            // Get the market where the button was clicked
-            Button clickedButton = (Button) event.getSource();
-            int row = GridPane.getRowIndex(clickedButton);
-            int col = GridPane.getColumnIndex(clickedButton);
-
-            // Find the market associated with the clicked button
-            Market clickedMarket = null;
+            // Find the market the player is on
+            Market marketPlayerIsOn = null;
             for (Market market : markets) {
-                if (market.getRow() == row && market.getCol() == col) {
-                    clickedMarket = market;
+                if (market.getRow() == player1.getYCoordinate() && market.getCol() == player1.getXCoordinate()) {
+                    marketPlayerIsOn = market;
                     break;
                 }
             }
 
             // If the market is found, display the weapons available in that market
-            if (clickedMarket != null) {
-                buyWeapons(clickedMarket.getWeapons(), clickedMarket.getName());
+            if (marketPlayerIsOn != null) {
+                buyWeapons(marketPlayerIsOn.getWeapons(), marketPlayerIsOn.getName());
             }
         });
 
@@ -291,7 +286,7 @@ public class SalesmanGame extends Application {
 
         for (int i = 0; i < weapons.size(); i++) {
             Weapon weapon = weapons.get(i);
-            Label weaponLabel = new Label(weapon.getName() + " - Strength: " + weapon.getDamage());
+            Label weaponLabel = new Label("Name: " + weapon.getName() + "\nStrength: " + weapon.getStrength() + "\nCost: " + weapon.getCost());
             weaponsPane.add(weaponLabel, 0, i + 1);
         }
 

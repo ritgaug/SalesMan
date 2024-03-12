@@ -62,10 +62,10 @@ public class Player{
     public ArrayList<ValuableTreasure> treasuresList(){
         return treasuresList;
     }
-    public int getxCoordinate(){
+    public int getXCoordinate(){
         return xCoordinate;
     }
-    public int getyCoordinate(){
+    public int getYCoordinate(){
         return yCoordinate;
     }
     public int getRadius(){

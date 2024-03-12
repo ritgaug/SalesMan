@@ -52,7 +52,7 @@ public class Movement {
 
         private void updatePlayerPosition () {
             gridPane.getChildren().remove(player.getShape(CELL_SIZE));
-            gridPane.add(player.getShape(CELL_SIZE), player.getxCoordinate(), player.getyCoordinate());
+            gridPane.add(player.getShape(CELL_SIZE), player.getXCoordinate(), player.getYCoordinate());
         }
 
 
