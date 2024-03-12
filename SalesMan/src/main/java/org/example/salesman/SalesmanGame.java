@@ -81,10 +81,10 @@ public class SalesmanGame extends Application {
         };
 
         Weapon[] weapons = {
-                new Weapon(20, "Axe"),
-                new Weapon(15, "Sword"),
-                new Weapon(10, "Bow"),
-                new Weapon(5, "Knife")
+                new Weapon(20, "Axe",100),
+                new Weapon(15, "Sword",100),
+                new Weapon(10, "Bow",100),
+                new Weapon(5, "Knife",100)
         };
 
         // Add weapons to the markets

@@ -7,9 +7,10 @@ class Weapon {
     private int strength;
     private String name;
 
-    Weapon(int strength, String name) {
+    Weapon(int strength, String name, int cost) {
         this.strength = strength;
         this.name = name;
+        this.cost=cost;
     }
 
     int getDamage() {
