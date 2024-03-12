@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import javafx.scene.paint.Color;
 
 
+
+
 public class Player{
+    private static final int GRID_SIZE = 10;
     private ArrayList<ValuableTreasure> treasuresList =new ArrayList<ValuableTreasure>(8);
     private int playerStrength;
     private int playerNumber;
@@ -69,4 +72,41 @@ public class Player{
         return radius;
     }
 
+    // Method for move player
+
+    public void moveRight() {
+        if (xCoordinate < GRID_SIZE - 1) {
+            xCoordinate++;
+        }
+        else {
+            System.out.println("Where the fuck are you going!");
+        }
+    }
+
+    public void moveLeft() {
+        if (xCoordinate > 0) {
+            xCoordinate--;
+        }
+        else {
+            System.out.println("Where the fuck are you going!");
+        }
+    }
+
+    public void moveUp() {
+        if (yCoordinate > 0) {
+            yCoordinate--;
+        }
+        else {
+            System.out.println("Where the fuck are you going!");
+        }
+    }
+
+    public void moveDown() {
+        if (yCoordinate < GRID_SIZE - 1) {
+            yCoordinate++;
+        }
+        else {
+            System.out.println("Where the fuck are you going!");
+        }
+    }
 }

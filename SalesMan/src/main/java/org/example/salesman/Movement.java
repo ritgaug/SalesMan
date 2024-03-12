@@ -2,84 +2,71 @@ package org.example.salesman;
 
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
-import javafx.scene.input.KeyCode;
 
 public class Movement {
+    private GridPane gridPane;
+    private static final int CELL_SIZE = 50;
+    private Player player;
     private Button moveRight;
     private Button moveLeft;
     private Button moveUp;
     private Button moveDown;
 
-    public Movement() {
-        moveRight = new Button("up");
-        //moveRight.setOnAction(event -> movePlayerUp());
 
-        moveLeft = new Button("down");
-        //moveLeft.setOnAction(event -> movePlayerDown());
+    public Movement(Player player, GridPane gridPane) {
+        this.player = player;
+        this.gridPane = gridPane;
 
-        moveUp = new Button("right");
-        //moveUp.setOnAction(event -> movePlayerRight());
 
-        moveDown = new Button("left");
-        //moveDown.setOnAction(event -> movePlayerLeft());
 
-        // Set keyboard shortcuts
-        setKeyboardShortcuts();
-    }
-    // Constructor for matching keyboard buttons to grid buttons
-    private void setKeyboardShortcuts() {
-        moveRight.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.RIGHT) {
-                movePlayerRight();
-            }
+        //Move Right
+        moveRight = new Button("right");
+        moveRight.setOnAction(event -> {
+            player.moveRight();
+            updatePlayerPosition();
+
         });
 
-        moveLeft.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.LEFT) {
-                movePlayerLeft();
-            }
+        //Move Left
+        moveLeft = new Button("Left");
+        moveLeft.setOnAction(event -> {
+            player.moveLeft();
+            updatePlayerPosition();
         });
 
-        moveUp.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.UP) {
-                movePlayerUp();
-            }
+        //Move Up
+        moveUp = new Button("up");
+        moveUp.setOnAction(event -> {
+            player.moveUp();
+            updatePlayerPosition();
         });
 
-        moveDown.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.DOWN) {
-                movePlayerDown();
-            }
+        //Move Down
+        moveDown = new Button("down");
+        moveDown.setOnAction(event -> {
+            player.moveDown();
+            updatePlayerPosition();
         });
     }
-    public void addUpToGrid(GridPane gridPane, int rowIndex, int colIndex) {
-        gridPane.add(moveUp, rowIndex, colIndex);
-    }
-    public void addDownToGrid(GridPane gridPane, int rowIndex, int colIndex) {
 
-        gridPane.add(moveDown, rowIndex, colIndex);
-    }
-    public void addRightToGrid(GridPane gridPane, int rowIndex, int colIndex) {
-        gridPane.add(moveRight, rowIndex, colIndex);
-    }
-    public void addLeftToGrid(GridPane gridPane, int rowIndex, int colIndex) {
-        gridPane.add(moveLeft, rowIndex, colIndex);
-    }
 
-    // Define methods to handle player movement
-    private void movePlayerRight() {
-        // Implement movement logic for moving the player right
-    }
+        private void updatePlayerPosition () {
+            gridPane.getChildren().remove(player.getShape(CELL_SIZE));
+            gridPane.add(player.getShape(CELL_SIZE), player.getxCoordinate(), player.getyCoordinate());
+        }
 
-    private void movePlayerLeft() {
-        // Implement movement logic for moving the player left
-    }
 
-    private void movePlayerUp() {
-        // Implement movement logic for moving the player up
-    }
+        public void addUpToGrid (GridPane gridPane,int rowIndex, int colIndex){
+            gridPane.add(moveUp, rowIndex, colIndex);
+        }
+        public void addDownToGrid (GridPane gridPane,int rowIndex, int colIndex){
 
-    private void movePlayerDown() {
-        // Implement movement logic for moving the player down
+            gridPane.add(moveDown, rowIndex, colIndex);
+        }
+        public void addRightToGrid (GridPane gridPane,int rowIndex, int colIndex){
+            gridPane.add(moveRight, rowIndex, colIndex);
+        }
+        public void addLeftToGrid (GridPane gridPane,int rowIndex, int colIndex){
+            gridPane.add(moveLeft, rowIndex, colIndex);
+        }
     }
-}

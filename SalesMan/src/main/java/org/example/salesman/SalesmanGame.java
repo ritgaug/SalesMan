@@ -185,14 +185,11 @@ public class SalesmanGame extends Application {
         StartingHouse startingHouse = new StartingHouse(CELL_SIZE);
         gridPane.add(startingHouse ,0 , 0);
 
-        // Player1
+        // Create and add Player1
         Player player1 = new Player(1, Color.PURPLE, 0, new Wallet() , new ArrayList<>() , 0 , 0 , CELL_SIZE/2);
-
-        //Player 2
-        Player player2 = new Player(2, Color.TAN , 0 , new Wallet() , new ArrayList<>() , 0, 0, CELL_SIZE/2);
-        // Add players to the grid
         gridPane.add(player1.getShape(CELL_SIZE),player1.getxCoordinate(),player1.getyCoordinate());
-        gridPane.add(player2.getShape(CELL_SIZE),player2.getxCoordinate(),player2.getyCoordinate());
+
+        // Create and add Player 2
 
 
 
@@ -206,12 +203,14 @@ public class SalesmanGame extends Application {
         dice.addToGrid(gridPane, 0, 10);
 
         // Movement buttons
-        Movement movement = new Movement();
+        Movement movement = new Movement(player1,gridPane);
 
+        // Add movement buttons to the grid
         movement.addLeftToGrid(gridPane, 2, 10);
         movement.addRightToGrid(gridPane, 3, 10);
         movement.addUpToGrid(gridPane, 4, 10);
         movement.addDownToGrid(gridPane, 5, 10);
+
 
 
         // Add buy weapons button
@@ -245,6 +244,9 @@ public class SalesmanGame extends Application {
         primaryStage.setScene(scene);
         primaryStage.setTitle("Traveling Salesman Game");
         primaryStage.show();
+
+
+
 
     }
 
@@ -350,5 +352,4 @@ public class SalesmanGame extends Application {
         // Display the weapons available in the market
         displayWeapons(weapons, marketName);
     }
-
 }
