@@ -3,6 +3,7 @@ package org.example.salesman;
 
 // Weapon class
 class Weapon {
+    private int cost;
     private int strength;
     private String name;
 
@@ -17,6 +18,14 @@ class Weapon {
 
     String getName() {
         return name;
+    }
+
+    public int getCost() {
+        return cost;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
     }
 }
 
