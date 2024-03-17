@@ -13,8 +13,8 @@ public class Trap {
     }
 
     public void trigger(Wallet wallet) {
-        boolean result = wallet.deductMoney(penalty);
-        if (result) {
+        int result = wallet.deductMoney(penalty);
+        if (result >= 0) {
             System.out.println("Trap activated! Lost " + penalty + " money.");
         } else {
             System.out.println("Not enough money to deduct!");

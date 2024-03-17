@@ -33,6 +33,7 @@ public class SalesmanGame extends Application {
     private List<Trap> traps = new ArrayList<>();
     private House house = new House();
     private List<ValuableTreasure> valuableTreasures = new ArrayList<>();
+    private Player player1;
 
 
     @Override
@@ -81,9 +82,9 @@ public class SalesmanGame extends Application {
         };
 
         Weapon[] weapons = {
-                new Weapon(20, "Axe",100),
-                new Weapon(15, "Sword",100),
-                new Weapon(10, "Bow",100),
+                new Weapon(20, "Axe",800),
+                new Weapon(15, "Sword",400),
+                new Weapon(10, "Bow",200),
                 new Weapon(5, "Knife",100)
         };
 
@@ -186,7 +187,7 @@ public class SalesmanGame extends Application {
         gridPane.add(startingHouse ,0 , 0);
 
         // Create and add Player1
-        Player player1 = new Player(1, Color.PURPLE, 0, new Wallet() , new ArrayList<>() , 0 , 0 , CELL_SIZE/2);
+        player1 = new Player(1, Color.PURPLE, 0, new Wallet(), new ArrayList<ValuableTreasure>() , new ArrayList<Weapon>(),0 , 0 , CELL_SIZE/2);
         gridPane.add(player1.getShape(CELL_SIZE),player1.getXCoordinate(),player1.getYCoordinate());
 
         // Create and add Player 2
@@ -288,7 +289,25 @@ public class SalesmanGame extends Application {
             Weapon weapon = weapons.get(i);
             Label weaponLabel = new Label("Name: " + weapon.getName() + "\nStrength: " + weapon.getStrength() + "\nCost: " + weapon.getCost());
             weaponsPane.add(weaponLabel, 0, i + 1);
+
+            // Create a "Buy" button for each weapon
+            Button Buy = new Button("Buy");
+            weaponsPane.add(Buy,1,i+1);
+            Buy.setOnAction(event ->{
+                if(weapon.getCost() <= wallet.getBalance()){
+                    wallet.deductMoney(weapon.getCost());
+                    player1.addWeapon(weapon);
+                    player1.addStrength(weapon);
+                    System.out.println("Purchase complete and weapon "+weapon.getName() + " add to your weapons:)");
+                    System.out.println("Your balance is :"+wallet.getBalance());
+                }
+                else{
+                    System.out.println("Not enough balance");
+                }
+
+            });
         }
+
 
         StackPane secondaryLayout = new StackPane();
         secondaryLayout.getChildren().add(weaponsPane);

@@ -9,7 +9,8 @@ import javafx.scene.paint.Color;
 
 public class Player{
     private static final int GRID_SIZE = 10;
-    private ArrayList<ValuableTreasure> treasuresList =new ArrayList<ValuableTreasure>(8);
+    private ArrayList treasuresList =new ArrayList<>(8);
+    private ArrayList weaponList = new ArrayList<>();
     private int playerStrength;
     private int playerNumber;
     private Wallet playerWallet = new Wallet();
@@ -20,7 +21,7 @@ public class Player{
     private final int radius;
 
     // Constructor for each player including wallet , shape , color ,strength and treasures
-    public Player(int playerNumber, Color color, int playerStrength, Wallet playerWallet , ArrayList treasuresList , int initialX , int initialY , int radius) {
+    public Player(int playerNumber, Color color, int playerStrength, Wallet playerWallet , ArrayList treasuresList ,ArrayList weaponList, int initialX , int initialY , int radius) {
         this.playerNumber = playerNumber;
         this.shape = new Circle(radius);
         this.color = color;
@@ -28,6 +29,7 @@ public class Player{
         this.playerStrength = playerStrength;
         this.playerWallet = playerWallet ;
         this.treasuresList = treasuresList ;
+        this.weaponList = weaponList;
         this.xCoordinate = initialX;
         this.yCoordinate = initialY;
         this.radius = radius;
@@ -61,6 +63,9 @@ public class Player{
 
     public ArrayList<ValuableTreasure> treasuresList(){
         return treasuresList;
+    }
+    public ArrayList<Weapon> getWeaponList(){
+        return weaponList;
     }
     public int getXCoordinate(){
         return xCoordinate;
@@ -108,5 +113,13 @@ public class Player{
         else {
             System.out.println("Where the fuck are you going!");
         }
+    }
+    // Method to add weapons
+    public void addWeapon(Weapon weapon) {
+        weaponList.add(weapon);
+    }
+    // Method to add strength
+    public void addStrength(Weapon weapon){
+        playerStrength += weapon.getStrength();
     }
 }
