@@ -4,7 +4,6 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Circle;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Rectangle;
@@ -12,11 +11,17 @@ import javafx.stage.Stage;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
-
+import javafx.scene.layout.VBox;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
 import java.util.Random;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 
 import static javafx.scene.paint.Color.*;
 //hi
@@ -34,7 +39,9 @@ public class SalesmanGame extends Application {
     private House house = new House();
     private List<ValuableTreasure> valuableTreasures = new ArrayList<>();
     private Player player1;
+    private Player player2;
 
+    private VBox battleIndicators; // VBox to hold battle indicators
 
     @Override
     public void start(Stage primaryStage) {
@@ -46,17 +53,15 @@ public class SalesmanGame extends Application {
         // Initialize Traps
         traps = createTraps();
 
-
-
         // Create instances of valuable treasures based on the provided data
-        ValuableTreasure diamondRing = new ValuableTreasure(1,200);
-        ValuableTreasure jewelEncrustedSword = new ValuableTreasure(2,300);
-        ValuableTreasure crystalGoblets = new ValuableTreasure(3,400);
-        ValuableTreasure woodenBow = new ValuableTreasure(4,500);
-        ValuableTreasure goldenGoblet = new ValuableTreasure(5,600);
-        ValuableTreasure paladinsShield = new ValuableTreasure(6,700);
-        ValuableTreasure goldenKey = new ValuableTreasure(7,800);
-        ValuableTreasure dragonsScroll = new ValuableTreasure(8,900);
+        ValuableTreasure diamondRing = new ValuableTreasure(1, 200);
+        ValuableTreasure jewelEncrustedSword = new ValuableTreasure(2, 300);
+        ValuableTreasure crystalGoblets = new ValuableTreasure(3, 400);
+        ValuableTreasure woodenBow = new ValuableTreasure(4, 500);
+        ValuableTreasure goldenGoblet = new ValuableTreasure(5, 600);
+        ValuableTreasure paladinsShield = new ValuableTreasure(6, 700);
+        ValuableTreasure goldenKey = new ValuableTreasure(7, 800);
+        ValuableTreasure dragonsScroll = new ValuableTreasure(8, 900);
 
 
         // Add valuable treasures to the list
@@ -82,10 +87,10 @@ public class SalesmanGame extends Application {
         };
 
         Weapon[] weapons = {
-                new Weapon(20, "Axe",800),
-                new Weapon(15, "Sword",400),
-                new Weapon(10, "Bow",200),
-                new Weapon(5, "Knife",100)
+                new Weapon(20, "Axe", 800),
+                new Weapon(15, "Sword", 400),
+                new Weapon(10, "Bow", 200),
+                new Weapon(5, "Knife", 100)
         };
 
         // Add weapons to the markets
@@ -114,6 +119,11 @@ public class SalesmanGame extends Application {
         house.setWall(true); // Example: Set the house as a wall
         house.setTrap(true); // Example: Set the house as a trap
 
+        battleIndicators = new VBox();
+        battleIndicators.setSpacing(10); // Set spacing between indicators
+
+        // Add battle indicators to the right side of the grid pane
+        gridPane.add(battleIndicators, GRID_SIZE + 1, 0);
 
 
         // Nested loop to create the map
@@ -121,7 +131,6 @@ public class SalesmanGame extends Application {
             for (int col = 0; col < GRID_SIZE; col++) {
                 Rectangle cell = new Rectangle(CELL_SIZE, CELL_SIZE);
                 cell.setStroke(BLACK);
-
 
 
                 // Check if the cell contains a market
@@ -152,7 +161,7 @@ public class SalesmanGame extends Application {
                 }
 
                 // Check if the cell is not a market, castle, wall, trap or Starting House
-                if (!isMarketCell && !(row == 4 && col == 5) && !isWallCell && !isTrapCell && !(row==0 && col==0)) {
+                if (!isMarketCell && !(row == 4 && col == 5) && !isWallCell && !isTrapCell && !(row == 0 && col == 0)) {
                     boolean isMarkedObject = false;
                     for (Point loot : markedObjects) {
                         if (loot.equals(new Point(col, row))) {
@@ -184,15 +193,59 @@ public class SalesmanGame extends Application {
 
         // Create starting house and add to the grid
         StartingHouse startingHouse = new StartingHouse(CELL_SIZE);
-        gridPane.add(startingHouse ,0 , 0);
+        gridPane.add(startingHouse, 0, 0);
 
         // Create and add Player1
-        player1 = new Player(1, Color.PURPLE, 0, new Wallet(), new ArrayList<ValuableTreasure>() , new ArrayList<Weapon>(),0 , 0 , CELL_SIZE/2);
-        gridPane.add(player1.getShape(CELL_SIZE),player1.getXCoordinate(),player1.getYCoordinate());
+        player1 = new Player(1, Color.PURPLE, 0, new Wallet(), new ArrayList<ValuableTreasure>(), new ArrayList<Weapon>(), 0, 0, CELL_SIZE / 2);
+        gridPane.add(player1.getShape(CELL_SIZE), player1.getXCoordinate(), player1.getYCoordinate());
 
         // Create and add Player 2
+        player2 = new Player(2, Color.GREEN, 0, new Wallet(), new ArrayList<>(), new ArrayList<>(), GRID_SIZE - 1, GRID_SIZE - 1, CELL_SIZE / 2);
+        gridPane.add(player2.getShape(CELL_SIZE), player2.getXCoordinate(), player2.getYCoordinate());
 
+        // Inside the SalesmanGame class, after creating player1 and player2
+        Movement movementPlayer1 = new Movement(player1, player2, gridPane);
+        movementPlayer1.addButtonsToGrid(gridPane, 6, 10); // Add movement buttons for player 1
 
+        // Modify trapButton event handler to trigger traps for both players
+        trapButton.setOnAction(event -> {
+            // Trigger the trap for player 1
+            traps.get(new Random().nextInt(traps.size())).trigger(player1.getPlayerWallet());
+            // Trigger the trap for player 2
+            traps.get(new Random().nextInt(traps.size())).trigger(player2.getPlayerWallet());
+        });
+
+        // Modify buyWeaponsButton event handler to handle buying weapons for both players
+        // Add buy weapons button
+        Button buyWeaponsButton = new Button("Buy Weapons");
+        gridPane.add(buyWeaponsButton, 1, GRID_SIZE);
+        buyWeaponsButton.setOnAction(event -> {
+            // Find the market the player 1 is on
+            Market marketPlayer1IsOn = null;
+            for (Market market : markets) {
+                if (market.getRow() == player1.getYCoordinate() && market.getCol() == player1.getXCoordinate()) {
+                    marketPlayer1IsOn = market;
+                    break;
+                }
+            }
+            // Find the market the player 2 is on
+            Market marketPlayer2IsOn = null;
+            for (Market market : markets) {
+                if (market.getRow() == player2.getYCoordinate() && market.getCol() == player2.getXCoordinate()) {
+                    marketPlayer2IsOn = market;
+                    break;
+                }
+            }
+
+            // If the market is found, display the weapons available in that market for player 1
+            if (marketPlayer1IsOn != null) {
+                buyWeapons(marketPlayer1IsOn.getWeapons(), marketPlayer1IsOn.getName(), player1);
+            }
+            // If the market is found, display the weapons available in that market for player 2
+            if (marketPlayer2IsOn != null) {
+                buyWeapons(marketPlayer2IsOn.getWeapons(), marketPlayer2IsOn.getName(), player2);
+            }
+        });
 
         // Create castles and add them to the grid
         Castle castle = new Castle(CELL_SIZE);
@@ -204,34 +257,39 @@ public class SalesmanGame extends Application {
         dice.addToGrid(gridPane, 0, 10);
 
         // Movement buttons
-        Movement movement = new Movement(player1,gridPane);
-
         // Add movement buttons to the grid
-        movement.addLeftToGrid(gridPane, 2, 10);
-        movement.addRightToGrid(gridPane, 3, 10);
-        movement.addUpToGrid(gridPane, 4, 10);
-        movement.addDownToGrid(gridPane, 5, 10);
-
 
 
         // Add buy weapons button
-        Button buyWeaponsButton = new Button("Buy Weapons");
+        buyWeaponsButton = new Button("Buy Weapons");
         gridPane.add(buyWeaponsButton, 1, GRID_SIZE);
 
         // Attach event handler to the buy weapons button
         buyWeaponsButton.setOnAction(event -> {
-            // Find the market the player is on
-            Market marketPlayerIsOn = null;
+            // Find the market the player 1 is on
+            Market marketPlayer1IsOn = null;
             for (Market market : markets) {
                 if (market.getRow() == player1.getYCoordinate() && market.getCol() == player1.getXCoordinate()) {
-                    marketPlayerIsOn = market;
+                    marketPlayer1IsOn = market;
+                    break;
+                }
+            }
+            // Find the market the player 2 is on
+            Market marketPlayer2IsOn = null;
+            for (Market market : markets) {
+                if (market.getRow() == player2.getYCoordinate() && market.getCol() == player2.getXCoordinate()) {
+                    marketPlayer2IsOn = market;
                     break;
                 }
             }
 
-            // If the market is found, display the weapons available in that market
-            if (marketPlayerIsOn != null) {
-                buyWeapons(marketPlayerIsOn.getWeapons(), marketPlayerIsOn.getName());
+            // If the market is found, display the weapons available in that market for player 1
+            if (marketPlayer1IsOn != null) {
+                buyWeapons(marketPlayer1IsOn.getWeapons(), marketPlayer1IsOn.getName(), player1);
+            }
+            // If the market is found, display the weapons available in that market for player 2
+            if (marketPlayer2IsOn != null) {
+                buyWeapons(marketPlayer2IsOn.getWeapons(), marketPlayer2IsOn.getName(), player2);
             }
         });
 
@@ -240,8 +298,6 @@ public class SalesmanGame extends Application {
         primaryStage.setScene(scene);
         primaryStage.setTitle("Traveling Salesman Game");
         primaryStage.show();
-
-
 
 
     }
@@ -362,8 +418,23 @@ public class SalesmanGame extends Application {
         return false;
     }
 
-    private void buyWeapons(List<Weapon> weapons, String marketName) {
+    private void buyWeapons(List<Weapon> weapons, String marketName, Player player1) {
         // Display the weapons available in the market
         displayWeapons(weapons, marketName);
+    }
+    private void updateBattleIndicators(boolean isBattle, Player player1, Player player2) {
+        battleIndicators.getChildren().clear(); // Clear existing indicators
+
+        if (isBattle) {
+            // Show battle indicator
+            Label battleLabel = new Label("Battle!");
+            battleIndicators.getChildren().add(battleLabel);
+
+            // Show players involved in the battle
+            Rectangle player1Indicator = new Rectangle(20, 20, player1.getColor());
+            Rectangle player2Indicator = new Rectangle(20, 20, player2.getColor());
+            HBox playersBox = new HBox(10, player1Indicator, player2Indicator);
+            battleIndicators.getChildren().add(playersBox);
+        }
     }
 }
