@@ -111,8 +111,8 @@ public class SalesmanGame extends Application {
         gridPane.add(trapButton, 1, GRID_SIZE);
 
         // Add wall and trap to the house
-        house.setWall(true); // Example: Set the house as a wall
-        house.setTrap(true); // Example: Set the house as a trap
+        house.setWall(true);
+        house.setTrap(true);
 
 
 
@@ -143,11 +143,13 @@ public class SalesmanGame extends Application {
 
                 // Check if the cell contains a trap
                 boolean isTrapCell = false;
-                for (Trap trap : traps) {
-                    if (row == trap.getLocation().y && col == trap.getLocation().x) {
-                        cell.setFill(RED); // Trap color
-                        isTrapCell = true;
-                        break;
+                if(!isWallCell && !isMarketCell) {
+                    for (Trap trap : traps) {
+                        if (row == trap.getLocation().y && col == trap.getLocation().x) {
+                            cell.setFill(RED); // Trap color
+                            isTrapCell = true;
+                            break;
+                        }
                     }
                 }
 
