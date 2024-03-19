@@ -1,7 +1,14 @@
 package org.example.salesman;
 
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.awt.*;
+
+import static org.example.salesman.SalesmanGame.visitedHouses;
 
 public class Movement {
     private GridPane gridPane;
@@ -16,11 +23,12 @@ public class Movement {
     private Button moveLeftPlayer2;
     private Button moveUpPlayer2;
     private Button moveDownPlayer2;
-
+    public static List <Point> cellsVisted;
     public Movement(Player player1, Player player2, GridPane gridPane) {
         this.player1 = player1;
         this.player2 = player2; // Initialize player 2
         this.gridPane = gridPane;
+        LocationList();
 
         // Move Right for Player 1
         moveRightPlayer1 = new Button("Right");
@@ -78,6 +86,7 @@ public class Movement {
             player2.moveDown(); // Call moveDown method for player 2
             updatePlayerPosition(player2);
         });
+
     }
 
     private void updatePlayerPosition(Player player) {
@@ -98,6 +107,45 @@ public class Movement {
             // Players are not in the same space, remove battle indicators
             updateBattleIndicators(false, null, null);
         }
+
+        // creating list of cells visted by player within turn
+        // if player is trying to visit house twice within turn return error
+        if (!Repitition.visitingStatus(player.getXCoordinate(), player.getYCoordinate(), cellsVisted)) {
+            //list of visited cells within current turn already contains this point
+            if (!Repitition.visitingStatus(player.getXCoordinate(), player.getYCoordinate(), visitedHouses)) {
+                // visting same house twice within one turn
+                errorMessage();
+
+                // return to previous location
+                gridPane.getChildren().remove(player.getShape(CELL_SIZE));
+                Point previousLocation = cellsVisted.get(cellsVisted.size() - 1);
+                int lastX = previousLocation.x;
+                player.setXCoordinate(lastX);
+                int lastY = previousLocation.y;
+                player.setYCoordinate(lastY);
+                gridPane.add(player.getShape(CELL_SIZE), lastX, lastY);
+
+            } else {
+                addLocationsVisted(player.getXCoordinate(), player.getYCoordinate());
+            }
+        } else {
+            //player has never been on this square
+            addLocationsVisted(player.getXCoordinate(), player.getYCoordinate());
+        }
+    }
+
+    public void LocationList() {
+        cellsVisted = new ArrayList<>();
+    }
+    public void addLocationsVisted (int x, int y) {
+        cellsVisted.add(new Point(x, y));
+    }
+    public void errorMessage(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Illegal Play");
+        alert.setHeaderText(null);
+        alert.setContentText("You have already visited this house during your turn.");
+        alert.showAndWait();
     }
     private void updateBattleIndicators(boolean isInBattle, Player player1, Player player2) {
         // Implement logic to update UI elements or indicators based on whether a battle is happening or not

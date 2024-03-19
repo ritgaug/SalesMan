@@ -16,13 +16,7 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 import java.util.Random;
-import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
-
 import static javafx.scene.paint.Color.*;
 //hi
 public class SalesmanGame extends Application {
@@ -40,13 +34,11 @@ public class SalesmanGame extends Application {
     private List<ValuableTreasure> valuableTreasures = new ArrayList<>();
     private Player player1;
     private Player player2;
-
+    public static List<Point> visitedHouses;
     private VBox battleIndicators; // VBox to hold battle indicators
 
     @Override
     public void start(Stage primaryStage) {
-
-
         // Initialize marked objects
         markedObjects = createLostItems();
 
@@ -193,16 +185,19 @@ public class SalesmanGame extends Application {
             }
         }
 
+        // list of all house types to be visted
+        visitedHouses = createVisitedHouses();
+
         // Create starting house and add to the grid
         StartingHouse startingHouse = new StartingHouse(CELL_SIZE);
         gridPane.add(startingHouse, 0, 0);
 
         // Create and add Player1
-        player1 = new Player(1, Color.PURPLE, 0, new Wallet(), new ArrayList<ValuableTreasure>(), new ArrayList<Weapon>(), 0, 0, CELL_SIZE / 2);
+        player1 = new Player(1, Color.PURPLE, 0, new Wallet(), new ArrayList<ValuableTreasure>(), new ArrayList<Weapon>(), GRID_SIZE, GRID_SIZE-1, CELL_SIZE / 2);
         gridPane.add(player1.getShape(CELL_SIZE), player1.getXCoordinate(), player1.getYCoordinate());
 
         // Create and add Player 2
-        player2 = new Player(2, Color.GREEN, 0, new Wallet(), new ArrayList<>(), new ArrayList<>(), GRID_SIZE - 1, GRID_SIZE - 1, CELL_SIZE / 2);
+        player2 = new Player(2, DEEPPINK, 0, new Wallet(), new ArrayList<>(), new ArrayList<>(), GRID_SIZE, GRID_SIZE -1, CELL_SIZE / 2);
         gridPane.add(player2.getShape(CELL_SIZE), player2.getXCoordinate(), player2.getYCoordinate());
 
         // Inside the SalesmanGame class, after creating player1 and player2
@@ -257,10 +252,6 @@ public class SalesmanGame extends Application {
         // Inside the SalesmanGame class
         Dice dice = new Dice();
         dice.addToGrid(gridPane, 0, 10);
-
-        // Movement buttons
-        // Add movement buttons to the grid
-
 
         // Add buy weapons button
         buyWeaponsButton = new Button("Buy Weapons");
@@ -438,5 +429,27 @@ public class SalesmanGame extends Application {
             HBox playersBox = new HBox(10, player1Indicator, player2Indicator);
             battleIndicators.getChildren().add(playersBox);
         }
+    }
+    public List<Point> createVisitedHouses () {
+        List<Point> visitedHouses = new ArrayList<> ();
+
+        visitedHouses.add(new Point(3, 0));
+        visitedHouses.add(new Point(5, 2));
+        visitedHouses.add(new Point(0, 6));
+        visitedHouses.add(new Point(7, 7));
+        visitedHouses.add(new Point(3, 9));
+
+
+        for (int x = 0; x < GRID_SIZE; x++) {
+            for (int y = 0; y < GRID_SIZE; y++) {
+                for (ValuableTreasure treasure : valuableTreasures) {
+                    if (treasure.getXCoordinate() == x && treasure.getYCoordinate() == y) {
+                        visitedHouses.add(new Point(x, y));
+                    }
+                }
+            }
+        }
+
+        return visitedHouses;
     }
 }
