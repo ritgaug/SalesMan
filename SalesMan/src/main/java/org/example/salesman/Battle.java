@@ -1,6 +1,15 @@
 package org.example.salesman;
 
+import javafx.scene.layout.GridPane;
+
 public class Battle {
+    private final int CELL_SIZE = 50;
+    private GridPane gridPane;
+
+    public Battle(GridPane gridPane) {
+        this.gridPane = gridPane;
+    }
+
     public void engage(Player player1, Player player2) {
         // Check if players are adjacent
         if (areAdjacent(player1, player2)) {
@@ -8,19 +17,29 @@ public class Battle {
             Player winner = determineWinner(player1, player2);
             Player loser = (winner == player1) ? player2 : player1;
 
-            // Effects of winning
-            handleWinningEffects(winner, loser);
+            // Display winner and loser
+            System.out.println("The winner is Player"+winner.getPlayerNumber()+ " !");
+            System.out.println("The loser is Player"+loser.getPlayerNumber()+ " !");
 
-            // Effects of losing
-            handleLosingEffects(winner, loser);
+            // Effects on money
+            handleMoneyEffects(winner, loser);
+            System.out.println("Winner balance: "+winner.getPlayerWallet().getBalance());
+            System.out.println("Loser balance: "+loser.getPlayerWallet().getBalance());
+
+
+            // Effects on strength
+            handleStrengthEffects(winner, loser);
+            System.out.println("Winner strength: "+winner.getPlayerStrength());
+            System.out.println("Loser strength: "+loser.getPlayerStrength());
+
         }
     }
 
     private boolean areAdjacent(Player player1, Player player2) {
-        // Implement logic to check if players are adjacent
-        return Math.abs(player1.getXCoordinate() - player2.getXCoordinate()) +
-                Math.abs(player1.getYCoordinate() - player2.getYCoordinate()) == 1;
+        return player1.getXCoordinate() == player2.getXCoordinate() && player1.getYCoordinate() == player2.getYCoordinate();
+
     }
+
 
     private Player determineWinner(Player player1, Player player2) {
         // Compare player strengths
@@ -36,34 +55,36 @@ public class Battle {
         }
     }
 
-    private void handleWinningEffects(Player winner, Player loser) {
+    private void handleMoneyEffects(Player winner, Player loser) {
         // Take a fraction of money from the losing player
-        int fraction = calculateMoneyFraction(loser);
-        winner.getPlayerWallet().addMoney(fraction);
-        loser.getPlayerWallet().deductMoney(fraction);
+        double fraction = calculateMoneyFraction(loser , winner);
+        winner.getPlayerWallet().addMoney((int) fraction);
+        loser.getPlayerWallet().deductMoney((int) fraction);
 
         // Throw the losing player back to the starting house
         throwToStartingHouse(loser);
     }
 
-    private int calculateMoneyFraction(Player loser) {
-        // Implement logic to calculate money fraction
-        // For now, we assume a fixed fraction of 50% of the loser's money
-        return loser.getPlayerWallet().getBalance() / 2;
+    private double calculateMoneyFraction(Player loser , Player winner) {
+
+        double fraction = (double) (winner.getPlayerStrength() - loser.getPlayerStrength()) /
+                (winner.getPlayerStrength() + loser.getPlayerStrength())*
+                loser.getPlayerWallet().getBalance();
+        return fraction;
     }
 
     private void throwToStartingHouse(Player loser) {
-        // Implement logic to throw the losing player back to the starting house
-        // For now, we assume the player's coordinates are set to the starting house coordinates
-        loser.setXCoordinate(0);
-        loser.setYCoordinate(0);
+        loser.setXCoordinate(9);
+        loser.setYCoordinate(9);
+        gridPane.getChildren().remove(loser.getShape(CELL_SIZE));
+        gridPane.add(loser.getShape(CELL_SIZE), loser.getXCoordinate(), loser.getYCoordinate());
     }
 
-    private void handleLosingEffects(Player winner, Player loser) {
-        // Reduce the losing player's strength to zero
-        loser.setPlayerStrength(0);
-
+    private void handleStrengthEffects(Player winner, Player loser) {
         // Decrease the winning player's strength by the amount of the losing player's strength
         winner.setPlayerStrength(winner.getPlayerStrength() - loser.getPlayerStrength());
+
+        // Reduce the losing player's strength to zero
+        loser.setPlayerStrength(0);
     }
 }

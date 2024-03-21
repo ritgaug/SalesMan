@@ -9,6 +9,7 @@ public class ValuableTreasure {
     private int treasureId;
     private int xCoordinate;
     private int yCoordinate;
+    private String emoji;
 
     //class instances of each type of treasure
     private static int DiamondRing=0;
@@ -23,10 +24,13 @@ public class ValuableTreasure {
     //Constructor that prevents the occurrence of more than 1 of each unique treasure
     //Each treasure has a unique number assigned to it from 1-8. Any other value
     //will result in the treasure being assigned a value of zero and the name "Empty"
-    public ValuableTreasure(int treasureId,int Value) {
+    public ValuableTreasure(int treasureId,int Value, String emoji) {
         this.valueOfTreasure=Value;
 
         this.treasureId = treasureId;
+
+        this.emoji = emoji;
+
         if(treasureId==1&&DiamondRing==0){
             treasureName="Diamond Ring";
             DiamondRing++;
@@ -72,6 +76,9 @@ public class ValuableTreasure {
 
     public void setTreasureId(int treasureId) {
         this.treasureId = treasureId;
+    }
+    public String getEmoji(){
+        return emoji;
     }
 
     public int getXCoordinate() {

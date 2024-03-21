@@ -6,11 +6,13 @@ class Weapon {
     private int cost;
     private int strength;
     private String name;
+    private String emoji;
 
-    Weapon(int strength, String name, int cost) {
+    Weapon(int strength, String name, int cost , String emoji) {
         this.strength = strength;
         this.name = name;
         this.cost=cost;
+        this.emoji = emoji;
     }
 
     int getStrength() {
@@ -23,6 +25,9 @@ class Weapon {
 
     public int getCost() {
         return cost;
+    }
+    public String getEmoji(){
+        return emoji;
     }
 }
 

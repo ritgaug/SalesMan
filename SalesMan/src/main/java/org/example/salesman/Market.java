@@ -36,5 +36,9 @@ class Market {
     int getCol() {
         return col;
     }
+    // Market emoji
+    private String getMarketEmoji() {
+        return "\uD83C\uDFEA"; // Market emoji
+    }
 }
 

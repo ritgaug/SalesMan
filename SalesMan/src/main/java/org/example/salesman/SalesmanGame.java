@@ -18,7 +18,9 @@ import java.util.List;
 import java.util.Random;
 import javafx.scene.layout.HBox;
 import static javafx.scene.paint.Color.*;
-//hi
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+
 public class SalesmanGame extends Application {
     private static final int GRID_SIZE = 10;
     private static final int CELL_SIZE = 50;
@@ -46,14 +48,14 @@ public class SalesmanGame extends Application {
         traps = createTraps();
 
         // Create instances of valuable treasures based on the provided data
-        ValuableTreasure diamondRing = new ValuableTreasure(1, 200);
-        ValuableTreasure jewelEncrustedSword = new ValuableTreasure(2, 300);
-        ValuableTreasure crystalGoblets = new ValuableTreasure(3, 400);
-        ValuableTreasure woodenBow = new ValuableTreasure(4, 500);
-        ValuableTreasure goldenGoblet = new ValuableTreasure(5, 600);
-        ValuableTreasure paladinsShield = new ValuableTreasure(6, 700);
-        ValuableTreasure goldenKey = new ValuableTreasure(7, 800);
-        ValuableTreasure dragonsScroll = new ValuableTreasure(8, 900);
+        ValuableTreasure diamondRing = new ValuableTreasure(1, 200,"\uD83D\uDCCD");
+        ValuableTreasure jewelEncrustedSword = new ValuableTreasure(2, 300, "\uD83D\uDDE1️");
+        ValuableTreasure crystalGoblets = new ValuableTreasure(3, 400,"\uD83C\uDF77");
+        ValuableTreasure woodenBow = new ValuableTreasure(4, 500,"\uD83C\uDFF9");
+        ValuableTreasure goldenGoblet = new ValuableTreasure(5, 600,"\uD83C\uDFC6");
+        ValuableTreasure paladinsShield = new ValuableTreasure(6, 700,"\uD83D\uDEE1");
+        ValuableTreasure goldenKey = new ValuableTreasure(7, 800,"\uD83D\uDDDD️");
+        ValuableTreasure dragonsScroll = new ValuableTreasure(8, 900,"🐉");
 
 
         // Add valuable treasures to the list
@@ -79,10 +81,11 @@ public class SalesmanGame extends Application {
         };
 
         Weapon[] weapons = {
-                new Weapon(20, "Axe", 800),
-                new Weapon(15, "Sword", 400),
-                new Weapon(10, "Bow", 200),
-                new Weapon(5, "Knife", 100)
+                new Weapon(25,"Pistol",1000,"\uD83D\uDD2B"),
+                new Weapon(20, "Axe", 800,"\u2692"),
+                new Weapon(15, "Sword", 400,"\uD83D\uDDE1"),
+                new Weapon(10, "Bow", 200,"\uD83C\uDFF9"),
+                new Weapon(5, "Knife", 100,"\uD83D\uDD2A")
         };
 
         // Add weapons to the markets
@@ -128,6 +131,7 @@ public class SalesmanGame extends Application {
                 // Check if the cell contains a market
                 boolean isMarketCell = false;
                 for (Market market : markets) {
+                    addEmojiToGrid(gridPane,market.getCol() , market.getRow(), "\uD83D\uDED2", CELL_SIZE);
                     if (row == market.getRow() && col == market.getCol()) {
                         cell.setFill(ORANGE); // Market color
                         isMarketCell = true;
@@ -155,7 +159,7 @@ public class SalesmanGame extends Application {
                 }
 
                 // Check if the cell is not a market, castle, wall, trap or Starting House
-                if (!isMarketCell && !(row == 4 && col == 5) && !isWallCell && !isTrapCell && !(row == 0 && col == 0)) {
+                if (!isMarketCell && !(row == 4 && col == 5) && !isWallCell && !isTrapCell && !(row == 9 && col == 9)) {
                     boolean isMarkedObject = false;
                     for (Point loot : markedObjects) {
                         if (loot.equals(new Point(col, row))) {
@@ -168,6 +172,7 @@ public class SalesmanGame extends Application {
                     if (!isMarkedObject) {
                         boolean isTreasure = false;
                         for (ValuableTreasure treasure : valuableTreasures) {
+                            addEmojiToGrid(gridPane ,treasure.getXCoordinate(), treasure.getYCoordinate(), treasure.getEmoji(),CELL_SIZE-5);
                             if (treasure.getXCoordinate() == col && treasure.getYCoordinate() == row) {
                                 cell.setFill(GREEN);
                                 isTreasure = true;
@@ -190,19 +195,28 @@ public class SalesmanGame extends Application {
 
         // Create starting house and add to the grid
         StartingHouse startingHouse = new StartingHouse(CELL_SIZE);
-        gridPane.add(startingHouse, 0, 0);
+        gridPane.add(startingHouse, 9, 9);
 
         // Create and add Player1
-        player1 = new Player(1, Color.PURPLE, 0, new Wallet(), new ArrayList<ValuableTreasure>(), new ArrayList<Weapon>(), GRID_SIZE, GRID_SIZE-1, CELL_SIZE / 2);
+        player1 = new Player(1, Color.PURPLE, 100, new Wallet(), new ArrayList<ValuableTreasure>(), new ArrayList<Weapon>(), GRID_SIZE, GRID_SIZE-1, CELL_SIZE / 2);
         gridPane.add(player1.getShape(CELL_SIZE), player1.getXCoordinate(), player1.getYCoordinate());
 
         // Create and add Player 2
-        player2 = new Player(2, DEEPPINK, 0, new Wallet(), new ArrayList<>(), new ArrayList<>(), GRID_SIZE, GRID_SIZE -1, CELL_SIZE / 2);
+        player2 = new Player(2, DEEPPINK, 50, new Wallet(), new ArrayList<>(), new ArrayList<>(), GRID_SIZE, GRID_SIZE -1, CELL_SIZE / 2);
         gridPane.add(player2.getShape(CELL_SIZE), player2.getXCoordinate(), player2.getYCoordinate());
 
+
+
+        // Creating instance of Dice
+        Dice dice = new Dice();
+        dice.addToGrid(gridPane, 0, 10);
+
         // Inside the SalesmanGame class, after creating player1 and player2
-        Movement movementPlayer1 = new Movement(player1, player2, gridPane);
+        Movement movementPlayer1 = new Movement(player1, player2, gridPane,dice);
         movementPlayer1.addButtonsToGrid(gridPane, 6, 10); // Add movement buttons for player 1
+
+
+
 
         // Modify trapButton event handler to trigger traps for both players
         trapButton.setOnAction(event -> {
@@ -247,11 +261,10 @@ public class SalesmanGame extends Application {
         // Create castles and add them to the grid
         Castle castle = new Castle(CELL_SIZE);
         gridPane.add(castle, 5, 4);
+        addEmojiToGrid(gridPane,5 , 4, "\uD83C\uDFF0", CELL_SIZE );
 
 
-        // Inside the SalesmanGame class
-        Dice dice = new Dice();
-        dice.addToGrid(gridPane, 0, 10);
+
 
         // Add buy weapons button
         buyWeaponsButton = new Button("Buy Weapons");
@@ -293,6 +306,12 @@ public class SalesmanGame extends Application {
         primaryStage.show();
 
 
+    }
+    // Method to add emoji to the grid with a specific size
+    private void addEmojiToGrid(GridPane gridPane, int colEmoji, int rowEmoji, String emoji, double fontSize) {
+        Text text = new Text(emoji);
+        text.setFont(Font.font(fontSize)); // Set the font size
+        gridPane.add(text, colEmoji, rowEmoji);
     }
 
     // Method to create traps at random locations
@@ -336,7 +355,7 @@ public class SalesmanGame extends Application {
 
         for (int i = 0; i < weapons.size(); i++) {
             Weapon weapon = weapons.get(i);
-            Label weaponLabel = new Label("Name: " + weapon.getName() + "\nStrength: " + weapon.getStrength() + "\nCost: " + weapon.getCost());
+            Label weaponLabel = new Label(weapon.getEmoji()+ " " + weapon.getName() + "\nStrength: " + weapon.getStrength() + "\nCost: " + weapon.getCost());
             weaponsPane.add(weaponLabel, 0, i + 1);
 
             // Create a "Buy" button for each weapon

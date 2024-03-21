@@ -8,5 +8,9 @@ class Castle extends Rectangle {
         setFill(YELLOW);
         setStroke(BLACK);
     }
+    // Castle emoji
+    private String getCastleEmoji() {
+        return "\uD83C\uDFF0"; // Castle emoji
+    }
 }
 
