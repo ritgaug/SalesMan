@@ -125,6 +125,10 @@ public class Player {
             playerStrength = 0; // Ensure strength doesn't go negative
         }
     }
+    //lets users add money to the player wallet
+    public void addMoney(int value){
+        playerWallet.addMoney(value);
+    }
     public void setXCoordinate(int xCoordinate) {
         this.xCoordinate = xCoordinate;
     }
