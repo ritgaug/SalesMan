@@ -266,6 +266,7 @@ public class SalesmanGame extends Application {
 
 
 
+
         // Add buy weapons button
         buyWeaponsButton = new Button("Buy Weapons");
         gridPane.add(buyWeaponsButton, 1, GRID_SIZE);
@@ -470,5 +471,15 @@ public class SalesmanGame extends Application {
         }
 
         return visitedHouses;
+    }
+    public void pickUpTreasures(ArrayList<ValuableTreasure> a,Player p1, Player p2){
+        for(int i=0;i<a.size();i++){
+            if((p1.getXCoordinate()==a.get(i).getXCoordinate())&&(p1.getYCoordinate()==a.get(i).getYCoordinate())){
+
+            }
+        }
+
+
+
     }
 }

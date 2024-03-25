@@ -8,7 +8,7 @@ public class Player {
     private static final int GRID_SIZE = 10;
     private static final int CELL_SIZE = 50;
     private int playerNumber;
-    private ArrayList treasuresList = new ArrayList<>(8);
+    private ArrayList<ValuableTreasure> treasuresList = new ArrayList<ValuableTreasure>(8);
     private ArrayList weaponList = new ArrayList<>();
     private int playerStrength;
     private Wallet playerWallet;
@@ -134,6 +134,10 @@ public class Player {
 
     public void setPlayerStrength(int playerStrength) {
         this.playerStrength = playerStrength;
+    }
+
+    public void addTreasure(ValuableTreasure a){
+        treasuresList.add(a);
     }
 
 }
