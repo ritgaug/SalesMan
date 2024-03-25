@@ -18,6 +18,7 @@ public class Player {
     private int yCoordinate;
     private final int radius;
     private int health;
+    private int treasureDiscoverScore=0;
 
     public Player(int playerNumber, Color color, int playerStrength, Wallet playerWallet, ArrayList treasuresList, ArrayList weaponList, int initialX, int initialY, int radius) {
         this.playerNumber = playerNumber;
@@ -138,6 +139,15 @@ public class Player {
 
     public void addTreasure(ValuableTreasure a){
         treasuresList.add(a);
+    }
+    public void addTreasureDiscoveryScore(){
+        treasureDiscoverScore=treasureDiscoverScore+1;
+    }
+    public void setTreasureDiscoveryScore(int treasureDiscoverScore){
+        this.treasureDiscoverScore=treasureDiscoverScore;
+    }
+    public int getTreasureDiscoverScore(){
+        return treasureDiscoverScore;
     }
 
 }
