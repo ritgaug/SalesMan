@@ -472,11 +472,16 @@ public class SalesmanGame extends Application {
 
         return visitedHouses;
     }
+    //method for players to pick up treasures
     public void pickUpTreasures(ArrayList<ValuableTreasure> a,Player p1, Player p2){
         for(int i=0;i<a.size();i++){
             if((p1.getXCoordinate()==a.get(i).getXCoordinate())&&(p1.getYCoordinate()==a.get(i).getYCoordinate())){
-
+                p1.addTreasure(a.get(i));
             }
+            if((p2.getXCoordinate()==a.get(i).getXCoordinate())&&(p2.getYCoordinate()==a.get(i).getYCoordinate())){
+                p2.addTreasure(a.get(i));
+            }
+
         }
 
 
