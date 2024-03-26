@@ -1,13 +1,11 @@
 package org.example.salesman;
 
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.awt.*;
 
@@ -49,6 +47,11 @@ public class Movement {
                         updatePlayerPosition(player1);
                         stepsPlayer1++;
 
+                        if (Player.failToMove == true){
+                            stepsPlayer1--;
+                            Player.failToMove = false;
+                        }
+
                         //create list of everywhere player has been
                         PlayerMoves.addTravels1(player1.getXCoordinate(),player1.getYCoordinate());
                     } else {
@@ -71,6 +74,11 @@ public class Movement {
                         player1.moveLeft();
                         updatePlayerPosition(player1);
                         stepsPlayer1++;
+
+                        if (Player.failToMove == true){
+                            stepsPlayer1--;
+                            Player.failToMove = false;
+                        }
 
                         //create list of everywhere player has been
                         PlayerMoves.addTravels1(player1.getXCoordinate(),player1.getYCoordinate());
@@ -96,6 +104,11 @@ public class Movement {
                         updatePlayerPosition(player1);
                         stepsPlayer1++;
 
+                        if (Player.failToMove == true){
+                            stepsPlayer1--;
+                            Player.failToMove = false;
+                        }
+
                         //create list of everywhere player has been
                         PlayerMoves.addTravels1(player1.getXCoordinate(),player1.getYCoordinate());
                     } else {
@@ -119,6 +132,11 @@ public class Movement {
                         player1.moveDown();
                         updatePlayerPosition(player1);
                         stepsPlayer1++;
+
+                        if (Player.failToMove == true){
+                            stepsPlayer1--;
+                            Player.failToMove = false;
+                        }
 
                         //create list of everywhere player has been
                         PlayerMoves.addTravels1( player1.getXCoordinate(),player1.getYCoordinate());
@@ -144,6 +162,11 @@ public class Movement {
                         updatePlayerPosition(player2);
                         stepsPlayer2++;
 
+                        if (Player.failToMove == true){
+                            stepsPlayer2--;
+                            Player.failToMove = false;
+                        }
+
                         //create list of everywhere player has been
                         PlayerMoves.addTravels2( player2.getXCoordinate(),player2.getYCoordinate());
                     } else {
@@ -166,6 +189,11 @@ public class Movement {
                         player2.moveLeft(); // Call moveLeft method for player 2
                         updatePlayerPosition(player2);
                         stepsPlayer2++;
+
+                        if (Player.failToMove == true){
+                            stepsPlayer2--;
+                            Player.failToMove = false;
+                        }
 
                         //create list of everywhere player has been
                         PlayerMoves.addTravels2(player2.getXCoordinate(),player2.getYCoordinate());
@@ -190,6 +218,11 @@ public class Movement {
                         updatePlayerPosition(player2);
                         stepsPlayer2++;
 
+                        if (Player.failToMove == true){
+                            stepsPlayer2--;
+                            Player.failToMove = false;
+                        }
+
                         //create list of everywhere player has been
                         PlayerMoves.addTravels2(player2.getXCoordinate(),player2.getYCoordinate());
                     } else {
@@ -212,6 +245,11 @@ public class Movement {
                         player2.moveDown(); // Call moveDown method for player 2
                         updatePlayerPosition(player2);
                         stepsPlayer2++;
+
+                        if (Player.failToMove == true){
+                            stepsPlayer2--;
+                            Player.failToMove = false;
+                        }
 
                         //create list of everywhere player has been
                         PlayerMoves.addTravels2( player2.getXCoordinate(),player2.getYCoordinate());

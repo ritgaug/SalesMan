@@ -371,7 +371,6 @@ public class SalesmanGame extends Application {
             });
         }
 
-
         StackPane secondaryLayout = new StackPane();
         secondaryLayout.getChildren().add(weaponsPane);
 
