@@ -47,6 +47,7 @@ public class Movement {
                         updatePlayerPosition(player1);
                         stepsPlayer1++;
 
+                        // die roll unaffected by accidental move out of bounds
                         if (Player.failToMove == true){
                             stepsPlayer1--;
                             Player.failToMove = false;
@@ -75,6 +76,7 @@ public class Movement {
                         updatePlayerPosition(player1);
                         stepsPlayer1++;
 
+                        // die roll unaffected by accidental move out of bounds
                         if (Player.failToMove == true){
                             stepsPlayer1--;
                             Player.failToMove = false;
@@ -104,6 +106,7 @@ public class Movement {
                         updatePlayerPosition(player1);
                         stepsPlayer1++;
 
+                        // die roll unaffected by accidental move out of bounds
                         if (Player.failToMove == true){
                             stepsPlayer1--;
                             Player.failToMove = false;
@@ -133,6 +136,7 @@ public class Movement {
                         updatePlayerPosition(player1);
                         stepsPlayer1++;
 
+                        // die roll unaffected by accidental move out of bounds
                         if (Player.failToMove == true){
                             stepsPlayer1--;
                             Player.failToMove = false;
@@ -162,6 +166,7 @@ public class Movement {
                         updatePlayerPosition(player2);
                         stepsPlayer2++;
 
+                        // die roll unaffected by accidental move out of bounds
                         if (Player.failToMove == true){
                             stepsPlayer2--;
                             Player.failToMove = false;
@@ -190,6 +195,7 @@ public class Movement {
                         updatePlayerPosition(player2);
                         stepsPlayer2++;
 
+                        // die roll unaffected by accidental move out of bounds
                         if (Player.failToMove == true){
                             stepsPlayer2--;
                             Player.failToMove = false;
@@ -218,6 +224,7 @@ public class Movement {
                         updatePlayerPosition(player2);
                         stepsPlayer2++;
 
+                        // die roll unaffected by accidental move out of bounds
                         if (Player.failToMove == true){
                             stepsPlayer2--;
                             Player.failToMove = false;
@@ -246,6 +253,7 @@ public class Movement {
                         updatePlayerPosition(player2);
                         stepsPlayer2++;
 
+                        // die roll unaffected by accidental move out of bounds
                         if (Player.failToMove == true){
                             stepsPlayer2--;
                             Player.failToMove = false;

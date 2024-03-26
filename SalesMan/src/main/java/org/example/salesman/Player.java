@@ -19,7 +19,7 @@ public class Player {
     private final int radius;
     private int health;
     private int treasureDiscoverScore=0;
-    public static boolean failToMove = false;
+    public static boolean failToMove = false; // if player tries to moves out of grid
 
     public Player(int playerNumber, Color color, int playerStrength, Wallet playerWallet, ArrayList treasuresList, ArrayList weaponList, int initialX, int initialY, int radius) {
         this.playerNumber = playerNumber;
