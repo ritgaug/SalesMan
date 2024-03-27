@@ -29,14 +29,16 @@ public class Movement {
     public static List <Point> cellsVisted;
     private int stepsPlayer1 = 0;
     private int stepsPlayer2 = 0;
+    private List<Trap> traps;
 
     private Dice dice;
-    public Movement(Player player1, Player player2, GridPane gridPane , Dice dice) {
+    public Movement(Player player1, Player player2, GridPane gridPane , Dice dice, List<Trap> traps) {
         this.player1 = player1;
         this.player2 = player2; // Initialize player 2
         this.gridPane = gridPane;
         LocationList();
         this.dice = dice;
+        this.traps = traps ;
 
             // Move Right for Player 1
             moveRightPlayer1 = new Button("Right");
@@ -314,6 +316,20 @@ public class Movement {
         // check if player is on marked object / loot
         Loot.atMarkedObject(player.getXCoordinate(), player.getYCoordinate(), player);
 
+        // if player fall into traps
+            for (Trap trap : traps) {
+                if (player.getXCoordinate() == trap.getLocation().x && player.getYCoordinate() == trap.getLocation().y) {
+                    if (player.equals(player1)) {
+                        handleTrapActivation(player1, trap);
+                    } else if (player.equals(player2)) {
+                        handleTrapActivation(player2, trap);
+                    }
+                    break;
+                }
+            }
+
+
+
         // if player has collected loot turn square gray
         if (lootCollected = true){
             Rectangle rect = new Rectangle(CELL_SIZE, CELL_SIZE);
@@ -400,5 +416,16 @@ public class Movement {
         gridPane.add(moveRightPlayer2, rowIndex + 3, colIndex);
         gridPane.add(moveUpPlayer2, rowIndex + 2, colIndex);
         gridPane.add(moveDownPlayer2, rowIndex + 2, colIndex + 1);
+    }
+
+    // Method for trap activation
+    private void handleTrapActivation(Player player, Trap trap) {
+        if (player.getPlayerWallet().getBalance() >= trap.getPenalty()) {
+            trap.trigger(player.getPlayerWallet());
+            System.out.println("You fell into the trap!\nYou lost " + trap.getPenalty() + " of your balance");
+            System.out.println(player.getPlayerWallet().getBalance());
+        } else {
+            System.out.println("You don't have enough money!\nTrap not activated");
+        }
     }
 }

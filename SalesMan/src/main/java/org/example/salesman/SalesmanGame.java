@@ -213,7 +213,7 @@ public class SalesmanGame extends Application {
         dice.addToGrid(gridPane, 0, 10);
 
         // Inside the SalesmanGame class, after creating player1 and player2
-        Movement movementPlayer1 = new Movement(player1, player2, gridPane,dice);
+        Movement movementPlayer1 = new Movement(player1, player2, gridPane,dice,traps);
         movementPlayer1.addButtonsToGrid(gridPane, 6, 10); // Add movement buttons for player 1
 
         // Modify trapButton event handler to trigger traps for both players
