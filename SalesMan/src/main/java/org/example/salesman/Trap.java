@@ -13,16 +13,14 @@ public class Trap {
     }
 
     public void trigger(Wallet wallet) {
-        int result = wallet.deductMoney(penalty);
-        if (result >= 0) {
-            System.out.println("Trap activated! Lost " + penalty + " money.");
-        } else {
-            System.out.println("Not enough money to deduct!");
-        }
+        wallet.deductMoney(penalty);
     }
 
     public Point getLocation() {
         return location;
+    }
+    public int getPenalty(){
+        return penalty;
     }
 }
 

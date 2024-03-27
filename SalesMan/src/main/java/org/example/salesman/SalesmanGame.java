@@ -172,7 +172,7 @@ public class SalesmanGame extends Application {
                     if (!isMarkedObject) {
                         boolean isTreasure = false;
                         for (ValuableTreasure treasure : valuableTreasures) {
-                            addEmojiToGrid(gridPane ,treasure.getXCoordinate(), treasure.getYCoordinate(), treasure.getEmoji(),CELL_SIZE-5);
+                           addEmojiToGrid(gridPane ,treasure.getXCoordinate(), treasure.getYCoordinate(), treasure.getEmoji(),CELL_SIZE-5);
                             if (treasure.getXCoordinate() == col && treasure.getYCoordinate() == row) {
                                 cell.setFill(GREEN);
                                 isTreasure = true;
@@ -212,7 +212,7 @@ public class SalesmanGame extends Application {
         dice.addToGrid(gridPane, 0, 10);
 
         // Inside the SalesmanGame class, after creating player1 and player2
-        Movement movementPlayer1 = new Movement(player1, player2, gridPane,dice);
+        Movement movementPlayer1 = new Movement(player1, player2, gridPane, dice, traps);
         movementPlayer1.addButtonsToGrid(gridPane, 6, 10); // Add movement buttons for player 1
 
 
@@ -262,10 +262,6 @@ public class SalesmanGame extends Application {
         Castle castle = new Castle(CELL_SIZE);
         gridPane.add(castle, 5, 4);
         addEmojiToGrid(gridPane,5 , 4, "\uD83C\uDFF0", CELL_SIZE );
-
-
-
-
 
         // Add buy weapons button
         buyWeaponsButton = new Button("Buy Weapons");
@@ -321,7 +317,7 @@ public class SalesmanGame extends Application {
         Random random = new Random();
         int numberOfTraps = random.nextInt(MAX_TRAPS - MIN_TRAPS + 1) + MIN_TRAPS; // Generate a random number of traps within the specified range
         for (int i = 0; i < numberOfTraps; i++) {
-            int penalty = random.nextInt(10) + 1; // Random penalty between 1 and 10
+            int penalty = random.nextInt(50) + 1;
             Point location = new Point(random.nextInt(GRID_SIZE), random.nextInt(GRID_SIZE));
             traps.add(new Trap(penalty, location));
         }
@@ -483,8 +479,5 @@ public class SalesmanGame extends Application {
             }
 
         }
-
-
-
     }
 }
