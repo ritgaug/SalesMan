@@ -3,10 +3,14 @@ package org.example.salesman;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
+import javafx.scene.shape.Rectangle;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.*;
 
+import static javafx.scene.paint.Color.*;
+import static org.example.salesman.Loot.*;
 import static org.example.salesman.SalesmanGame.visitedHouses;
 
 public class Movement {
@@ -25,21 +29,14 @@ public class Movement {
     public static List <Point> cellsVisted;
     private int stepsPlayer1 = 0;
     private int stepsPlayer2 = 0;
-    private List<Trap> traps;
-
-
 
     private Dice dice;
-    public Movement(Player player1, Player player2, GridPane gridPane , Dice dice, List<Trap> traps) {
+    public Movement(Player player1, Player player2, GridPane gridPane , Dice dice) {
         this.player1 = player1;
         this.player2 = player2; // Initialize player 2
         this.gridPane = gridPane;
         LocationList();
         this.dice = dice;
-        this.traps = traps;
-
-
-
 
             // Move Right for Player 1
             moveRightPlayer1 = new Button("Right");
@@ -49,6 +46,15 @@ public class Movement {
                         player1.moveRight();
                         updatePlayerPosition(player1);
                         stepsPlayer1++;
+
+                        // die roll unaffected by accidental move out of bounds
+                        if (Player.failToMove == true){
+                            stepsPlayer1--;
+                            Player.failToMove = false;
+                        }
+
+                        //create list of everywhere player has been
+                        PlayerMoves.addTravels1(player1.getXCoordinate(),player1.getYCoordinate());
                     } else {
                         disableButtonsP1();
                         enableButtonsP2();
@@ -69,6 +75,15 @@ public class Movement {
                         player1.moveLeft();
                         updatePlayerPosition(player1);
                         stepsPlayer1++;
+
+                        // die roll unaffected by accidental move out of bounds
+                        if (Player.failToMove == true){
+                            stepsPlayer1--;
+                            Player.failToMove = false;
+                        }
+
+                        //create list of everywhere player has been
+                        PlayerMoves.addTravels1(player1.getXCoordinate(),player1.getYCoordinate());
                     } else {
                         disableButtonsP1();
                         enableButtonsP2();
@@ -90,6 +105,15 @@ public class Movement {
                         player1.moveUp();
                         updatePlayerPosition(player1);
                         stepsPlayer1++;
+
+                        // die roll unaffected by accidental move out of bounds
+                        if (Player.failToMove == true){
+                            stepsPlayer1--;
+                            Player.failToMove = false;
+                        }
+
+                        //create list of everywhere player has been
+                        PlayerMoves.addTravels1(player1.getXCoordinate(),player1.getYCoordinate());
                     } else {
                         disableButtonsP1();
                         enableButtonsP2();
@@ -111,6 +135,15 @@ public class Movement {
                         player1.moveDown();
                         updatePlayerPosition(player1);
                         stepsPlayer1++;
+
+                        // die roll unaffected by accidental move out of bounds
+                        if (Player.failToMove == true){
+                            stepsPlayer1--;
+                            Player.failToMove = false;
+                        }
+
+                        //create list of everywhere player has been
+                        PlayerMoves.addTravels1( player1.getXCoordinate(),player1.getYCoordinate());
                     } else {
                         disableButtonsP1();
                         enableButtonsP2();
@@ -132,6 +165,15 @@ public class Movement {
                         player2.moveRight(); // Call moveRight method for player 2
                         updatePlayerPosition(player2);
                         stepsPlayer2++;
+
+                        // die roll unaffected by accidental move out of bounds
+                        if (Player.failToMove == true){
+                            stepsPlayer2--;
+                            Player.failToMove = false;
+                        }
+
+                        //create list of everywhere player has been
+                        PlayerMoves.addTravels2( player2.getXCoordinate(),player2.getYCoordinate());
                     } else {
                         disableButtonsP2();
                         enableButtonsP1();
@@ -152,6 +194,15 @@ public class Movement {
                         player2.moveLeft(); // Call moveLeft method for player 2
                         updatePlayerPosition(player2);
                         stepsPlayer2++;
+
+                        // die roll unaffected by accidental move out of bounds
+                        if (Player.failToMove == true){
+                            stepsPlayer2--;
+                            Player.failToMove = false;
+                        }
+
+                        //create list of everywhere player has been
+                        PlayerMoves.addTravels2(player2.getXCoordinate(),player2.getYCoordinate());
                     } else {
                         disableButtonsP2();
                         enableButtonsP1();
@@ -172,6 +223,15 @@ public class Movement {
                         player2.moveUp(); // Call moveUp method for player 2
                         updatePlayerPosition(player2);
                         stepsPlayer2++;
+
+                        // die roll unaffected by accidental move out of bounds
+                        if (Player.failToMove == true){
+                            stepsPlayer2--;
+                            Player.failToMove = false;
+                        }
+
+                        //create list of everywhere player has been
+                        PlayerMoves.addTravels2(player2.getXCoordinate(),player2.getYCoordinate());
                     } else {
                         disableButtonsP2();
                         enableButtonsP1();
@@ -192,6 +252,15 @@ public class Movement {
                         player2.moveDown(); // Call moveDown method for player 2
                         updatePlayerPosition(player2);
                         stepsPlayer2++;
+
+                        // die roll unaffected by accidental move out of bounds
+                        if (Player.failToMove == true){
+                            stepsPlayer2--;
+                            Player.failToMove = false;
+                        }
+
+                        //create list of everywhere player has been
+                        PlayerMoves.addTravels2( player2.getXCoordinate(),player2.getYCoordinate());
                     } else {
                         disableButtonsP2();
                         enableButtonsP1();
@@ -242,20 +311,24 @@ public class Movement {
     }
 
     private void updatePlayerPosition(Player player) {
+        // check if player is on marked object / loot
+        Loot.atMarkedObject(player.getXCoordinate(), player.getYCoordinate(), player);
+
+        // if player has collected loot turn square gray
+        if (lootCollected = true){
+            Rectangle rect = new Rectangle(CELL_SIZE, CELL_SIZE);
+            rect.setFill(LIGHTGRAY);
+
+            gridPane.add(rect, xLootCollected, yLootCollected);
+        }
+
         gridPane.getChildren().remove(player.getShape(CELL_SIZE));
         gridPane.add(player.getShape(CELL_SIZE), player.getXCoordinate(), player.getYCoordinate());
 
-        for (Trap trap : traps) {
-            if (player.getXCoordinate() == trap.getLocation().x && player.getYCoordinate() == trap.getLocation().y) {
-                if (player.equals(player1)) {
-                    handleTrapActivation(player1, trap);
-                } else if (player.equals(player2)) {
-                    handleTrapActivation(player2, trap);
-                }
-                break;
-            }
+        // check if player is at castle
+        if (player.getXCoordinate() == 5 && player.getYCoordinate() == 4) {
+            Castle.castleQuestion();
         }
-
 
         // Check if player1 and player2 are in the same position
         if (player1.getXCoordinate() == player2.getXCoordinate() && player1.getYCoordinate() == player2.getYCoordinate()) {
@@ -297,7 +370,6 @@ public class Movement {
             addLocationsVisted(player.getXCoordinate(), player.getYCoordinate());
         }
     }
-
     public void LocationList() {
         cellsVisted = new ArrayList<>();
     }
@@ -316,7 +388,7 @@ public class Movement {
         // For example, you can change the color of the players' shapes or display a message indicating a battle
     }
 
-    public void addButtonsToGrid(GridPane gridPane, int rowIndex, int colIndex) {
+    public void addButtonsToGrid( GridPane gridPane, int rowIndex, int colIndex) {
         // Player 1 buttons
         gridPane.add(moveLeftPlayer1, rowIndex - 3, colIndex);
         gridPane.add(moveRightPlayer1, rowIndex - 1, colIndex);
@@ -328,14 +400,5 @@ public class Movement {
         gridPane.add(moveRightPlayer2, rowIndex + 3, colIndex);
         gridPane.add(moveUpPlayer2, rowIndex + 2, colIndex);
         gridPane.add(moveDownPlayer2, rowIndex + 2, colIndex + 1);
-    }
-    private void handleTrapActivation(Player player, Trap trap) {
-        if (player.getPlayerWallet().getBalance() >= trap.getPenalty()) {
-            trap.trigger(player.getPlayerWallet());
-            System.out.println("You fell into the trap!\nYou lost " + trap.getPenalty() + " of your balance");
-            System.out.println(player.getPlayerWallet().getBalance());
-        } else {
-            System.out.println("You don't have enough money!\nTrap not activated");
-        }
     }
 }

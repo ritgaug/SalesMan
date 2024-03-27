@@ -1,5 +1,13 @@
 package org.example.salesman;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
+
 import static javafx.scene.paint.Color.*;
 import java.util.ArrayList;
 class Castle extends Rectangle {
@@ -26,6 +34,39 @@ class Castle extends Rectangle {
             }
         }
 
+    }
+    public static void castleQuestion() {
+        VBox vbox = new VBox();
+        vbox.setPadding(new Insets(10));
+        vbox.setSpacing(10);
+
+        Label treasuresFound = new Label("Enter the x and y coordinates of the treasure you have found.");
+        vbox.getChildren().add(treasuresFound);
+
+        GridPane questionBox = new GridPane();
+        questionBox.setHgap(5);
+        questionBox.setVgap(5);
+
+        // Input values
+        Label xTreasure = new Label("Enter x-coordinate:");
+        TextField xTreasureEntered = new TextField();
+        Label yTreasure = new Label("Enter y-coordinate:");
+        TextField yTreasureEntered = new TextField();
+
+        // Add labels and text to the grid pane
+        questionBox.add(xTreasure, 0, 0);
+        questionBox.add(xTreasureEntered, 1, 0);
+        questionBox.add(yTreasure, 0, 1);
+        questionBox.add(yTreasureEntered, 1, 1);
+
+        // Add the grid pane to  VBox
+        vbox.getChildren().add(questionBox);
+
+        Stage dialogStage = new Stage();
+        Scene scene = new Scene(vbox, 400, 100);
+        dialogStage.setScene(scene);
+        dialogStage.setTitle("Treasure Collection Verification");
+        dialogStage.show();
     }
 }
 

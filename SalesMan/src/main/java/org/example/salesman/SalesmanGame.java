@@ -17,7 +17,12 @@ import java.util.*;
 import java.util.List;
 import java.util.Random;
 import javafx.scene.layout.HBox;
+
+import static eu.hansolo.tilesfx.colors.Dark.PURPLE;
 import static javafx.scene.paint.Color.*;
+import static org.example.salesman.Loot.*;
+import static org.example.salesman.PlayerMoves.pathTraveledPlayer1;
+
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
@@ -27,7 +32,7 @@ public class SalesmanGame extends Application {
     private static final int MARKED_OBJECTS = 13;
     private static final int MIN_TRAPS = 1;
     private static final int MAX_TRAPS = 5;
-    private List<Point> markedObjects;
+    public static List<Point> markedObjects = new ArrayList<>();
 
     // Create instances of Wallet, Trap, and House
     private Wallet wallet = new Wallet();
@@ -56,7 +61,6 @@ public class SalesmanGame extends Application {
         ValuableTreasure paladinsShield = new ValuableTreasure(6, 700,"\uD83D\uDEE1");
         ValuableTreasure goldenKey = new ValuableTreasure(7, 800,"\uD83D\uDDDD️");
         ValuableTreasure dragonsScroll = new ValuableTreasure(8, 900,"🐉");
-
 
         // Add valuable treasures to the list
         valuableTreasures.add(diamondRing);
@@ -127,7 +131,6 @@ public class SalesmanGame extends Application {
                 Rectangle cell = new Rectangle(CELL_SIZE, CELL_SIZE);
                 cell.setStroke(BLACK);
 
-
                 // Check if the cell contains a market
                 boolean isMarketCell = false;
                 for (Market market : markets) {
@@ -172,7 +175,7 @@ public class SalesmanGame extends Application {
                     if (!isMarkedObject) {
                         boolean isTreasure = false;
                         for (ValuableTreasure treasure : valuableTreasures) {
-                           addEmojiToGrid(gridPane ,treasure.getXCoordinate(), treasure.getYCoordinate(), treasure.getEmoji(),CELL_SIZE-5);
+                            addEmojiToGrid(gridPane, treasure.getXCoordinate(), treasure.getYCoordinate(), treasure.getEmoji(), CELL_SIZE - 5);
                             if (treasure.getXCoordinate() == col && treasure.getYCoordinate() == row) {
                                 cell.setFill(GREEN);
                                 isTreasure = true;
@@ -205,18 +208,13 @@ public class SalesmanGame extends Application {
         player2 = new Player(2, DEEPPINK, 50, new Wallet(), new ArrayList<>(), new ArrayList<>(), GRID_SIZE, GRID_SIZE -1, CELL_SIZE / 2);
         gridPane.add(player2.getShape(CELL_SIZE), player2.getXCoordinate(), player2.getYCoordinate());
 
-
-
         // Creating instance of Dice
         Dice dice = new Dice();
         dice.addToGrid(gridPane, 0, 10);
 
         // Inside the SalesmanGame class, after creating player1 and player2
-        Movement movementPlayer1 = new Movement(player1, player2, gridPane, dice, traps);
+        Movement movementPlayer1 = new Movement(player1, player2, gridPane,dice);
         movementPlayer1.addButtonsToGrid(gridPane, 6, 10); // Add movement buttons for player 1
-
-
-
 
         // Modify trapButton event handler to trigger traps for both players
         trapButton.setOnAction(event -> {
@@ -296,12 +294,12 @@ public class SalesmanGame extends Application {
             }
         });
 
+
         // Set up the scene
-        Scene scene = new Scene(gridPane, GRID_SIZE * CELL_SIZE, (GRID_SIZE + 1) * CELL_SIZE);
+        Scene scene = new Scene(gridPane, 700, 700);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Traveling Salesman Game");
         primaryStage.show();
-
 
     }
     // Method to add emoji to the grid with a specific size
@@ -317,7 +315,7 @@ public class SalesmanGame extends Application {
         Random random = new Random();
         int numberOfTraps = random.nextInt(MAX_TRAPS - MIN_TRAPS + 1) + MIN_TRAPS; // Generate a random number of traps within the specified range
         for (int i = 0; i < numberOfTraps; i++) {
-            int penalty = random.nextInt(50) + 1;
+            int penalty = random.nextInt(10) + 1; // Random penalty between 1 and 10
             Point location = new Point(random.nextInt(GRID_SIZE), random.nextInt(GRID_SIZE));
             traps.add(new Trap(penalty, location));
         }
@@ -373,7 +371,6 @@ public class SalesmanGame extends Application {
             });
         }
 
-
         StackPane secondaryLayout = new StackPane();
         secondaryLayout.getChildren().add(weaponsPane);
 
@@ -391,9 +388,8 @@ public class SalesmanGame extends Application {
         return (int) (Math.random() * 6) + 1;
     }
 
-
     // method for creating random location of marked objects/ lost items (loot)
-    private List<Point> createLostItems() {
+    public static List<Point> createLostItems() {
         List<Point> cells = new ArrayList<>();
         Set<Point> occupiedCells = new HashSet<>();
 
@@ -408,15 +404,11 @@ public class SalesmanGame extends Application {
             }
             while (occupiedCells.contains(new Point(x, y)));
             occupiedCells.add(new Point(x, y));
-
-
         }
-
         // evenly distributing the marked objects between left and right side
         Collections.sort(cells, Comparator.comparing(Point::getX).thenComparing(Point::getY));
         return cells;
     }
-
     // Method to check if a cell is occupied by a valuable treasure
     private boolean isCellOccupied(int row, int col) {
         for (ValuableTreasure treasure : valuableTreasures) {
@@ -470,14 +462,14 @@ public class SalesmanGame extends Application {
     }
     //method for players to pick up treasures
     public void pickUpTreasures(ArrayList<ValuableTreasure> a,Player p1, Player p2){
-        for(int i=0;i<a.size();i++){
-            if((p1.getXCoordinate()==a.get(i).getXCoordinate())&&(p1.getYCoordinate()==a.get(i).getYCoordinate())){
+        for(int i=0;i<a.size();i++) {
+            if ((p1.getXCoordinate() == a.get(i).getXCoordinate()) && (p1.getYCoordinate() == a.get(i).getYCoordinate())) {
                 p1.addTreasure(a.get(i));
             }
-            if((p2.getXCoordinate()==a.get(i).getXCoordinate())&&(p2.getYCoordinate()==a.get(i).getYCoordinate())){
+            if ((p2.getXCoordinate() == a.get(i).getXCoordinate()) && (p2.getYCoordinate() == a.get(i).getYCoordinate())) {
                 p2.addTreasure(a.get(i));
             }
-
         }
     }
+
 }

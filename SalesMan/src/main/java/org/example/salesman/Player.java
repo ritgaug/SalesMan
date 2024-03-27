@@ -19,6 +19,7 @@ public class Player {
     private final int radius;
     private int health;
     private int treasureDiscoverScore=0;
+    public static boolean failToMove = false; // if player tries to moves out of grid
 
     public Player(int playerNumber, Color color, int playerStrength, Wallet playerWallet, ArrayList treasuresList, ArrayList weaponList, int initialX, int initialY, int radius) {
         this.playerNumber = playerNumber;
@@ -84,6 +85,7 @@ public class Player {
         if (xCoordinate < GRID_SIZE - 1) {
             xCoordinate++;
         } else {
+            failToMove = true;
             System.out.println("Can't move right!");
         }
     }
@@ -92,6 +94,7 @@ public class Player {
         if (xCoordinate > 0) {
             xCoordinate--;
         } else {
+            failToMove = true;
             System.out.println("Can't move left!");
         }
     }
@@ -100,6 +103,7 @@ public class Player {
         if (yCoordinate > 0) {
             yCoordinate--;
         } else {
+            failToMove = true;
             System.out.println("Can't move up!");
         }
     }
@@ -108,6 +112,7 @@ public class Player {
         if (yCoordinate < GRID_SIZE - 1) {
             yCoordinate++;
         } else {
+            failToMove = true;
             System.out.println("Can't move down!");
         }
     }
