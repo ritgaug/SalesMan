@@ -341,7 +341,7 @@ public class Movement {
 
             gridPane.add(player.getShape(CELL_SIZE), player.getXCoordinate(), player.getYCoordinate());
 
-            // makes sure players don't disappear
+            // makes sure players don't disappear when left on loot
             if (player == player1 ){
                 if (xLootCollected == player2.getXCoordinate() && yLootCollected == player2.getYCoordinate()){
                     gridPane.getChildren().remove(player2.getShape(CELL_SIZE));
