@@ -1,14 +1,11 @@
 package org.example.salesman;
-
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Rectangle;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.*;
-
 import static javafx.scene.paint.Color.*;
 import static org.example.salesman.Loot.*;
 import static org.example.salesman.SalesmanGame.visitedHouses;
@@ -313,6 +310,7 @@ public class Movement {
     }
 
     private void updatePlayerPosition(Player player) {
+
         // check if player is on marked object / loot
         Loot.atMarkedObject(player.getXCoordinate(), player.getYCoordinate(), player);
 
@@ -328,22 +326,34 @@ public class Movement {
                 }
             }
 
-
-
-        // if player has collected loot turn square gray
+            // if player has collected loot turn square gray
+        if (lootCollected = false){
+            gridPane.getChildren().remove(player.getShape(CELL_SIZE));
+            gridPane.add(player.getShape(CELL_SIZE), player.getXCoordinate(), player.getYCoordinate());
+        }
         if (lootCollected = true){
+            gridPane.getChildren().remove(player.getShape(CELL_SIZE));
+
             Rectangle rect = new Rectangle(CELL_SIZE, CELL_SIZE);
             rect.setFill(LIGHTGRAY);
-
+            rect.setStroke(BLACK);
             gridPane.add(rect, xLootCollected, yLootCollected);
-        }
 
-        gridPane.getChildren().remove(player.getShape(CELL_SIZE));
-        gridPane.add(player.getShape(CELL_SIZE), player.getXCoordinate(), player.getYCoordinate());
+            gridPane.add(player.getShape(CELL_SIZE), player.getXCoordinate(), player.getYCoordinate());
 
-        // check if player is at castle
-        if (player.getXCoordinate() == 5 && player.getYCoordinate() == 4) {
-            Castle.castleQuestion();
+            // makes sure players don't disappear
+            if (player == player1 ){
+                if (xLootCollected == player2.getXCoordinate() && yLootCollected == player2.getYCoordinate()){
+                    gridPane.getChildren().remove(player2.getShape(CELL_SIZE));
+                    gridPane.add(player2.getShape(CELL_SIZE), player2.getXCoordinate(), player2.getYCoordinate());
+                }
+            }
+            if (player == player2 ){
+                if (xLootCollected == player1.getXCoordinate() && yLootCollected == player1.getYCoordinate()){
+                    gridPane.getChildren().remove(player1.getShape(CELL_SIZE));
+                    gridPane.add(player1.getShape(CELL_SIZE), player1.getXCoordinate(), player1.getYCoordinate());
+                }
+            }
         }
 
         // Check if player1 and player2 are in the same position
@@ -353,12 +363,15 @@ public class Movement {
             battle.engage(player1, player2);
             // Update battle indicators
             updateBattleIndicators(true, player1, player2);
-            // Display the result of the battle (you can implement this part as needed)
-            // For now, we print the winner to the console
-            System.out.println("Battle between Player 1 and Player 2!");
+
         } else {
             // Players are not in the same space, remove battle indicators
             updateBattleIndicators(false, null, null);
+        }
+
+        // check if player is at castle
+        if (player.getXCoordinate() == 5 && player.getYCoordinate() == 4) {
+            Castle.castleQuestion();
         }
 
         // creating list of cells visted by player within turn
@@ -396,7 +409,7 @@ public class Movement {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Illegal Play");
         alert.setHeaderText(null);
-        alert.setContentText("You have already visited this house during your turn.");
+        alert.setContentText("ERROR: You have already visited this house during your turn.");
         alert.showAndWait();
     }
     private void updateBattleIndicators(boolean isInBattle, Player player1, Player player2) {

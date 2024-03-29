@@ -12,7 +12,16 @@ public class Battle {
 
     public void engage(Player player1, Player player2) {
         // Check if players are adjacent
-        if (areAdjacent(player1, player2)) {
+        if (areAdjacent(player1, player2) && (player1.getXCoordinate() >= 10)) {
+            // no battles when players are outside map
+            System.out.println("ERROR: Move players within map.");
+        } else if (areAdjacent(player1, player2) && (player1.getYCoordinate() >= 10)){
+            // no battles when players are outside map
+            System.out.println("ERROR: Move players within map.");
+
+        } else if (areAdjacent(player1, player2)) {
+            System.out.println("Battle between Player 1 and Player 2!");
+
             // Determine the winner
             Player winner = determineWinner(player1, player2);
             Player loser = (winner == player1) ? player2 : player1;
@@ -26,12 +35,10 @@ public class Battle {
             System.out.println("Winner balance: "+winner.getPlayerWallet().getBalance());
             System.out.println("Loser balance: "+loser.getPlayerWallet().getBalance());
 
-
             // Effects on strength
             handleStrengthEffects(winner, loser);
             System.out.println("Winner strength: "+winner.getPlayerStrength());
             System.out.println("Loser strength: "+loser.getPlayerStrength());
-
         }
     }
 

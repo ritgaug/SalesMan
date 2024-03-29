@@ -1,7 +1,9 @@
 package org.example.salesman;
 
+import com.almasb.fxgl.core.collection.Array;
 import javafx.application.Application;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.control.Button;
@@ -17,11 +19,8 @@ import java.util.*;
 import java.util.List;
 import java.util.Random;
 import javafx.scene.layout.HBox;
-
-import static eu.hansolo.tilesfx.colors.Dark.PURPLE;
 import static javafx.scene.paint.Color.*;
-import static org.example.salesman.Loot.*;
-import static org.example.salesman.PlayerMoves.pathTraveledPlayer1;
+import static javax.swing.text.html.HTML.Attribute.COLS;
 
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -104,7 +103,6 @@ public class SalesmanGame extends Application {
         gridPane.setHgap(5);
         gridPane.setVgap(5);
 
-
         Button trapButton = new Button("Trigger Trap");
         trapButton.setOnAction(event -> {
             // Trigger the trap
@@ -123,7 +121,6 @@ public class SalesmanGame extends Application {
 
         // Add battle indicators to the right side of the grid pane
         gridPane.add(battleIndicators, GRID_SIZE + 1, 0);
-
 
         // Nested loop to create the map
         for (int row = 0; row < GRID_SIZE; row++) {
@@ -188,7 +185,6 @@ public class SalesmanGame extends Application {
                     }
 
                 }
-
                 gridPane.add(cell, col, row);
             }
         }
@@ -293,7 +289,6 @@ public class SalesmanGame extends Application {
                 buyWeapons(marketPlayer2IsOn.getWeapons(), marketPlayer2IsOn.getName(), player2);
             }
         });
-
 
         // Set up the scene
         Scene scene = new Scene(gridPane, 700, 700);
@@ -447,7 +442,6 @@ public class SalesmanGame extends Application {
         visitedHouses.add(new Point(7, 7));
         visitedHouses.add(new Point(3, 9));
 
-
         for (int x = 0; x < GRID_SIZE; x++) {
             for (int y = 0; y < GRID_SIZE; y++) {
                 for (ValuableTreasure treasure : valuableTreasures) {
@@ -471,5 +465,4 @@ public class SalesmanGame extends Application {
             }
         }
     }
-
 }

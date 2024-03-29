@@ -1,5 +1,6 @@
 package org.example.salesman;
 
+import javafx.scene.control.Alert;
 import javafx.scene.shape.Circle;
 import java.util.ArrayList;
 import javafx.scene.paint.Color;
@@ -82,38 +83,50 @@ public class Player {
     }
 
     public void moveRight() {
-        if (xCoordinate < GRID_SIZE - 1) {
+        if (yCoordinate >= 10) {
+            incorrectMove();
+            failToMove = true;
+        }else if (xCoordinate < GRID_SIZE - 1) {
             xCoordinate++;
         } else {
             failToMove = true;
-            System.out.println("Can't move right!");
+            incorrectMove();
         }
     }
 
     public void moveLeft() {
-        if (xCoordinate > 0) {
+        if (yCoordinate >= 10) {
+            incorrectMove();
+            failToMove = true;
+        }else if (xCoordinate > 0) {
             xCoordinate--;
         } else {
             failToMove = true;
-            System.out.println("Can't move left!");
+            incorrectMove();
         }
     }
 
     public void moveUp() {
-        if (yCoordinate > 0) {
+        if (xCoordinate >= 10){
+            incorrectMove();
+            failToMove = true;
+        } else if (yCoordinate > 0) {
             yCoordinate--;
         } else {
             failToMove = true;
-            System.out.println("Can't move up!");
+            incorrectMove();
         }
     }
 
     public void moveDown() {
-        if (yCoordinate < GRID_SIZE - 1) {
+        if (xCoordinate >= 10) {
+            incorrectMove();
+            failToMove = true;
+        } else if (yCoordinate < GRID_SIZE - 1) {
             yCoordinate++;
         } else {
             failToMove = true;
-            System.out.println("Can't move down!");
+            incorrectMove();
         }
     }
 
@@ -157,6 +170,13 @@ public class Player {
     }
     public int getTreasureDiscoverScore(){
         return treasureDiscoverScore;
+    }
+    public void incorrectMove(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Illegal Play");
+        alert.setHeaderText(null);
+        alert.setContentText("ERROR: Move outside of map. Try again.");
+        alert.showAndWait();
     }
 
 }
