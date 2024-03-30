@@ -325,6 +325,7 @@ public class SalesmanGame extends Application {
 
 
 
+
         // Create castles and add them to the grid
         Castle castle = new Castle(CELL_SIZE);
         gridPane.add(castle, 5, 4);
