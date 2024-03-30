@@ -252,11 +252,37 @@ public class SalesmanGame extends Application {
             }
         });
 
+       //--
 
         Button statusBoardButton = new Button("Status Board player 1");
 
         // Set an action event for the button (optional)
         statusBoardButton.setOnAction(event -> {
+
+            Stage statusWindow = new Stage();
+
+            // Create the content for the new window
+            VBox layout = new VBox();
+            layout.setAlignment(Pos.CENTER);
+            layout.setSpacing(10);
+
+            // Add content to the layout
+            Label statusLabel = new Label("Status Board");
+
+
+
+            // Add the layout to a scene
+            Scene statusScene = new Scene(layout, 300, 200);
+
+            // Set the scene to the stage
+            statusWindow.setScene(statusScene);
+
+            // Set the title of the new window
+            statusWindow.setTitle("Status Board");
+
+            // Show the new window
+            statusWindow.show();
+
 
         });
 
@@ -269,10 +295,35 @@ public class SalesmanGame extends Application {
         // Set an action event for the button (optional)
         statusBoardButton2.setOnAction(event -> {
 
+            Stage statusWindow = new Stage();
+
+            // Create the content for the new window
+            VBox layout = new VBox();
+            layout.setAlignment(Pos.CENTER);
+            layout.setSpacing(10);
+
+            // Add content to the layout
+            Label statusLabel = new Label("Status Board");
+            // Add more content to the layout as needed...
+
+            // Add the layout to a scene
+            Scene statusScene = new Scene(layout, 300, 200);
+
+            // Set the scene to the stage
+            statusWindow.setScene(statusScene);
+
+            // Set the title of the new window
+            statusWindow.setTitle("Status Board");
+
+            // Show the new window
+            statusWindow.show();
+
         });
 
         // Add the button to the grid pane
         gridPane.add(statusBoardButton2, 12, GRID_SIZE);
+
+
 
         // Create castles and add them to the grid
         Castle castle = new Castle(CELL_SIZE);
