@@ -21,6 +21,7 @@ import java.util.Random;
 import javafx.scene.layout.HBox;
 import static javafx.scene.paint.Color.*;
 import static javax.swing.text.html.HTML.Attribute.COLS;
+import javafx.scene.image.Image;
 
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -152,6 +153,7 @@ public class SalesmanGame extends Application {
                 boolean isTrapCell = false;
                 if(!isWallCell && !isMarketCell) {
                     for (Trap trap : traps) {
+                        addEmojiToGrid(gridPane,trap.getLocation().x,trap.getLocation().y,"⚠",CELL_SIZE);
                         if (row == trap.getLocation().y && col == trap.getLocation().x) {
                             cell.setFill(RED); // Trap color
                             isTrapCell = true;
@@ -366,18 +368,24 @@ public class SalesmanGame extends Application {
         });
 
         // Set up the scene
-        Scene scene = new Scene(gridPane, 700, 700);
+        Scene scene = new Scene(gridPane, 750, 750);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Traveling Salesman Game");
+        Image image = new Image(getClass().getResourceAsStream("/org/example/salesman/Game Icon.png"));
+        primaryStage.getIcons().add(image);
         primaryStage.show();
 
     }
     // Method to add emoji to the grid with a specific size
     private void addEmojiToGrid(GridPane gridPane, int colEmoji, int rowEmoji, String emoji, double fontSize) {
+        StackPane stackPane = new StackPane();
         Text text = new Text(emoji);
         text.setFont(Font.font(fontSize)); // Set the font size
-        gridPane.add(text, colEmoji, rowEmoji);
+        stackPane.getChildren().add(text);
+        StackPane.setAlignment(text, Pos.CENTER);
+        gridPane.add(stackPane, colEmoji, rowEmoji);
     }
+
 
     // Method to create traps at random locations
     private List<Trap> createTraps() {
@@ -460,12 +468,13 @@ public class SalesmanGame extends Application {
         StackPane secondaryLayout = new StackPane();
         secondaryLayout.getChildren().add(weaponsPane);
 
-        Scene secondScene = new Scene(secondaryLayout, 250, 200);
+        Scene secondScene = new Scene(secondaryLayout, 300, 350);
 
         Stage newWindow = new Stage();
         newWindow.setTitle("Weapons in " + marketName);
         newWindow.setScene(secondScene);
-
+        Image image = new Image(getClass().getResourceAsStream("/org/example/salesman/market.png"));
+        newWindow.getIcons().add(image);
         newWindow.show();
     }
 
