@@ -29,5 +29,9 @@ class Weapon {
     public String getEmoji(){
         return emoji;
     }
+    @Override
+    public String toString() {
+        return emoji;
+    }
 }
 

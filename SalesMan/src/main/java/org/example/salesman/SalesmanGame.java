@@ -42,6 +42,8 @@ public class SalesmanGame extends Application {
     private Player player2;
     public static List<Point> visitedHouses;
     private VBox battleIndicators; // VBox to hold battle indicators
+    private Market marketPlayer1IsOn;
+    private Market marketPlayer2IsOn;
 
     @Override
     public void start(Stage primaryStage) {
@@ -264,7 +266,7 @@ public class SalesmanGame extends Application {
         // Attach event handler to the buy weapons button
         buyWeaponsButton.setOnAction(event -> {
             // Find the market the player 1 is on
-            Market marketPlayer1IsOn = null;
+            marketPlayer1IsOn = null;
             for (Market market : markets) {
                 if (market.getRow() == player1.getYCoordinate() && market.getCol() == player1.getXCoordinate()) {
                     marketPlayer1IsOn = market;
@@ -272,7 +274,7 @@ public class SalesmanGame extends Application {
                 }
             }
             // Find the market the player 2 is on
-            Market marketPlayer2IsOn = null;
+            marketPlayer2IsOn = null;
             for (Market market : markets) {
                 if (market.getRow() == player2.getYCoordinate() && market.getCol() == player2.getXCoordinate()) {
                     marketPlayer2IsOn = market;
@@ -352,15 +354,31 @@ public class SalesmanGame extends Application {
             Button Buy = new Button("Buy");
             weaponsPane.add(Buy,1,i+1);
             Buy.setOnAction(event ->{
-                if(weapon.getCost() <= wallet.getBalance()){
-                    wallet.deductMoney(weapon.getCost());
-                    player1.addWeapon(weapon);
-                    player1.addStrength(weapon);
-                    System.out.println("Purchase complete and weapon "+weapon.getName() + " add to your weapons:)");
-                    System.out.println("Your balance is :"+wallet.getBalance());
+                if(marketPlayer1IsOn != null) {
+                    if (weapon.getCost() <= player1.getPlayerWallet().getBalance()) {
+                        player1.getPlayerWallet().deductMoney(weapon.getCost());
+                        player1.addWeapon(weapon);
+                        player1.addStrength(weapon);
+                        System.out.println("Purchase complete and weapon " + weapon.getName() + " add to your weapons:)");
+                        System.out.println("Your balance is :" + player1.getPlayerWallet().getBalance());
+                        System.out.println("Player strength: "+player1.getPlayerStrength());
+                        System.out.println("Player weapons: "+player1.getWeaponList().toString());
+                    } else {
+                        System.out.println("Not enough balance");
+                    }
                 }
-                else{
-                    System.out.println("Not enough balance");
+                else if (marketPlayer2IsOn != null){
+                    if (weapon.getCost() <= player2.getPlayerWallet().getBalance()) {
+                        player2.getPlayerWallet().deductMoney(weapon.getCost());
+                        player2.addWeapon(weapon);
+                        player2.addStrength(weapon);
+                        System.out.println("Purchase complete and weapon " + weapon.getName() + " add to your weapons:)");
+                        System.out.println("Your balance is :" + player2.getPlayerWallet().getBalance());
+                        System.out.println("Player strength: "+player2.getPlayerStrength());
+                        System.out.println("Player weapons: "+player2.getWeaponList().toString());
+                    } else {
+                        System.out.println("Not enough balance");
+                    }
                 }
 
             });
@@ -414,7 +432,7 @@ public class SalesmanGame extends Application {
         return false;
     }
 
-    private void buyWeapons(List<Weapon> weapons, String marketName, Player player1) {
+    private void buyWeapons(List<Weapon> weapons, String marketName, Player player) {
         // Display the weapons available in the market
         displayWeapons(weapons, marketName);
     }
