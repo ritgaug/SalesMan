@@ -199,7 +199,7 @@ public class SalesmanGame extends Application {
         gridPane.add(startingHouse, 9, 9);
 
         // Create and add Player1
-        player1 = new Player(1, Color.PURPLE, 100, new Wallet(), new ArrayList<ValuableTreasure>(), new ArrayList<Weapon>(), GRID_SIZE, GRID_SIZE-1, CELL_SIZE / 2);
+        player1 = new Player(1, PURPLE, 100, new Wallet(), new ArrayList<ValuableTreasure>(), new ArrayList<Weapon>(), GRID_SIZE, GRID_SIZE-1, CELL_SIZE / 2);
         gridPane.add(player1.getShape(CELL_SIZE), player1.getXCoordinate(), player1.getYCoordinate());
 
         // Create and add Player 2
@@ -235,6 +235,7 @@ public class SalesmanGame extends Application {
                     break;
                 }
             }
+
             // Find the market the player 2 is on
             Market marketPlayer2IsOn = null;
             for (Market market : markets) {
@@ -243,7 +244,6 @@ public class SalesmanGame extends Application {
                     break;
                 }
             }
-
             // If the market is found, display the weapons available in that market for player 1
             if (marketPlayer1IsOn != null) {
                 buyWeapons(marketPlayer1IsOn.getWeapons(), marketPlayer1IsOn.getName(), player1);
@@ -253,6 +253,79 @@ public class SalesmanGame extends Application {
                 buyWeapons(marketPlayer2IsOn.getWeapons(), marketPlayer2IsOn.getName(), player2);
             }
         });
+
+       //--
+
+        Button statusBoardButton = new Button("Status Board player 1");
+
+        // Set an action event for the button (optional)
+        statusBoardButton.setOnAction(event -> {
+
+            Stage statusWindow = new Stage();
+
+            // Create the content for the new window
+            VBox layout = new VBox();
+            layout.setAlignment(Pos.CENTER);
+            layout.setSpacing(10);
+
+            // Add content to the layout
+            Label statusLabel = new Label("Status Board");
+
+
+
+            // Add the layout to a scene
+            Scene statusScene = new Scene(layout, 300, 200);
+
+            // Set the scene to the stage
+            statusWindow.setScene(statusScene);
+
+            // Set the title of the new window
+            statusWindow.setTitle("Status Board");
+
+            // Show the new window
+            statusWindow.show();
+
+
+        });
+
+        // Add the button to the grid pane
+        gridPane.add(statusBoardButton, 11, GRID_SIZE);
+
+
+        Button statusBoardButton2 = new Button("Status Board player 2");
+
+        // Set an action event for the button (optional)
+        statusBoardButton2.setOnAction(event -> {
+
+            Stage statusWindow = new Stage();
+
+            // Create the content for the new window
+            VBox layout = new VBox();
+            layout.setAlignment(Pos.CENTER);
+            layout.setSpacing(10);
+
+            // Add content to the layout
+            Label statusLabel = new Label("Status Board");
+            // Add more content to the layout as needed...
+
+            // Add the layout to a scene
+            Scene statusScene = new Scene(layout, 300, 200);
+
+            // Set the scene to the stage
+            statusWindow.setScene(statusScene);
+
+            // Set the title of the new window
+            statusWindow.setTitle("Status Board");
+
+            // Show the new window
+            statusWindow.show();
+
+        });
+
+        // Add the button to the grid pane
+        gridPane.add(statusBoardButton2, 12, GRID_SIZE);
+
+
 
         // Create castles and add them to the grid
         Castle castle = new Castle(CELL_SIZE);
