@@ -34,7 +34,6 @@ public class SalesmanGame extends Application {
     private static final int MIN_TRAPS = 1;
     private static final int MAX_TRAPS = 5;
     public static List<Point> markedObjects = new ArrayList<>();
-
     // Create instances of Wallet, Trap, and House
     private Wallet wallet = new Wallet();
     private List<Trap> traps = new ArrayList<>();
@@ -274,13 +273,29 @@ public class SalesmanGame extends Application {
             layout.setSpacing(10);
 
             // Create a label to display "Status Board"
-            Label statusLabel = new Label("Status Board");
+            Label strength1 = new Label("Player 1 Strength: "+ player1.getPlayerStrength());
+            Label money1 = new Label("Player 1 Money: " + player1.getPlayerWallet().getBalance());
+            Label points1 = new Label("Player 1 Points: "+player2.getPoint());
+            Label treasure1 = new Label("Player 1 Treasure: "+player1.getTreasuresList().toString());
+            Label weapons1 = new Label("Player 1 Weapons: "+player1.getWeaponList().toString());
+            Label path1 = new Label("Player 1 Path: ");
+
 
             // Add the label to the layout
-            layout.getChildren().add(statusLabel);
+            layout.getChildren().add(strength1);
+            layout.getChildren().add(money1);
+            layout.getChildren().add(points1);
+            layout.getChildren().add(treasure1);
+            layout.getChildren().add(weapons1);
+            layout.getChildren().add(path1);
+
+            for (Point point : PlayerMoves.pathTraveledPlayer1) {
+                Text pointText = new Text("(" + point.getX() + ", " + point.getY() + ")");
+                layout.getChildren().add(pointText);
+            }
 
             // Create a scene with the layout and set its size
-            Scene statusScene = new Scene(layout, 300, 200);
+            Scene statusScene = new Scene(layout, 300, 800);
 
             // Set the scene to the stage
             statusWindow.setScene(statusScene);
@@ -310,14 +325,28 @@ public class SalesmanGame extends Application {
             layout.setSpacing(10);
 
             // Create a label to display "Status Board"
-            Label statusLabel = new Label("Status Board");
-            // Additional content can be added here as needed...
+            Label strength2 = new Label("Player 2 Strength: "+ player2.getPlayerStrength());
+            Label money2 = new Label("Player 2 Money: " + player2.getPlayerWallet().getBalance());
+            Label points2 = new Label("Player 2 Points: "+player2.getPoint());
+            Label treasure2 = new Label("Player 2 Treasure: "+player2.getTreasuresList().toString());
+            Label weapons2 = new Label("Player 2 Weapons: "+player2.getWeaponList().toString());
+            Label path2 = new Label("Player 2 Path: ");
 
             // Add the label to the layout
-            layout.getChildren().add(statusLabel);
+            layout.getChildren().add(strength2);
+            layout.getChildren().add(money2);
+            layout.getChildren().add(points2);
+            layout.getChildren().add(treasure2);
+            layout.getChildren().add(weapons2);
+            layout.getChildren().add(path2);
+
+            for (Point point : PlayerMoves.pathTraveledPlayer2) {
+                Text pointText = new Text("[" + point.getX() + ", " + point.getY() + "]");
+                layout.getChildren().add(pointText);
+            }
 
             // Create a scene with the layout and set its size
-            Scene statusScene = new Scene(layout, 300, 200);
+            Scene statusScene = new Scene(layout, 300, 800);
 
             // Set the scene to the stage
             statusWindow.setScene(statusScene);

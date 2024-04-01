@@ -24,4 +24,5 @@ public class PlayerMoves {
     public static void addTravels2(int x, int y) {
         pathTraveledPlayer2.add(new Point(x, y));
     }
+
 }
