@@ -266,40 +266,44 @@ public class SalesmanGame extends Application {
 // It defines the action to be performed when the button is clicked
         statusBoardButton.setOnAction(event -> {
 
-            // This line creates a new stage (window) that will be used to display the status board.
+            // Create a new stage for displaying the status board
             Stage statusWindow = new Stage();
 
-            // This line creates a new vertical box layout (VBox) that will be used to organize the content inside the status window.
+            // Create a vertical box layout for organizing content
             VBox layout = new VBox();
-            //This line sets the alignment of the content within the VBox layout to be centered vertically and horizontally.
             layout.setAlignment(Pos.CENTER);
-            //This line sets the spacing between the elements within the VBox layout to be 10 pixels.
             layout.setSpacing(10);
 
-            // This line creates a new label with the text "Status Board".
-            Label statusLabel = new Label("Status Board");
+            // Create a label to display "Status Board"
+            Label strength2 = new Label("Player 1 Strength: "+ player1.getPlayerStrength());
+            Label money2 = new Label("Player 1 Money: " + player1.getPlayerWallet().getBalance());
+            Label points2 = new Label("Player 1 Points: "+player1.getPoint());
+            Label treasure2 = new Label("Player 1 Treasure: "+player1.getTreasuresList().toString());
+            Label weapons2 = new Label("Player 1 Weapons: "+player1.getWeaponList().toString());
+            Label path2 = new Label("Player 1 Path: ");
 
-            // This line adds the statusLabel to the VBox layout. The label will be displayed in the status window.
-            layout.getChildren().add(statusLabel);
+            // Add the label to the layout
+            layout.getChildren().add(strength2);
+            layout.getChildren().add(money2);
+            layout.getChildren().add(points2);
+            layout.getChildren().add(treasure2);
+            layout.getChildren().add(weapons2);
+            layout.getChildren().add(path2);
 
+            for (Point point : PlayerMoves.pathTraveledPlayer1) {
+                Text pointText = new Text("[" + point.getX() + ", " + point.getY() + "]");
+                layout.getChildren().add(pointText);
+            }
+            // Create a scene with the layout and set its size
+            Scene statusScene = new Scene(layout, 300, 800);
 
-            // //This adds and updates the coordinates on the window for player 1
-            Label player1CoordsLabel = new Label("Player 1: (" + player1.getXCoordinate() + ", " + player1.getYCoordinate() + ")");
-
-            layout.getChildren().addAll(player1CoordsLabel);
-
-
-            // This line creates a new scene (Scene) with the VBox layout (layout)
-            // as its root and sets its size to 300 pixels wide and 200 pixels high.
-            Scene statusScene = new Scene(layout, 300, 200);
-
-            // This line sets the created scene (statusScene) as the scene to be displayed in the statusWindow.
+            // Set the scene to the stage
             statusWindow.setScene(statusScene);
 
-            // This line sets the title of the status window to "Status Board".
+            // Set the title of the new window
             statusWindow.setTitle("Status Board");
 
-            // This line displays the status window on the screen.
+            // Show the new window
             statusWindow.show();
         });
 
@@ -321,17 +325,27 @@ public class SalesmanGame extends Application {
             layout.setSpacing(10);
 
             // Create a label to display "Status Board"
-            Label statusLabel = new Label("Status Board");
+            Label strength2 = new Label("Player 2 Strength: "+ player2.getPlayerStrength());
+            Label money2 = new Label("Player 2 Money: " + player2.getPlayerWallet().getBalance());
+            Label points2 = new Label("Player 2 Points: "+player2.getPoint());
+            Label treasure2 = new Label("Player 2 Treasure: "+player2.getTreasuresList().toString());
+            Label weapons2 = new Label("Player 2 Weapons: "+player2.getWeaponList().toString());
+            Label path2 = new Label("Player 2 Path: ");
 
             // Add the label to the layout
-            layout.getChildren().add(statusLabel);
+            layout.getChildren().add(strength2);
+            layout.getChildren().add(money2);
+            layout.getChildren().add(points2);
+            layout.getChildren().add(treasure2);
+            layout.getChildren().add(weapons2);
+            layout.getChildren().add(path2);
 
-            //This adds and updates the coordinates on the window for player 2
-            Label player2CoordsLabel = new Label("Player 2: (" + player2.getXCoordinate() + ", " + player2.getYCoordinate() + ")");
-            layout.getChildren().addAll(player2CoordsLabel);
-
+            for (Point point : PlayerMoves.pathTraveledPlayer2) {
+                Text pointText = new Text("[" + point.getX() + ", " + point.getY() + "]");
+                layout.getChildren().add(pointText);
+            }
             // Create a scene with the layout and set its size
-            Scene statusScene = new Scene(layout, 300, 200);
+            Scene statusScene = new Scene(layout, 300, 800);
 
             // Set the scene to the stage
             statusWindow.setScene(statusScene);
