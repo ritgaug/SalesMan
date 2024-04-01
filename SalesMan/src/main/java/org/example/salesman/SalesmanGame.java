@@ -262,22 +262,24 @@ public class SalesmanGame extends Application {
 
         Button statusBoardButton = new Button("Status Board player 1");
 
-        // Set an action event for the button (optional)
+// Set an action event for the button (optional)
         statusBoardButton.setOnAction(event -> {
 
+            // Create a new stage for displaying the status board
             Stage statusWindow = new Stage();
 
-            // Create the content for the new window
+            // Create a vertical box layout for organizing content
             VBox layout = new VBox();
             layout.setAlignment(Pos.CENTER);
             layout.setSpacing(10);
 
-            // Add content to the layout
+            // Create a label to display "Status Board"
             Label statusLabel = new Label("Status Board");
 
+            // Add the label to the layout
+            layout.getChildren().add(statusLabel);
 
-
-            // Add the layout to a scene
+            // Create a scene with the layout and set its size
             Scene statusScene = new Scene(layout, 300, 200);
 
             // Set the scene to the stage
@@ -288,31 +290,33 @@ public class SalesmanGame extends Application {
 
             // Show the new window
             statusWindow.show();
-
-
         });
 
-        // Add the button to the grid pane
+// Add the button to the grid pane
         gridPane.add(statusBoardButton, 0, GRID_SIZE+1);
 
 
         Button statusBoardButton2 = new Button("Status Board player 2");
 
-        // Set an action event for the button (optional)
+// Set an action event for the button (optional)
         statusBoardButton2.setOnAction(event -> {
 
+            // Create a new stage for displaying the status board
             Stage statusWindow = new Stage();
 
-            // Create the content for the new window
+            // Create a vertical box layout for organizing content
             VBox layout = new VBox();
             layout.setAlignment(Pos.CENTER);
             layout.setSpacing(10);
 
-            // Add content to the layout
+            // Create a label to display "Status Board"
             Label statusLabel = new Label("Status Board");
-            // Add more content to the layout as needed...
+            // Additional content can be added here as needed...
 
-            // Add the layout to a scene
+            // Add the label to the layout
+            layout.getChildren().add(statusLabel);
+
+            // Create a scene with the layout and set its size
             Scene statusScene = new Scene(layout, 300, 200);
 
             // Set the scene to the stage
@@ -323,10 +327,9 @@ public class SalesmanGame extends Application {
 
             // Show the new window
             statusWindow.show();
-
         });
 
-        // Add the button to the grid pane
+// Add the button to the grid pane
         gridPane.add(statusBoardButton2, 1, GRID_SIZE+1);
 
 
