@@ -405,6 +405,27 @@ public class SalesmanGame extends Application {
         DarkMode.setOnAction(event -> toggleDarkMode(gridPane));
         gridPane.add(DarkMode, GRID_SIZE,  0);
 
+        // Display winner
+        if(player1.getPoint()+player2.getPoint()==8){
+            Stage winnerDisplay = new Stage();
+            VBox winner = new VBox();
+            winner.setAlignment(Pos.CENTER);
+            winner.setSpacing(10);
+
+            Label label = new Label("Winner");
+            winner.getChildren().add(label);
+
+            Scene winnerScene = new Scene(winner,200,100);
+            if(player1.getPoint()>player2.getPoint()){
+                winnerDisplay.setTitle("Winner is player1");
+            }
+            else {
+                winnerDisplay.setTitle("Winner is player2");
+            }
+            winnerDisplay.setScene(winnerScene);
+            winnerDisplay.show();
+        }
+
         // Set up the scene
         Scene scene = new Scene(gridPane, 580, 800);
         primaryStage.setScene(scene);
