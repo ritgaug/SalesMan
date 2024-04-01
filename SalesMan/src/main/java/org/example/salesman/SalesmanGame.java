@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.StackPane;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
@@ -45,6 +46,7 @@ public class SalesmanGame extends Application {
     private VBox battleIndicators; // VBox to hold battle indicators
     private Market marketPlayer1IsOn;
     private Market marketPlayer2IsOn;
+    private boolean darkMode = false;
 
     @Override
     public void start(Stage primaryStage) {
@@ -325,8 +327,7 @@ public class SalesmanGame extends Application {
         });
 
         // Add the button to the grid pane
-        gridPane.add(statusBoardButton2, 12, GRID_SIZE);
-
+        gridPane.add(statusBoardButton2, 1, GRID_SIZE+1);
 
 
         // Create castles and add them to the grid
@@ -367,15 +368,23 @@ public class SalesmanGame extends Application {
             }
         });
 
+        // Add dark mode button
+        ToggleButton DarkMode = new ToggleButton("Dark Mode");
+        DarkMode.setOnAction(event -> toggleDarkMode(gridPane));
+        gridPane.add(DarkMode, GRID_SIZE,  0);
+
         // Set up the scene
-        Scene scene = new Scene(gridPane, 750, 750);
+        Scene scene = new Scene(gridPane, 580, 800);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Traveling Salesman Game");
+        // Set initial background color
+        setGridPaneBackgroundColor(gridPane);
         Image image = new Image(getClass().getResourceAsStream("/org/example/salesman/Game Icon.png"));
         primaryStage.getIcons().add(image);
         primaryStage.show();
 
     }
+
     // Method to add emoji to the grid with a specific size
     private void addEmojiToGrid(GridPane gridPane, int colEmoji, int rowEmoji, String emoji, double fontSize) {
         StackPane stackPane = new StackPane();
@@ -428,14 +437,14 @@ public class SalesmanGame extends Application {
 
         for (int i = 0; i < weapons.size(); i++) {
             Weapon weapon = weapons.get(i);
-            Label weaponLabel = new Label(weapon.getEmoji()+ " " + weapon.getName() + "\nStrength: " + weapon.getStrength() + "\nCost: " + weapon.getCost());
+            Label weaponLabel = new Label(weapon.getEmoji() + " " + weapon.getName() + "\nStrength: " + weapon.getStrength() + "\nCost: " + weapon.getCost());
             weaponsPane.add(weaponLabel, 0, i + 1);
 
             // Create a "Buy" button for each weapon
             Button Buy = new Button("Buy");
-            weaponsPane.add(Buy,1,i+1);
-            Buy.setOnAction(event ->{
-                if(marketPlayer1IsOn != null) {
+            weaponsPane.add(Buy, 1, i + 1);
+            Buy.setOnAction(event -> {
+                if (marketPlayer1IsOn != null) {
                     if (weapon.getCost() <= player1.getPlayerWallet().getBalance()) {
                         player1.getPlayerWallet().deductMoney(weapon.getCost());
                         player1.addWeapon(weapon);
@@ -478,10 +487,6 @@ public class SalesmanGame extends Application {
         newWindow.show();
     }
 
-    // method for rolling die
-    private int dieRoll() {
-        return (int) (Math.random() * 6) + 1;
-    }
 
     // method for creating random location of marked objects/ lost items (loot)
     public static List<Point> createLostItems() {
@@ -504,6 +509,7 @@ public class SalesmanGame extends Application {
         Collections.sort(cells, Comparator.comparing(Point::getX).thenComparing(Point::getY));
         return cells;
     }
+
     // Method to check if a cell is occupied by a valuable treasure
     private boolean isCellOccupied(int row, int col) {
         for (ValuableTreasure treasure : valuableTreasures) {
@@ -518,6 +524,7 @@ public class SalesmanGame extends Application {
         // Display the weapons available in the market
         displayWeapons(weapons, marketName);
     }
+
     private void updateBattleIndicators(boolean isBattle, Player player1, Player player2) {
         battleIndicators.getChildren().clear(); // Clear existing indicators
 
@@ -533,8 +540,9 @@ public class SalesmanGame extends Application {
             battleIndicators.getChildren().add(playersBox);
         }
     }
-    public List<Point> createVisitedHouses () {
-        List<Point> visitedHouses = new ArrayList<> ();
+
+    public List<Point> createVisitedHouses() {
+        List<Point> visitedHouses = new ArrayList<>();
 
         visitedHouses.add(new Point(3, 0));
         visitedHouses.add(new Point(5, 2));
@@ -563,6 +571,20 @@ public class SalesmanGame extends Application {
             if ((p2.getXCoordinate() == a.get(i).getXCoordinate()) && (p2.getYCoordinate() == a.get(i).getYCoordinate())) {
                 p2.addTreasure(a.get(i));
             }
+        }
+    }
+
+    // Dark Mode
+    private void toggleDarkMode(GridPane gridPane) {
+        darkMode = !darkMode;
+        setGridPaneBackgroundColor(gridPane);
+    }
+
+    private void setGridPaneBackgroundColor(GridPane gridPane) {
+        if (darkMode) {
+            gridPane.setStyle("-fx-background-color: #333333;"); // Dark background color
+        } else {
+            gridPane.setStyle("-fx-background-color: #FFFFFF;"); // Light background color
         }
     }
 }
