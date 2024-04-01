@@ -293,7 +293,7 @@ public class SalesmanGame extends Application {
         });
 
         // Add the button to the grid pane
-        gridPane.add(statusBoardButton, 11, GRID_SIZE);
+        gridPane.add(statusBoardButton, 0, GRID_SIZE+1);
 
 
         Button statusBoardButton2 = new Button("Status Board player 2");
