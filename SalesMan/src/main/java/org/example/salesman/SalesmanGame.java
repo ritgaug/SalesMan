@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.StackPane;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
@@ -21,6 +22,7 @@ import java.util.Random;
 import javafx.scene.layout.HBox;
 import static javafx.scene.paint.Color.*;
 import static javax.swing.text.html.HTML.Attribute.COLS;
+import javafx.scene.image.Image;
 
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -42,6 +44,9 @@ public class SalesmanGame extends Application {
     private Player player2;
     public static List<Point> visitedHouses;
     private VBox battleIndicators; // VBox to hold battle indicators
+    private Market marketPlayer1IsOn;
+    private Market marketPlayer2IsOn;
+    private boolean darkMode = false;
 
     @Override
     public void start(Stage primaryStage) {
@@ -150,6 +155,7 @@ public class SalesmanGame extends Application {
                 boolean isTrapCell = false;
                 if(!isWallCell && !isMarketCell) {
                     for (Trap trap : traps) {
+                        addEmojiToGrid(gridPane,trap.getLocation().x,trap.getLocation().y,"⚠",CELL_SIZE);
                         if (row == trap.getLocation().y && col == trap.getLocation().x) {
                             cell.setFill(RED); // Trap color
                             isTrapCell = true;
@@ -287,7 +293,7 @@ public class SalesmanGame extends Application {
         });
 
         // Add the button to the grid pane
-        gridPane.add(statusBoardButton, 11, GRID_SIZE);
+        gridPane.add(statusBoardButton, 0, GRID_SIZE+1);
 
 
         Button statusBoardButton2 = new Button("Status Board player 2");
@@ -321,8 +327,7 @@ public class SalesmanGame extends Application {
         });
 
         // Add the button to the grid pane
-        gridPane.add(statusBoardButton2, 12, GRID_SIZE);
-
+        gridPane.add(statusBoardButton2, 1, GRID_SIZE+1);
 
 
 
@@ -338,7 +343,7 @@ public class SalesmanGame extends Application {
         // Attach event handler to the buy weapons button
         buyWeaponsButton.setOnAction(event -> {
             // Find the market the player 1 is on
-            Market marketPlayer1IsOn = null;
+            marketPlayer1IsOn = null;
             for (Market market : markets) {
                 if (market.getRow() == player1.getYCoordinate() && market.getCol() == player1.getXCoordinate()) {
                     marketPlayer1IsOn = market;
@@ -346,7 +351,7 @@ public class SalesmanGame extends Application {
                 }
             }
             // Find the market the player 2 is on
-            Market marketPlayer2IsOn = null;
+            marketPlayer2IsOn = null;
             for (Market market : markets) {
                 if (market.getRow() == player2.getYCoordinate() && market.getCol() == player2.getXCoordinate()) {
                     marketPlayer2IsOn = market;
@@ -364,19 +369,33 @@ public class SalesmanGame extends Application {
             }
         });
 
+        // Add dark mode button
+        ToggleButton DarkMode = new ToggleButton("Dark Mode");
+        DarkMode.setOnAction(event -> toggleDarkMode(gridPane));
+        gridPane.add(DarkMode, GRID_SIZE,  0);
+
         // Set up the scene
-        Scene scene = new Scene(gridPane, 700, 700);
+        Scene scene = new Scene(gridPane, 580, 800);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Traveling Salesman Game");
+        // Set initial background color
+        setGridPaneBackgroundColor(gridPane);
+        Image image = new Image(getClass().getResourceAsStream("/org/example/salesman/Game Icon.png"));
+        primaryStage.getIcons().add(image);
         primaryStage.show();
 
     }
+
     // Method to add emoji to the grid with a specific size
     private void addEmojiToGrid(GridPane gridPane, int colEmoji, int rowEmoji, String emoji, double fontSize) {
+        StackPane stackPane = new StackPane();
         Text text = new Text(emoji);
         text.setFont(Font.font(fontSize)); // Set the font size
-        gridPane.add(text, colEmoji, rowEmoji);
+        stackPane.getChildren().add(text);
+        StackPane.setAlignment(text, Pos.CENTER);
+        gridPane.add(stackPane, colEmoji, rowEmoji);
     }
+
 
     // Method to create traps at random locations
     private List<Trap> createTraps() {
@@ -419,22 +438,38 @@ public class SalesmanGame extends Application {
 
         for (int i = 0; i < weapons.size(); i++) {
             Weapon weapon = weapons.get(i);
-            Label weaponLabel = new Label(weapon.getEmoji()+ " " + weapon.getName() + "\nStrength: " + weapon.getStrength() + "\nCost: " + weapon.getCost());
+            Label weaponLabel = new Label(weapon.getEmoji() + " " + weapon.getName() + "\nStrength: " + weapon.getStrength() + "\nCost: " + weapon.getCost());
             weaponsPane.add(weaponLabel, 0, i + 1);
 
             // Create a "Buy" button for each weapon
             Button Buy = new Button("Buy");
-            weaponsPane.add(Buy,1,i+1);
-            Buy.setOnAction(event ->{
-                if(weapon.getCost() <= wallet.getBalance()){
-                    wallet.deductMoney(weapon.getCost());
-                    player1.addWeapon(weapon);
-                    player1.addStrength(weapon);
-                    System.out.println("Purchase complete and weapon "+weapon.getName() + " add to your weapons:)");
-                    System.out.println("Your balance is :"+wallet.getBalance());
+            weaponsPane.add(Buy, 1, i + 1);
+            Buy.setOnAction(event -> {
+                if (marketPlayer1IsOn != null) {
+                    if (weapon.getCost() <= player1.getPlayerWallet().getBalance()) {
+                        player1.getPlayerWallet().deductMoney(weapon.getCost());
+                        player1.addWeapon(weapon);
+                        player1.addStrength(weapon);
+                        System.out.println("Purchase complete and weapon " + weapon.getName() + " add to your weapons:)");
+                        System.out.println("Your balance is :" + player1.getPlayerWallet().getBalance());
+                        System.out.println("Player strength: "+player1.getPlayerStrength());
+                        System.out.println("Player weapons: "+player1.getWeaponList().toString());
+                    } else {
+                        System.out.println("Not enough balance");
+                    }
                 }
-                else{
-                    System.out.println("Not enough balance");
+                else if (marketPlayer2IsOn != null){
+                    if (weapon.getCost() <= player2.getPlayerWallet().getBalance()) {
+                        player2.getPlayerWallet().deductMoney(weapon.getCost());
+                        player2.addWeapon(weapon);
+                        player2.addStrength(weapon);
+                        System.out.println("Purchase complete and weapon " + weapon.getName() + " add to your weapons:)");
+                        System.out.println("Your balance is :" + player2.getPlayerWallet().getBalance());
+                        System.out.println("Player strength: "+player2.getPlayerStrength());
+                        System.out.println("Player weapons: "+player2.getWeaponList().toString());
+                    } else {
+                        System.out.println("Not enough balance");
+                    }
                 }
 
             });
@@ -443,19 +478,16 @@ public class SalesmanGame extends Application {
         StackPane secondaryLayout = new StackPane();
         secondaryLayout.getChildren().add(weaponsPane);
 
-        Scene secondScene = new Scene(secondaryLayout, 250, 200);
+        Scene secondScene = new Scene(secondaryLayout, 300, 350);
 
         Stage newWindow = new Stage();
         newWindow.setTitle("Weapons in " + marketName);
         newWindow.setScene(secondScene);
-
+        Image image = new Image(getClass().getResourceAsStream("/org/example/salesman/market.png"));
+        newWindow.getIcons().add(image);
         newWindow.show();
     }
 
-    // method for rolling die
-    private int dieRoll() {
-        return (int) (Math.random() * 6) + 1;
-    }
 
     // method for creating random location of marked objects/ lost items (loot)
     public static List<Point> createLostItems() {
@@ -478,6 +510,7 @@ public class SalesmanGame extends Application {
         Collections.sort(cells, Comparator.comparing(Point::getX).thenComparing(Point::getY));
         return cells;
     }
+
     // Method to check if a cell is occupied by a valuable treasure
     private boolean isCellOccupied(int row, int col) {
         for (ValuableTreasure treasure : valuableTreasures) {
@@ -488,10 +521,11 @@ public class SalesmanGame extends Application {
         return false;
     }
 
-    private void buyWeapons(List<Weapon> weapons, String marketName, Player player1) {
+    private void buyWeapons(List<Weapon> weapons, String marketName, Player player) {
         // Display the weapons available in the market
         displayWeapons(weapons, marketName);
     }
+
     private void updateBattleIndicators(boolean isBattle, Player player1, Player player2) {
         battleIndicators.getChildren().clear(); // Clear existing indicators
 
@@ -507,8 +541,9 @@ public class SalesmanGame extends Application {
             battleIndicators.getChildren().add(playersBox);
         }
     }
-    public List<Point> createVisitedHouses () {
-        List<Point> visitedHouses = new ArrayList<> ();
+
+    public List<Point> createVisitedHouses() {
+        List<Point> visitedHouses = new ArrayList<>();
 
         visitedHouses.add(new Point(3, 0));
         visitedHouses.add(new Point(5, 2));
@@ -537,6 +572,20 @@ public class SalesmanGame extends Application {
             if ((p2.getXCoordinate() == a.get(i).getXCoordinate()) && (p2.getYCoordinate() == a.get(i).getYCoordinate())) {
                 p2.addTreasure(a.get(i));
             }
+        }
+    }
+
+    // Dark Mode
+    private void toggleDarkMode(GridPane gridPane) {
+        darkMode = !darkMode;
+        setGridPaneBackgroundColor(gridPane);
+    }
+
+    private void setGridPaneBackgroundColor(GridPane gridPane) {
+        if (darkMode) {
+            gridPane.setStyle("-fx-background-color: #333333;"); // Dark background color
+        } else {
+            gridPane.setStyle("-fx-background-color: #FFFFFF;"); // Light background color
         }
     }
 }
