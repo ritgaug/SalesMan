@@ -47,6 +47,7 @@ public class SalesmanGame extends Application {
     private Market marketPlayer1IsOn;
     private Market marketPlayer2IsOn;
     private boolean darkMode = false;
+    private Castle castle;
 
     @Override
     public void start(Stage primaryStage) {
@@ -363,7 +364,7 @@ public class SalesmanGame extends Application {
 
 
         // Create castles and add them to the grid
-        Castle castle = new Castle(CELL_SIZE);
+        castle = new Castle(CELL_SIZE);
         gridPane.add(castle, 5, 4);
         addEmojiToGrid(gridPane,5 , 4, "\uD83C\uDFF0", CELL_SIZE );
 

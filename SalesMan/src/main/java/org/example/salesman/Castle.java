@@ -1,6 +1,7 @@
 package org.example.salesman;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -52,12 +53,14 @@ class Castle extends Rectangle {
         TextField xTreasureEntered = new TextField();
         Label yTreasure = new Label("Enter y-coordinate:");
         TextField yTreasureEntered = new TextField();
+        Button enter = new Button("enter");
 
         // Add labels and text to the grid pane
         questionBox.add(xTreasure, 0, 0);
         questionBox.add(xTreasureEntered, 1, 0);
         questionBox.add(yTreasure, 0, 1);
         questionBox.add(yTreasureEntered, 1, 1);
+        questionBox.add(enter,2,0);
 
         // Add the grid pane to  VBox
         vbox.getChildren().add(questionBox);
