@@ -18,11 +18,11 @@ public class Player {
     private int xCoordinate;
     private int yCoordinate;
     private final int radius;
-    private int health;
+    private int point;
     private int treasureDiscoverScore=0;
     public static boolean failToMove = false; // if player tries to moves out of grid
 
-    public Player(int playerNumber, Color color, int playerStrength, Wallet playerWallet, ArrayList treasuresList, ArrayList weaponList, int initialX, int initialY, int radius) {
+    public Player(int playerNumber, Color color, int playerStrength, Wallet playerWallet, ArrayList treasuresList, ArrayList weaponList, int initialX, int initialY, int radius , int point ) {
         this.playerNumber = playerNumber;
         this.shape = new Circle(radius);
         this.color = color;
@@ -34,6 +34,7 @@ public class Player {
         this.xCoordinate = initialX;
         this.yCoordinate = initialY;
         this.radius = radius;
+        this.point = point ;
     }
 
     public int getPlayerNumber() {
@@ -80,6 +81,9 @@ public class Player {
 
     public int getRadius() {
         return radius;
+    }
+    public int getPoint(){
+        return point;
     }
 
     public void moveRight() {
