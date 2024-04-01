@@ -57,14 +57,14 @@ public class SalesmanGame extends Application {
         traps = createTraps();
 
         // Create instances of valuable treasures based on the provided data
-        ValuableTreasure diamondRing = new ValuableTreasure(1, 200,"\uD83D\uDCCD");
-        ValuableTreasure jewelEncrustedSword = new ValuableTreasure(2, 300, "\uD83D\uDDE1️");
-        ValuableTreasure crystalGoblets = new ValuableTreasure(3, 400,"\uD83C\uDF77");
-        ValuableTreasure woodenBow = new ValuableTreasure(4, 500,"\uD83C\uDFF9");
-        ValuableTreasure goldenGoblet = new ValuableTreasure(5, 600,"\uD83C\uDFC6");
-        ValuableTreasure paladinsShield = new ValuableTreasure(6, 700,"\uD83D\uDEE1");
-        ValuableTreasure goldenKey = new ValuableTreasure(7, 800,"\uD83D\uDDDD️");
-        ValuableTreasure dragonsScroll = new ValuableTreasure(8, 900,"🐉");
+        ValuableTreasure diamondRing = new ValuableTreasure(1, 200,"\uD83D\uDCCD",1);
+        ValuableTreasure jewelEncrustedSword = new ValuableTreasure(2, 300, "\uD83D\uDDE1️",1);
+        ValuableTreasure crystalGoblets = new ValuableTreasure(3, 400,"\uD83C\uDF77",1);
+        ValuableTreasure woodenBow = new ValuableTreasure(4, 500,"\uD83C\uDFF9",1);
+        ValuableTreasure goldenGoblet = new ValuableTreasure(5, 600,"\uD83C\uDFC6",1);
+        ValuableTreasure paladinsShield = new ValuableTreasure(6, 700,"\uD83D\uDEE1",1);
+        ValuableTreasure goldenKey = new ValuableTreasure(7, 800,"\uD83D\uDDDD️",1);
+        ValuableTreasure dragonsScroll = new ValuableTreasure(8, 900,"🐉",1);
 
         // Add valuable treasures to the list
         valuableTreasures.add(diamondRing);
@@ -203,11 +203,11 @@ public class SalesmanGame extends Application {
         gridPane.add(startingHouse, 9, 9);
 
         // Create and add Player1
-        player1 = new Player(1, PURPLE, 100, new Wallet(), new ArrayList<ValuableTreasure>(), new ArrayList<Weapon>(), GRID_SIZE, GRID_SIZE-1, CELL_SIZE / 2);
+        player1 = new Player(1, PURPLE, 100, new Wallet(), new ArrayList<ValuableTreasure>(), new ArrayList<Weapon>(), GRID_SIZE, GRID_SIZE-1, CELL_SIZE / 2,0);
         gridPane.add(player1.getShape(CELL_SIZE), player1.getXCoordinate(), player1.getYCoordinate());
 
         // Create and add Player 2
-        player2 = new Player(2, DEEPPINK, 50, new Wallet(), new ArrayList<>(), new ArrayList<>(), GRID_SIZE, GRID_SIZE -1, CELL_SIZE / 2);
+        player2 = new Player(2, DEEPPINK, 50, new Wallet(), new ArrayList<>(), new ArrayList<>(), GRID_SIZE, GRID_SIZE -1, CELL_SIZE / 2,0);
         gridPane.add(player2.getShape(CELL_SIZE), player2.getXCoordinate(), player2.getYCoordinate());
 
         // Creating instance of Dice
