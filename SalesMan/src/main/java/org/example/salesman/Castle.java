@@ -54,6 +54,11 @@ class Castle extends Rectangle {
         Label yTreasure = new Label("Enter y-coordinate:");
         TextField yTreasureEntered = new TextField();
         Button enter = new Button("enter");
+        enter.setOnAction(event->{
+            int xEnter = Integer.parseInt(xTreasureEntered.getText());
+            int yEnter = Integer.parseInt(yTreasureEntered.getText());
+
+        });
 
         // Add labels and text to the grid pane
         questionBox.add(xTreasure, 0, 0);
