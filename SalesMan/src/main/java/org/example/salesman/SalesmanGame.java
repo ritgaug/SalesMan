@@ -258,47 +258,58 @@ public class SalesmanGame extends Application {
             }
         });
 
-       //--
-
+       //--------------------------------------------------------------------------------
+        //This line creates a new button with the text "Status Board player 1" and assigns it to the variable statusBoardButton
         Button statusBoardButton = new Button("Status Board player 1");
 
-// Set an action event for the button (optional)
+// This line sets an action event handler for when the statusBoardButton is clicked.
+// It defines the action to be performed when the button is clicked
         statusBoardButton.setOnAction(event -> {
 
-            // Create a new stage for displaying the status board
+            // This line creates a new stage (window) that will be used to display the status board.
             Stage statusWindow = new Stage();
 
-            // Create a vertical box layout for organizing content
+            // This line creates a new vertical box layout (VBox) that will be used to organize the content inside the status window.
             VBox layout = new VBox();
+            //This line sets the alignment of the content within the VBox layout to be centered vertically and horizontally.
             layout.setAlignment(Pos.CENTER);
+            //This line sets the spacing between the elements within the VBox layout to be 10 pixels.
             layout.setSpacing(10);
 
-            // Create a label to display "Status Board"
+            // This line creates a new label with the text "Status Board".
             Label statusLabel = new Label("Status Board");
 
-            // Add the label to the layout
+            // This line adds the statusLabel to the VBox layout. The label will be displayed in the status window.
             layout.getChildren().add(statusLabel);
 
-            // Create a scene with the layout and set its size
+
+            // //This adds and updates the coordinates on the window for player 1
+            Label player1CoordsLabel = new Label("Player 1: (" + player1.getXCoordinate() + ", " + player1.getYCoordinate() + ")");
+
+            layout.getChildren().addAll(player1CoordsLabel);
+
+
+            // This line creates a new scene (Scene) with the VBox layout (layout)
+            // as its root and sets its size to 300 pixels wide and 200 pixels high.
             Scene statusScene = new Scene(layout, 300, 200);
 
-            // Set the scene to the stage
+            // This line sets the created scene (statusScene) as the scene to be displayed in the statusWindow.
             statusWindow.setScene(statusScene);
 
-            // Set the title of the new window
+            // This line sets the title of the status window to "Status Board".
             statusWindow.setTitle("Status Board");
 
-            // Show the new window
+            // This line displays the status window on the screen.
             statusWindow.show();
         });
 
-// Add the button to the grid pane
+// This line adds the statusBoardButton to a GridPane (gridPane) at column 0 and row GRID_SIZE+1
         gridPane.add(statusBoardButton, 0, GRID_SIZE+1);
 
 
         Button statusBoardButton2 = new Button("Status Board player 2");
 
-// Set an action event for the button (optional)
+// Set an action event for the button
         statusBoardButton2.setOnAction(event -> {
 
             // Create a new stage for displaying the status board
@@ -311,10 +322,13 @@ public class SalesmanGame extends Application {
 
             // Create a label to display "Status Board"
             Label statusLabel = new Label("Status Board");
-            // Additional content can be added here as needed...
 
             // Add the label to the layout
             layout.getChildren().add(statusLabel);
+
+            //This adds and updates the coordinates on the window for player 2
+            Label player2CoordsLabel = new Label("Player 2: (" + player2.getXCoordinate() + ", " + player2.getYCoordinate() + ")");
+            layout.getChildren().addAll(player2CoordsLabel);
 
             // Create a scene with the layout and set its size
             Scene statusScene = new Scene(layout, 300, 200);
