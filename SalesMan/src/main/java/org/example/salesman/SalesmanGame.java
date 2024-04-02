@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.StackPane;
 import javafx.scene.control.Button;
@@ -39,9 +40,9 @@ public class SalesmanGame extends Application {
     private Wallet wallet = new Wallet();
     private List<Trap> traps = new ArrayList<>();
     private House house = new House();
-    private List<ValuableTreasure> valuableTreasures = new ArrayList<>();
-    private Player player1;
-    private Player player2;
+    private static List<ValuableTreasure> valuableTreasures = new ArrayList<>();
+    private static Player player1;
+    private static Player player2;
     public static List<Point> visitedHouses;
     private VBox battleIndicators; // VBox to hold battle indicators
     private Market marketPlayer1IsOn;
@@ -49,6 +50,8 @@ public class SalesmanGame extends Application {
     private boolean darkMode = false;
     private Castle castle;
     private PlayerMoves playermove;
+    private static int xEnter;
+    private static int yEnter;
 
     @Override
     public void start(Stage primaryStage) {
@@ -414,18 +417,23 @@ public class SalesmanGame extends Application {
             winner.setAlignment(Pos.CENTER);
             winner.setSpacing(10);
 
-            Label label = new Label("Winner");
-            winner.getChildren().add(label);
-
             Scene winnerScene = new Scene(winner,200,100);
             if(player1.getPoint()>player2.getPoint()){
-                winnerDisplay.setTitle("Winner is player1");
+                Label label = new Label("Winner is player1");
+                winner.getChildren().add(label);
             }
             else {
-                winnerDisplay.setTitle("Winner is player2");
+                Label label = new Label("Winner is player1");
+                winner.getChildren().add(label);
             }
+
+            winnerDisplay.setTitle("Winner");
             winnerDisplay.setScene(winnerScene);
             winnerDisplay.show();
+        }
+        // AAAAAAA
+        for (ValuableTreasure treasure : valuableTreasures){
+            System.out.println(treasure.getXCoordinate()+","+ treasure.getYCoordinate());
         }
 
         // Set up the scene
@@ -642,24 +650,77 @@ public class SalesmanGame extends Application {
             gridPane.setStyle("-fx-background-color: #FFFFFF;"); // Light background color
         }
     }
-    public boolean collectingTreasures() {
+    public static void collectingTreasures1() {
         // Condition for collecting treasures
-       for (Point point : PlayerMoves.pathTraveledPlayer1) {
-            for (ValuableTreasure treasure : valuableTreasures) {
-                if (treasure.getXCoordinate() == point.x && treasure.getYCoordinate()== point.y && castle.getXEnter()== treasure.getXCoordinate() && castle.getYEnter() == treasure.getYCoordinate()) {
+        for (ValuableTreasure treasure : valuableTreasures){
+            for (Point point : PlayerMoves.pathTraveledPlayer1) {
+                if (treasure.getXCoordinate() == point.getX() && treasure.getYCoordinate() == point.getY() && xEnter == treasure.getXCoordinate() && yEnter == treasure.getYCoordinate()) {
                     if (treasure.getPoint() > 0) {
                         player1.updatePoint(treasure.getPoint());
                         treasure.setPoint(0);
                         player1.addTreasure(treasure);
-                        return true;
+                        System.out.println("Collect successful");
                     }
-
                 }
-
             }
-
        }
-       return false;
+    }
+    public static void collectingTreasures2() {
 
+        // Condition for collecting treasures
+        for (ValuableTreasure treasure : valuableTreasures){
+            for (Point point : PlayerMoves.pathTraveledPlayer2) {
+                if (treasure.getXCoordinate() == point.getX() && treasure.getYCoordinate() == point.getY() && xEnter == treasure.getXCoordinate() && yEnter == treasure.getYCoordinate()) {
+                    if (treasure.getPoint() > 0) {
+                        player2.updatePoint(treasure.getPoint());
+                        treasure.setPoint(0);
+                        player2.addTreasure(treasure);
+                        System.out.println("Collect successful");
+                    }
+                }
+            }
+        }
+    }
+    public static void castleQuestion(Player player) {
+        VBox vbox = new VBox();
+        vbox.setPadding(new Insets(10));
+        vbox.setSpacing(10);
+
+        Label treasuresFound = new Label("Enter the x and y coordinates of the treasure you have found.");
+        vbox.getChildren().add(treasuresFound);
+
+        GridPane questionBox = new GridPane();
+        questionBox.setHgap(5);
+        questionBox.setVgap(5);
+
+        // Input values
+        Label xTreasure = new Label("Enter x-coordinate:");
+        javafx.scene.control.TextField xTreasureEntered = new javafx.scene.control.TextField();
+        Label yTreasure = new Label("Enter y-coordinate:");
+        javafx.scene.control.TextField yTreasureEntered = new TextField();
+        Button enter = new Button("enter");
+        enter.setOnAction(event->{
+            xEnter = Integer.parseInt(xTreasureEntered.getText());
+            yEnter = Integer.parseInt(yTreasureEntered.getText());
+            collectingTreasures1();
+            collectingTreasures2();
+
+        });
+
+        // Add labels and text to the grid pane
+        questionBox.add(xTreasure, 0, 0);
+        questionBox.add(xTreasureEntered, 1, 0);
+        questionBox.add(yTreasure, 0, 1);
+        questionBox.add(yTreasureEntered, 1, 1);
+        questionBox.add(enter,2,0);
+
+        // Add the grid pane to  VBox
+        vbox.getChildren().add(questionBox);
+
+        Stage dialogStage = new Stage();
+        Scene scene = new Scene(vbox, 400, 100);
+        dialogStage.setScene(scene);
+        dialogStage.setTitle("Treasure Collection Verification");
+        dialogStage.show();
     }
 }

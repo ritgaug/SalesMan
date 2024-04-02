@@ -370,8 +370,11 @@ public class Movement {
         }
 
         // check if player is at castle
-        if (player.getXCoordinate() == 5 && player.getYCoordinate() == 4) {
-            Castle.castleQuestion();
+        if (player1.getXCoordinate() == 5 && player1.getYCoordinate() == 4) {
+            SalesmanGame.castleQuestion(player1);
+        }
+        if (player2.getXCoordinate() == 5 && player2.getYCoordinate() == 4) {
+            SalesmanGame.castleQuestion(player2);
         }
 
         // creating list of cells visted by player within turn
