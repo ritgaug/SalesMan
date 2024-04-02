@@ -48,6 +48,7 @@ public class SalesmanGame extends Application {
     private Market marketPlayer2IsOn;
     private boolean darkMode = false;
     private Castle castle;
+    private PlayerMoves playermove;
 
     @Override
     public void start(Stage primaryStage) {
@@ -640,5 +641,25 @@ public class SalesmanGame extends Application {
         } else {
             gridPane.setStyle("-fx-background-color: #FFFFFF;"); // Light background color
         }
+    }
+    public boolean collectingTreasures() {
+        // Condition for collecting treasures
+       for (Point point : PlayerMoves.pathTraveledPlayer1) {
+            for (ValuableTreasure treasure : valuableTreasures) {
+                if (treasure.getXCoordinate() == point.x && treasure.getYCoordinate()== point.y && castle.getXEnter()== treasure.getXCoordinate() && castle.getYEnter() == treasure.getYCoordinate()) {
+                    if (treasure.getPoint() > 0) {
+                        player1.updatePoint(treasure.getPoint());
+                        treasure.setPoint(0);
+                        player1.addTreasure(treasure);
+                        return true;
+                    }
+
+                }
+
+            }
+
+       }
+       return false;
+
     }
 }

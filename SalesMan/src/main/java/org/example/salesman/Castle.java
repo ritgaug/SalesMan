@@ -12,6 +12,9 @@ import javafx.stage.Stage;
 import static javafx.scene.paint.Color.*;
 import java.util.ArrayList;
 class Castle extends Rectangle {
+    private static int xEnter;
+    private static int yEnter;
+
     Castle(double size) {
         super(size, size);
         setFill(YELLOW);
@@ -55,8 +58,15 @@ class Castle extends Rectangle {
         TextField yTreasureEntered = new TextField();
         Button enter = new Button("enter");
         enter.setOnAction(event->{
-            int xEnter = Integer.parseInt(xTreasureEntered.getText());
-            int yEnter = Integer.parseInt(yTreasureEntered.getText());
+             xEnter = Integer.parseInt(xTreasureEntered.getText());
+             yEnter = Integer.parseInt(yTreasureEntered.getText());
+             SalesmanGame salesmanGame = new SalesmanGame();
+            if (salesmanGame.collectingTreasures()){
+                System.out.println("You got the point ");
+            }
+            else{
+                System.out.println("NOPE");
+            }
 
         });
 
@@ -75,6 +85,12 @@ class Castle extends Rectangle {
         dialogStage.setScene(scene);
         dialogStage.setTitle("Treasure Collection Verification");
         dialogStage.show();
+    }
+    public int getXEnter(){
+        return xEnter;
+    }
+    public int getYEnter(){
+        return yEnter;
     }
 }
 

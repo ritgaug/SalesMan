@@ -10,7 +10,7 @@ public class ValuableTreasure {
     private int xCoordinate;
     private int yCoordinate;
     private String emoji;
-    private int point ;
+    private static int point ;
 
     //class instances of each type of treasure
     private static int DiamondRing=0;
@@ -102,6 +102,9 @@ public class ValuableTreasure {
 
     public int getPoint() {
         return point;
+    }
+    public void setPoint(int point){
+        this.point = point;
     }
 
     public void setValueOfTreasure(int value){valueOfTreasure=value;}

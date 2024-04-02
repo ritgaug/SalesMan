@@ -18,7 +18,7 @@ public class Player {
     private int xCoordinate;
     private int yCoordinate;
     private final int radius;
-    private int point;
+    public static int point;
     private int treasureDiscoverScore=0;
     public static boolean failToMove = false; // if player tries to moves out of grid
 
@@ -83,6 +83,10 @@ public class Player {
         return radius;
     }
     public int getPoint(){
+        return point;
+    }
+    public int updatePoint(int x){
+        point += x;
         return point;
     }
 
