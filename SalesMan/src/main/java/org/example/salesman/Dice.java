@@ -29,7 +29,8 @@ public class Dice {
         }
 
     public void rollDie() {
-            dieResult = (int) (Math.random() * 6) + 1;
+        dieResult = (int) (Math.random() * 6) + 1;
+
         System.out.println("Die result: " + dieResult);
 
         // clear the locations visited for each roll of the die

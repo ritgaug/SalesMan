@@ -1,8 +1,14 @@
 package org.example.salesman;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.*;
@@ -311,6 +317,11 @@ public class Movement {
 
     private void updatePlayerPosition(Player player) {
 
+        // Display winner
+        if((player1.getPoint() + player2.getPoint()) == 8){
+            displayWinner();
+        }
+
         // check if player is on marked object / loot
         Loot.atMarkedObject(player.getXCoordinate(), player.getYCoordinate(), player);
 
@@ -418,6 +429,26 @@ public class Movement {
     private void updateBattleIndicators(boolean isInBattle, Player player1, Player player2) {
         // Implement logic to update UI elements or indicators based on whether a battle is happening or not
         // For example, you can change the color of the players' shapes or display a message indicating a battle
+    }
+    private void displayWinner(){
+        Stage winnerDisplay = new Stage();
+        VBox winner = new VBox();
+        winner.setAlignment(Pos.CENTER);
+        winner.setSpacing(10);
+
+        Scene winnerScene = new Scene(winner,200,100);
+        if(player1.getPoint()>player2.getPoint()){
+            javafx.scene.control.Label label = new javafx.scene.control.Label("Winner is player 1");
+            winner.getChildren().add(label);
+        }
+        else {
+            javafx.scene.control.Label label = new Label("Winner is player 2");
+            winner.getChildren().add(label);
+        }
+
+        winnerDisplay.setTitle("Winner");
+        winnerDisplay.setScene(winnerScene);
+        winnerDisplay.show();
     }
 
     public void addButtonsToGrid( GridPane gridPane, int rowIndex, int colIndex) {

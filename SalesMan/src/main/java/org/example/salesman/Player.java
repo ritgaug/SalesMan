@@ -9,7 +9,7 @@ public class Player {
     private static final int GRID_SIZE = 10;
     private static final int CELL_SIZE = 50;
     private int playerNumber;
-    private ArrayList<ValuableTreasure> treasuresList = new ArrayList<ValuableTreasure>(8);
+    private ArrayList<String> treasuresList = new ArrayList<String>(8);
     private ArrayList weaponList = new ArrayList<>();
     private int playerStrength;
     private Wallet playerWallet;
@@ -18,7 +18,7 @@ public class Player {
     private int xCoordinate;
     private int yCoordinate;
     private final int radius;
-    public static int point;
+    private int  point;
     private int treasureDiscoverScore=0;
     public static boolean failToMove = false; // if player tries to moves out of grid
 
@@ -34,7 +34,7 @@ public class Player {
         this.xCoordinate = initialX;
         this.yCoordinate = initialY;
         this.radius = radius;
-        this.point = point ;
+        this.point = point;
     }
 
     public int getPlayerNumber() {
@@ -63,7 +63,7 @@ public class Player {
         return playerWallet;
     }
 
-    public ArrayList<ValuableTreasure> getTreasuresList() {
+    public ArrayList<String> getTreasuresList() {
         return treasuresList;
     }
 
@@ -82,11 +82,11 @@ public class Player {
     public int getRadius() {
         return radius;
     }
-    public int getPoint(){
-        return point;
-    }
     public int updatePoint(int x){
         point += x;
+        return point;
+    }
+    public int getPoint(){
         return point;
     }
 
@@ -167,7 +167,7 @@ public class Player {
         this.playerStrength = playerStrength;
     }
 
-    public void addTreasure(ValuableTreasure a){
+    public void addTreasure(String a){
         treasuresList.add(a);
     }
     public void addTreasureDiscoveryScore(){

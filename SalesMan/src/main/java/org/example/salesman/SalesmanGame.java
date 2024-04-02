@@ -365,8 +365,6 @@ public class SalesmanGame extends Application {
 // Add the button to the grid pane
         gridPane.add(statusBoardButton2, 1, GRID_SIZE+1);
 
-
-
         // Create castles and add them to the grid
         castle = new Castle(CELL_SIZE);
         gridPane.add(castle, 5, 4);
@@ -409,32 +407,6 @@ public class SalesmanGame extends Application {
         ToggleButton DarkMode = new ToggleButton("Dark Mode");
         DarkMode.setOnAction(event -> toggleDarkMode(gridPane));
         gridPane.add(DarkMode, GRID_SIZE,  0);
-
-        // Display winner
-        if(player1.getPoint()+player2.getPoint()==8){
-            Stage winnerDisplay = new Stage();
-            VBox winner = new VBox();
-            winner.setAlignment(Pos.CENTER);
-            winner.setSpacing(10);
-
-            Scene winnerScene = new Scene(winner,200,100);
-            if(player1.getPoint()>player2.getPoint()){
-                Label label = new Label("Winner is player1");
-                winner.getChildren().add(label);
-            }
-            else {
-                Label label = new Label("Winner is player1");
-                winner.getChildren().add(label);
-            }
-
-            winnerDisplay.setTitle("Winner");
-            winnerDisplay.setScene(winnerScene);
-            winnerDisplay.show();
-        }
-        // AAAAAAA
-        for (ValuableTreasure treasure : valuableTreasures){
-            System.out.println(treasure.getXCoordinate()+","+ treasure.getYCoordinate());
-        }
 
         // Set up the scene
         Scene scene = new Scene(gridPane, 580, 800);
@@ -626,7 +598,7 @@ public class SalesmanGame extends Application {
         return visitedHouses;
     }
     //method for players to pick up treasures
-    public void pickUpTreasures(ArrayList<ValuableTreasure> a,Player p1, Player p2){
+    /*public void pickUpTreasures(ArrayList<ValuableTreasure> a,Player p1, Player p2){
         for(int i=0;i<a.size();i++) {
             if ((p1.getXCoordinate() == a.get(i).getXCoordinate()) && (p1.getYCoordinate() == a.get(i).getYCoordinate())) {
                 p1.addTreasure(a.get(i));
@@ -636,6 +608,8 @@ public class SalesmanGame extends Application {
             }
         }
     }
+
+     */
 
     // Dark Mode
     private void toggleDarkMode(GridPane gridPane) {
@@ -651,34 +625,50 @@ public class SalesmanGame extends Application {
         }
     }
     public static void collectingTreasures1() {
+
+        boolean collect2 = false;
         // Condition for collecting treasures
         for (ValuableTreasure treasure : valuableTreasures){
             for (Point point : PlayerMoves.pathTraveledPlayer1) {
-                if (treasure.getXCoordinate() == point.getX() && treasure.getYCoordinate() == point.getY() && xEnter == treasure.getXCoordinate() && yEnter == treasure.getYCoordinate()) {
+                if (treasure.getXCoordinate() == xEnter && treasure.getYCoordinate() == yEnter && point.getX() == xEnter && point.getY() == yEnter) {
                     if (treasure.getPoint() > 0) {
                         player1.updatePoint(treasure.getPoint());
                         treasure.setPoint(0);
-                        player1.addTreasure(treasure);
-                        System.out.println("Collect successful");
+                        player1.addTreasure(treasure.getTreasureName());
+                        collect2 = true;
                     }
                 }
             }
-       }
+        }
+
+        if (collect2){
+            winPoints(player1);
+        }
+        else{
+            noPoints();
+        }
     }
     public static void collectingTreasures2() {
-
+        boolean collect2 = false;
         // Condition for collecting treasures
         for (ValuableTreasure treasure : valuableTreasures){
             for (Point point : PlayerMoves.pathTraveledPlayer2) {
-                if (treasure.getXCoordinate() == point.getX() && treasure.getYCoordinate() == point.getY() && xEnter == treasure.getXCoordinate() && yEnter == treasure.getYCoordinate()) {
+                if (treasure.getXCoordinate() == xEnter && treasure.getYCoordinate() == yEnter && point.getX() == xEnter && point.getY() == yEnter) {
                     if (treasure.getPoint() > 0) {
-                        player2.updatePoint(treasure.getPoint());
-                        treasure.setPoint(0);
-                        player2.addTreasure(treasure);
-                        System.out.println("Collect successful");
-                    }
+                            player2.updatePoint(treasure.getPoint());
+                            treasure.setPoint(0);
+                            player2.addTreasure(treasure.getTreasureName());
+                            collect2 = true;
+                        }
                 }
             }
+        }
+
+        if (collect2){
+            winPoints(player2);
+        }
+        else{
+            noPoints();
         }
     }
     public static void castleQuestion(Player player) {
@@ -698,12 +688,20 @@ public class SalesmanGame extends Application {
         javafx.scene.control.TextField xTreasureEntered = new javafx.scene.control.TextField();
         Label yTreasure = new Label("Enter y-coordinate:");
         javafx.scene.control.TextField yTreasureEntered = new TextField();
-        Button enter = new Button("enter");
+        Button enter = new Button("Enter");
         enter.setOnAction(event->{
             xEnter = Integer.parseInt(xTreasureEntered.getText());
             yEnter = Integer.parseInt(yTreasureEntered.getText());
-            collectingTreasures1();
-            collectingTreasures2();
+
+            if (player == player1) {
+                collectingTreasures1();
+            }
+            if (player == player2) {
+                collectingTreasures2();
+            }
+
+            // Close vbox after values are entered
+            ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
 
         });
 
@@ -721,6 +719,49 @@ public class SalesmanGame extends Application {
         Scene scene = new Scene(vbox, 400, 100);
         dialogStage.setScene(scene);
         dialogStage.setTitle("Treasure Collection Verification");
+        dialogStage.show();
+
+    }
+    private static void winPoints(Player player){
+        VBox vbox = new VBox();
+        vbox.setPadding(new Insets(10));
+        vbox.setSpacing(10);
+
+        javafx.scene.control.Label treasuresFound = new javafx.scene.control.Label("Treasure found! Collect points. Player points: " + player.getPoint());
+        vbox.getChildren().add(treasuresFound);
+
+        GridPane lootMessage = new GridPane();
+        lootMessage.setHgap(5);
+        lootMessage.setVgap(5);
+
+        // Add the grid pane to  VBox
+        vbox.getChildren().add(lootMessage);
+
+        Stage dialogStage = new Stage();
+        Scene scene = new Scene(vbox, 400, 50);
+        dialogStage.setScene(scene);
+        dialogStage.setTitle("Treasure Found!");
+        dialogStage.show();
+    }
+    private static void noPoints(){
+        VBox vbox = new VBox();
+        vbox.setPadding(new Insets(10));
+        vbox.setSpacing(10);
+
+        javafx.scene.control.Label treasuresFound = new javafx.scene.control.Label("No treasure at this location!");
+        vbox.getChildren().add(treasuresFound);
+
+        GridPane lootMessage = new GridPane();
+        lootMessage.setHgap(5);
+        lootMessage.setVgap(5);
+
+        // Add the grid pane to  VBox
+        vbox.getChildren().add(lootMessage);
+
+        Stage dialogStage = new Stage();
+        Scene scene = new Scene(vbox, 400, 50);
+        dialogStage.setScene(scene);
+        dialogStage.setTitle("No Points!");
         dialogStage.show();
     }
 }
