@@ -1,5 +1,14 @@
 package org.example.salesman;
 
+import javafx.application.Application;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import com.almasb.fxgl.core.collection.Array;
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -299,8 +308,14 @@ public class SalesmanGame extends Application {
                 Text pointText = new Text("[" + point.getX() + ", " + point.getY() + "]");
                 layout.getChildren().add(pointText);
             }
-            // Create a scene with the layout and set its size
-            Scene statusScene = new Scene(layout, 300, 800);
+
+            ScrollPane scrollPane = new ScrollPane();
+            scrollPane.setContent(layout);
+            scrollPane.setFitToWidth(true);
+            scrollPane.setFitToHeight(true);
+
+            // Create a scene with the ScrollPane
+            Scene statusScene = new Scene(scrollPane, 300, 400);
 
             // Set the scene to the stage
             statusWindow.setScene(statusScene);
@@ -349,8 +364,14 @@ public class SalesmanGame extends Application {
                 Text pointText = new Text("[" + point.getX() + ", " + point.getY() + "]");
                 layout.getChildren().add(pointText);
             }
-            // Create a scene with the layout and set its size
-            Scene statusScene = new Scene(layout, 300, 800);
+
+            ScrollPane scrollPane = new ScrollPane();
+            scrollPane.setContent(layout);
+            scrollPane.setFitToWidth(true);
+            scrollPane.setFitToHeight(true);
+
+            // Create a scene with the ScrollPane
+            Scene statusScene = new Scene(scrollPane, 300, 400);
 
             // Set the scene to the stage
             statusWindow.setScene(statusScene);
