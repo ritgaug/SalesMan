@@ -82,9 +82,8 @@ public class Player {
     public int getRadius() {
         return radius;
     }
-    public int updatePoint(int x){
+    public void updatePoint(int x){
         point += x;
-        return point;
     }
     public int getPoint(){
         return point;

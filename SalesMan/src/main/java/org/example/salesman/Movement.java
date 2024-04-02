@@ -317,11 +317,6 @@ public class Movement {
 
     private void updatePlayerPosition(Player player) {
 
-        // Display winner
-        if((player1.getPoint() + player2.getPoint()) == 8){
-            displayWinner();
-        }
-
         // check if player is on marked object / loot
         Loot.atMarkedObject(player.getXCoordinate(), player.getYCoordinate(), player);
 
@@ -430,24 +425,28 @@ public class Movement {
         // Implement logic to update UI elements or indicators based on whether a battle is happening or not
         // For example, you can change the color of the players' shapes or display a message indicating a battle
     }
-    private void displayWinner(){
+    void displayWinner() {
         Stage winnerDisplay = new Stage();
         VBox winner = new VBox();
         winner.setAlignment(Pos.CENTER);
         winner.setSpacing(10);
 
-        Scene winnerScene = new Scene(winner,200,100);
-        if(player1.getPoint()>player2.getPoint()){
-            javafx.scene.control.Label label = new javafx.scene.control.Label("Winner is player 1");
-            winner.getChildren().add(label);
-        }
-        else {
-            javafx.scene.control.Label label = new Label("Winner is player 2");
-            winner.getChildren().add(label);
+        // Determine the winner
+        String winnerText;
+        if (player1.getPoint() > player2.getPoint()) {
+            winnerText = "Winner is player 1";
+        } else {
+            winnerText = "Winner is player 2";
         }
 
-        winnerDisplay.setTitle("Winner");
+        Label label = new Label(winnerText);
+        winner.getChildren().add(label);
+
+        // Create scene and set it to the stage
+        Scene winnerScene = new Scene(winner, 200, 100);
         winnerDisplay.setScene(winnerScene);
+
+        // Show the stage
         winnerDisplay.show();
     }
 

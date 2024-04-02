@@ -61,6 +61,7 @@ public class SalesmanGame extends Application {
     private PlayerMoves playermove;
     private static int xEnter;
     private static int yEnter;
+    private static Movement movementPlayer1;
 
     @Override
     public void start(Stage primaryStage) {
@@ -192,7 +193,7 @@ public class SalesmanGame extends Application {
                     if (!isMarkedObject) {
                         boolean isTreasure = false;
                         for (ValuableTreasure treasure : valuableTreasures) {
-                            addEmojiToGrid(gridPane, treasure.getXCoordinate(), treasure.getYCoordinate(), treasure.getEmoji(), CELL_SIZE - 5);
+                            //addEmojiToGrid(gridPane, treasure.getXCoordinate(), treasure.getYCoordinate(), treasure.getEmoji(), CELL_SIZE - 5);
                             if (treasure.getXCoordinate() == col && treasure.getYCoordinate() == row) {
                                 cell.setFill(GREEN);
                                 isTreasure = true;
@@ -203,7 +204,75 @@ public class SalesmanGame extends Application {
                             cell.setFill(LIGHTGRAY); // Default cell color
                         }
                     }
+                    for (ValuableTreasure treasure : valuableTreasures) {
+                        for (Market market : markets) {
+                            for (Trap trap : traps) {
+                                for (Point loot : markedObjects) {
+                                    if (treasure.getYCoordinate() == 0 && treasure.getXCoordinate() == 1 || treasure.getYCoordinate() == 0 && treasure.getXCoordinate() == 8 || treasure.getYCoordinate() == 4 && treasure.getXCoordinate() == 0 || treasure.getYCoordinate() == 6 && treasure.getXCoordinate() == 9 || treasure.getYCoordinate() == 8 && treasure.getXCoordinate() == 0 || treasure.getYCoordinate() == market.getRow() && treasure.getXCoordinate() == market.getCol() || treasure.getYCoordinate() == 4 && treasure.getXCoordinate() == 5 || treasure.getYCoordinate() == trap.getLocation().y && treasure.getXCoordinate() == trap.getLocation().x || treasure.getYCoordinate()==loot.getY() && treasure.getXCoordinate() == loot.getX()){
+                                        treasure.setYCoordinate(treasure.getYCoordinate()+1);
+                                        treasure.setXCoordinate(treasure.getXCoordinate()+1);
+                                        if (treasure.getXCoordinate() == col && treasure.getYCoordinate() == row) {
+                                            cell.setFill(GREEN);
+                                            break;
+                                        }
+                                    }
 
+                                }
+                            }
+
+                        }
+                    }
+                    for (ValuableTreasure treasure : valuableTreasures) {
+                        for (Market market : markets) {
+                            for (Trap trap : traps) {
+                                for (Point loot : markedObjects) {
+                                    if (treasure.getYCoordinate() == 0 && treasure.getXCoordinate() == 1 || treasure.getYCoordinate() == 0 && treasure.getXCoordinate() == 8 || treasure.getYCoordinate() == 4 && treasure.getXCoordinate() == 0 || treasure.getYCoordinate() == 6 && treasure.getXCoordinate() == 9 || treasure.getYCoordinate() == 8 && treasure.getXCoordinate() == 0 || treasure.getYCoordinate() == market.getRow() && treasure.getXCoordinate() == market.getCol() || treasure.getYCoordinate() == 4 && treasure.getXCoordinate() == 5 || treasure.getYCoordinate() == trap.getLocation().y && treasure.getXCoordinate() == trap.getLocation().x || treasure.getYCoordinate()==loot.getY() && treasure.getXCoordinate() == loot.getX()){
+                                        treasure.setYCoordinate(treasure.getYCoordinate()-2);
+                                        if (treasure.getXCoordinate() == col && treasure.getYCoordinate() == row) {
+                                            cell.setFill(GREEN);
+                                            break;
+                                        }
+                                    }
+
+                                }
+                            }
+
+                        }
+                    }
+                    for (Point loot : markedObjects) {
+                        for (Market market : markets) {
+                            for (Trap trap : traps) {
+                                for (ValuableTreasure treasure : valuableTreasures) {
+                                    if (loot.getY() == 0 && loot.getX() == 1 || loot.getY() == 0 && loot.getX() == 8 || loot.getY() == 4 && loot.getX() == 0 || loot.getY() == 6 && loot.getX() == 9 || loot.getY() == 8 && loot.getX() == 0 || loot.getY() == market.getRow() && loot.getX() == market.getCol() || loot.getY() == 4 && loot.getX() == 5 || loot.getY() == trap.getLocation().y && loot.getX() == trap.getLocation().x || treasure.getYCoordinate()==loot.getY() && treasure.getXCoordinate() == loot.getX()){
+                                        loot.setLocation(loot.getX()+1,loot.getY()+1);
+                                        if (loot.equals(new Point(col, row))) {
+                                            cell.setFill(BLUE); // Marked object color
+                                            break;
+                                        }
+                                    }
+
+                                }
+                            }
+
+                        }
+                    }
+                    for (Point loot : markedObjects) {
+                        for (Market market : markets) {
+                            for (Trap trap : traps) {
+                                for (ValuableTreasure treasure : valuableTreasures) {
+                                    if (loot.getY() == 0 && loot.getX() == 1 || loot.getY() == 0 && loot.getX() == 8 || loot.getY() == 4 && loot.getX() == 0 || loot.getY() == 6 && loot.getX() == 9 || loot.getY() == 8 && loot.getX() == 0 || loot.getY() == market.getRow() && loot.getX() == market.getCol() || loot.getY() == 4 && loot.getX() == 5 || loot.getY() == trap.getLocation().y && loot.getX() == trap.getLocation().x || treasure.getYCoordinate()==loot.getY() && treasure.getXCoordinate() == loot.getX()){
+                                        loot.setLocation(loot.getX()-2,loot.getY());
+                                        if (loot.equals(new Point(col, row))) {
+                                            cell.setFill(BLUE); // Marked object color
+                                            break;
+                                        }
+                                    }
+
+                                }
+                            }
+
+                        }
+                    }
                 }
                 gridPane.add(cell, col, row);
             }
@@ -229,7 +298,7 @@ public class SalesmanGame extends Application {
         dice.addToGrid(gridPane, 0, 10);
 
         // Inside the SalesmanGame class, after creating player1 and player2
-        Movement movementPlayer1 = new Movement(player1, player2, gridPane,dice,traps);
+        movementPlayer1 = new Movement(player1, player2, gridPane,dice,traps);
         movementPlayer1.addButtonsToGrid(gridPane, 6, 10); // Add movement buttons for player 1
 
         // Modify trapButton event handler to trigger traps for both players
@@ -723,6 +792,10 @@ public class SalesmanGame extends Application {
 
             // Close vbox after values are entered
             ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
+            // Display winner
+                    if((player1.getPoint() + player2.getPoint()) == 8){
+                        movementPlayer1.displayWinner();
+                    }
 
         });
 
