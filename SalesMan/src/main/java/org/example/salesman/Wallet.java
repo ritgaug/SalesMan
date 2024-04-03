@@ -5,7 +5,7 @@ public class Wallet {
     private int balance;
 
     public Wallet() {
-        this.balance =0;
+        this.balance =1000;
     }
 
     public void addMoney(int amount) {

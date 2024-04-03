@@ -1,5 +1,6 @@
 package org.example.salesman;
 
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -9,34 +10,21 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import com.almasb.fxgl.core.collection.Array;
-import javafx.application.Application;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.StackPane;
-import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
 import javafx.geometry.Insets;
-import javafx.scene.Scene;
-import javafx.scene.paint.Color;
-import javafx.scene.layout.VBox;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
 import java.util.Random;
 import javafx.scene.layout.HBox;
 import static javafx.scene.paint.Color.*;
-import static javax.swing.text.html.HTML.Attribute.COLS;
 import javafx.scene.image.Image;
-import java.util.Random;
-
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 
 public class SalesmanGame extends Application {
     private static final int GRID_SIZE = 10;
@@ -64,6 +52,8 @@ public class SalesmanGame extends Application {
     private static int yEnter;
     private static Movement movementPlayer1;
     private static List<Point> occupiedPoints = new ArrayList<>();
+    private long startTime;
+    private Timeline timeline;
 
     @Override
     public void start(Stage primaryStage) {
@@ -325,7 +315,9 @@ public class SalesmanGame extends Application {
             }
         });
 
-       //--------------------------------------------------------------------------------
+        startTime = System.currentTimeMillis(); // Record the start time when the program starts
+        Label elapsedTimeLabel = new Label("00:00:00");
+
         //This line creates a new button with the text "Status Board player 1" and assigns it to the variable statusBoardButton
         Button statusBoardButton = new Button("Status Board player 1");
 
@@ -341,7 +333,14 @@ public class SalesmanGame extends Application {
             layout.setAlignment(Pos.CENTER);
             layout.setSpacing(10);
 
+            long elapsedTime = System.currentTimeMillis() - startTime;
+            long seconds = elapsedTime / 1000;
+            long minutes = seconds / 60;
+            long hours = minutes / 60;
+            String elapsedTimeStr = String.format("%02d:%02d:%02d", hours, minutes % 60, seconds % 60);
+
             // Create a label to display "Status Board"
+            Label time = new Label("Elapsed Time: "+elapsedTimeStr );
             Label strength2 = new Label("Player 1 Strength: "+ player1.getPlayerStrength());
             Label money2 = new Label("Player 1 Money: " + player1.getPlayerWallet().getBalance());
             Label points2 = new Label("Player 1 Points: "+player1.getPoint());
@@ -350,6 +349,7 @@ public class SalesmanGame extends Application {
             Label path2 = new Label("Player 1 Path: ");
 
             // Add the label to the layout
+            layout.getChildren().add(time);
             layout.getChildren().add(strength2);
             layout.getChildren().add(money2);
             layout.getChildren().add(points2);
@@ -397,7 +397,14 @@ public class SalesmanGame extends Application {
             layout.setAlignment(Pos.CENTER);
             layout.setSpacing(10);
 
+            long elapsedTime = System.currentTimeMillis() - startTime;
+            long seconds = elapsedTime / 1000;
+            long minutes = seconds / 60;
+            long hours = minutes / 60;
+            String elapsedTimeStr = String.format("%02d:%02d:%02d", hours, minutes % 60, seconds % 60);
+
             // Create a label to display "Status Board"
+            Label time = new Label("Elapsed Time: "+elapsedTimeStr );
             Label strength2 = new Label("Player 2 Strength: "+ player2.getPlayerStrength());
             Label money2 = new Label("Player 2 Money: " + player2.getPlayerWallet().getBalance());
             Label points2 = new Label("Player 2 Points: "+player2.getPoint());
@@ -406,6 +413,7 @@ public class SalesmanGame extends Application {
             Label path2 = new Label("Player 2 Path: ");
 
             // Add the label to the layout
+            layout.getChildren().add(time);
             layout.getChildren().add(strength2);
             layout.getChildren().add(money2);
             layout.getChildren().add(points2);
@@ -524,8 +532,6 @@ public class SalesmanGame extends Application {
         }
         return traps;
     }
-
-
 
     // Method to initialize treasures
     private void initializeValuableTreasures() {
