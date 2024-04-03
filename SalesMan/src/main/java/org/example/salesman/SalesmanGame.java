@@ -795,6 +795,7 @@ public class SalesmanGame extends Application {
 
             // Close vbox after values are entered
             ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
+
             // Display winner
                     if(player1.getPoint()>=5 || player2.getPoint()>=5){
                         movementPlayer1.displayWinner();

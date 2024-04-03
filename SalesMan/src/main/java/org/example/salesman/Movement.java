@@ -435,6 +435,8 @@ public class Movement {
         String winnerText;
         if (player1.getPoint() > player2.getPoint()) {
             winnerText = "Winner is player 1";
+        } else if (player1.getPoint() == player2.getPoint()){
+            winnerText = "Game over. No Winner.";
         } else {
             winnerText = "Winner is player 2";
         }
