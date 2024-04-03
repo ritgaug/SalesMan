@@ -29,9 +29,8 @@ public class Dice {
         }
 
     public void rollDie() {
-        dieResult = (int) (40) + 1;
 
-        //dieResult = (int) (Math.random() * 6) + 1;
+        dieResult = (int) (Math.random() * 6) + 1;
 
         System.out.println("Die result: " + dieResult);
 

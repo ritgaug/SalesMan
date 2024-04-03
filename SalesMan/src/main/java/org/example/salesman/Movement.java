@@ -376,12 +376,17 @@ public class Movement {
         }
 
         // check if player is at castle
-        if (player1.getXCoordinate() == 5 && player1.getYCoordinate() == 4) {
-            SalesmanGame.castleQuestion(player1);
+        if (player == player1){
+            if (player1.getXCoordinate() == 5 && player1.getYCoordinate() == 4) {
+                SalesmanGame.castleQuestion(player1);
+            }
         }
-        if (player2.getXCoordinate() == 5 && player2.getYCoordinate() == 4) {
-            SalesmanGame.castleQuestion(player2);
+        if (player == player2){
+            if (player2.getXCoordinate() == 5 && player2.getYCoordinate() == 4) {
+                SalesmanGame.castleQuestion(player2);
+            }
         }
+
 
         // creating list of cells visted by player within turn
         // if player is trying to visit house twice within turn return error
