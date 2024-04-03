@@ -434,11 +434,11 @@ public class Movement {
         // Determine the winner
         String winnerText;
         if (player1.getPoint() > player2.getPoint()) {
-            winnerText = "Winner is player 1";
+            winnerText = "Winner is player 1!";
         } else if (player1.getPoint() == player2.getPoint()){
             winnerText = "Game over. No Winner.";
         } else {
-            winnerText = "Winner is player 2";
+            winnerText = "Winner is player 2!";
         }
 
         Label label = new Label(winnerText);
@@ -487,9 +487,9 @@ public class Movement {
         if ((player1.getPlayerStrength() + player1.getPlayerWallet().getBalance()) == (player2.getPlayerStrength() + player2.getPlayerWallet().getBalance())){
             drawText = "No winner. Game is drawn.";
         } else if ((player1.getPlayerStrength() + player1.getPlayerWallet().getBalance()) > (player2.getPlayerStrength() + player2.getPlayerWallet().getBalance())){
-            drawText = "Winner is player 1";
+            drawText = "Winner is player 1!";
         } else {
-            drawText = "Winner is player 2";
+            drawText = "Winner is player 2!";
         }
 
         Label label = new Label(drawText);
