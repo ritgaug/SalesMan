@@ -633,11 +633,6 @@ public class SalesmanGame extends Application {
         return loot;
     }
 
-
-
-
-
-
     // Method to check if a cell is occupied by a valuable treasure
     private boolean isCellOccupied(int row, int col) {
         for (ValuableTreasure treasure : valuableTreasures) {

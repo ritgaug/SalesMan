@@ -483,7 +483,14 @@ public class Movement {
         draw.setAlignment(Pos.CENTER);
         draw.setSpacing(10);
 
-        String drawText = "The game was drawn";
+        String drawText;
+        if ((player1.getPlayerStrength() + player1.getPlayerWallet().getBalance()) == (player2.getPlayerStrength() + player2.getPlayerWallet().getBalance())){
+            drawText = "No winner. Game is drawn.";
+        } else if ((player1.getPlayerStrength() + player1.getPlayerWallet().getBalance()) > (player2.getPlayerStrength() + player2.getPlayerWallet().getBalance())){
+            drawText = "Winner is player 1";
+        } else {
+            drawText = "Winner is player 2";
+        }
 
         Label label = new Label(drawText);
         draw.getChildren().add(label);
