@@ -321,10 +321,14 @@ public class Movement {
 
         if (isWallHouse(player.getXCoordinate(), player.getYCoordinate())) {
             errorMessage("You cannot enter a wall house!");
+            // return to previous location
+            gridPane.getChildren().remove(player.getShape(CELL_SIZE));
             Point previousLocation = cellsVisted.get(cellsVisted.size() - 1);
-            player.setXCoordinate(previousLocation.x);
-            player.setYCoordinate(previousLocation.y);
-            return; // Exit the method to prevent further execution
+            int lastX = previousLocation.x;
+            player.setXCoordinate(lastX);
+            int lastY = previousLocation.y;
+            player.setYCoordinate(lastY);
+            gridPane.add(player.getShape(CELL_SIZE), lastX, lastY);
         }
 
         //Display treasure cells
