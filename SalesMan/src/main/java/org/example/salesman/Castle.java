@@ -1,19 +1,10 @@
 package org.example.salesman;
-import javafx.geometry.Insets;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
 
+import javafx.scene.shape.Rectangle;
 import static javafx.scene.paint.Color.*;
-import java.util.ArrayList;
+
 class Castle extends Rectangle {
-    private static int xEnter;
-    private static int yEnter;
+
 
     Castle(double size) {
         super(size, size);

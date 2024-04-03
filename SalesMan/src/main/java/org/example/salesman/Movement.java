@@ -474,4 +474,23 @@ public class Movement {
             System.out.println("You don't have enough money!\nTrap not activated");
         }
     }
+    // Method when both players collect 4 points and the game is draw
+    void displayDraw() {
+        Stage drawDisplay = new Stage();
+        VBox draw = new VBox();
+        draw.setAlignment(Pos.CENTER);
+        draw.setSpacing(10);
+
+        String drawText = "The game was drawn";
+
+        Label label = new Label(drawText);
+        draw.getChildren().add(label);
+
+        // Create scene and set it to the stage
+        Scene drawScene = new Scene(draw, 200, 100);
+        drawDisplay.setScene(drawScene);
+
+        // Show the stage
+        drawDisplay.show();
+    }
 }

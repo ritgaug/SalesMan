@@ -121,8 +121,6 @@ public class ValuableTreasure {
     public boolean getisInPlayerInventory(){
         return isInPlayerInventory;
     }
-
-
     }
 
 

@@ -33,6 +33,7 @@ import javafx.scene.layout.HBox;
 import static javafx.scene.paint.Color.*;
 import static javax.swing.text.html.HTML.Attribute.COLS;
 import javafx.scene.image.Image;
+import java.util.Random;
 
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -62,14 +63,18 @@ public class SalesmanGame extends Application {
     private static int xEnter;
     private static int yEnter;
     private static Movement movementPlayer1;
+    private static List<Point> occupiedPoints = new ArrayList<>();
 
     @Override
     public void start(Stage primaryStage) {
-        // Initialize marked objects
-        markedObjects = createLostItems();
+        addOccupiedPoint(5, 4);
+        addOccupiedPoint(9, 9);
+        addOccupiedPoint(1,0);
+        addOccupiedPoint(8,0);
+        addOccupiedPoint(0,4);
+        addOccupiedPoint(9,6);
+        addOccupiedPoint(0,8);
 
-        // Initialize Traps
-        traps = createTraps();
 
         // Create instances of valuable treasures based on the provided data
         ValuableTreasure diamondRing = new ValuableTreasure(1, 200,"\uD83D\uDCCD",1);
@@ -91,8 +96,7 @@ public class SalesmanGame extends Application {
         valuableTreasures.add(goldenKey);
         valuableTreasures.add(dragonsScroll);
 
-        // Initialize valuable treasures
-        initializeValuableTreasures();
+
 
         // Initialize markets and weapons
         Market[] markets = {
@@ -102,14 +106,29 @@ public class SalesmanGame extends Application {
                 new Market("Market 4", 7, 7),
                 new Market("Market 5", 9, 3)
         };
+        // add to occupiedPoint
+        for(Market market:markets){
+            addOccupiedPoint(market.getCol(), market.getRow());
+        }
 
         Weapon[] weapons = {
-                new Weapon(25,"Pistol",1000,"\uD83D\uDD2B"),
-                new Weapon(20, "Axe", 800,"\u2692"),
-                new Weapon(15, "Sword", 400,"\uD83D\uDDE1"),
-                new Weapon(10, "Bow", 200,"\uD83C\uDFF9"),
-                new Weapon(5, "Knife", 100,"\uD83D\uDD2A")
+                new Weapon(45,"Pistol",360,"\uD83D\uDD2B"),
+                new Weapon(30, "Axe", 240,"\u2692"),
+                new Weapon(20, "Sword", 180,"\uD83D\uDDE1"),
+                new Weapon(10, "Bow", 90,"\uD83C\uDFF9"),
+                new Weapon(5, "Knife", 50,"\uD83D\uDD2A")
         };
+
+        // Initialize valuable treasures
+        initializeValuableTreasures();
+
+        // Initialize marked objects
+        markedObjects = createLostItems(new HashSet<>(occupiedPoints));
+
+        // Initialize Traps
+        traps = createTraps();
+
+
 
         // Add weapons to the markets
         for (Market market : markets) {
@@ -204,41 +223,6 @@ public class SalesmanGame extends Application {
                             cell.setFill(LIGHTGRAY); // Default cell color
                         }
                     }
-                    for (ValuableTreasure treasure : valuableTreasures) {
-                        for (Market market : markets) {
-                            for (Trap trap : traps) {
-                                for (Point loot : markedObjects) {
-                                    if (treasure.getYCoordinate() == 0 && treasure.getXCoordinate() == 1 || treasure.getYCoordinate() == 0 && treasure.getXCoordinate() == 8 || treasure.getYCoordinate() == 4 && treasure.getXCoordinate() == 0 || treasure.getYCoordinate() == 6 && treasure.getXCoordinate() == 9 || treasure.getYCoordinate() == 8 && treasure.getXCoordinate() == 0 || treasure.getYCoordinate() == market.getRow() && treasure.getXCoordinate() == market.getCol() || treasure.getYCoordinate() == 4 && treasure.getXCoordinate() == 5 || treasure.getYCoordinate() == trap.getLocation().y && treasure.getXCoordinate() == trap.getLocation().x || treasure.getYCoordinate()==loot.getY() && treasure.getXCoordinate() == loot.getX()){
-                                        treasure.setYCoordinate(treasure.getYCoordinate()+1);
-                                        treasure.setXCoordinate(treasure.getXCoordinate()+1);
-                                        if (treasure.getXCoordinate() == col && treasure.getYCoordinate() == row) {
-                                            cell.setFill(GREEN);
-                                            break;
-                                        }
-                                    }
-
-                                }
-                            }
-
-                        }
-                    }
-                    for (ValuableTreasure treasure : valuableTreasures) {
-                        for (Market market : markets) {
-                            for (Trap trap : traps) {
-                                for (Point loot : markedObjects) {
-                                    if (treasure.getYCoordinate() == 0 && treasure.getXCoordinate() == 1 || treasure.getYCoordinate() == 0 && treasure.getXCoordinate() == 8 || treasure.getYCoordinate() == 4 && treasure.getXCoordinate() == 0 || treasure.getYCoordinate() == 6 && treasure.getXCoordinate() == 9 || treasure.getYCoordinate() == 8 && treasure.getXCoordinate() == 0 || treasure.getYCoordinate() == market.getRow() && treasure.getXCoordinate() == market.getCol() || treasure.getYCoordinate() == 4 && treasure.getXCoordinate() == 5 || treasure.getYCoordinate() == trap.getLocation().y && treasure.getXCoordinate() == trap.getLocation().x || treasure.getYCoordinate()==loot.getY() && treasure.getXCoordinate() == loot.getX()){
-                                        treasure.setYCoordinate(treasure.getYCoordinate()-2);
-                                        if (treasure.getXCoordinate() == col && treasure.getYCoordinate() == row) {
-                                            cell.setFill(GREEN);
-                                            break;
-                                        }
-                                    }
-
-                                }
-                            }
-
-                        }
-                    }
                     for (Point loot : markedObjects) {
                         for (Market market : markets) {
                             for (Trap trap : traps) {
@@ -261,7 +245,7 @@ public class SalesmanGame extends Application {
                             for (Trap trap : traps) {
                                 for (ValuableTreasure treasure : valuableTreasures) {
                                     if (loot.getY() == 0 && loot.getX() == 1 || loot.getY() == 0 && loot.getX() == 8 || loot.getY() == 4 && loot.getX() == 0 || loot.getY() == 6 && loot.getX() == 9 || loot.getY() == 8 && loot.getX() == 0 || loot.getY() == market.getRow() && loot.getX() == market.getCol() || loot.getY() == 4 && loot.getX() == 5 || loot.getY() == trap.getLocation().y && loot.getX() == trap.getLocation().x || treasure.getYCoordinate()==loot.getY() && treasure.getXCoordinate() == loot.getX()){
-                                        loot.setLocation(loot.getX()-2,loot.getY());
+                                        loot.setLocation(loot.getX()-2,loot.getY()-2);
                                         if (loot.equals(new Point(col, row))) {
                                             cell.setFill(BLUE); // Marked object color
                                             break;
@@ -286,11 +270,11 @@ public class SalesmanGame extends Application {
         gridPane.add(startingHouse, 9, 9);
 
         // Create and add Player1
-        player1 = new Player(1, PURPLE, 100, new Wallet(), new ArrayList<ValuableTreasure>(), new ArrayList<Weapon>(), GRID_SIZE, GRID_SIZE-1, CELL_SIZE / 2,0);
+        player1 = new Player(1, PURPLE, 0, new Wallet(), new ArrayList<ValuableTreasure>(), new ArrayList<Weapon>(), GRID_SIZE, GRID_SIZE-1, CELL_SIZE / 2,0);
         gridPane.add(player1.getShape(CELL_SIZE), player1.getXCoordinate(), player1.getYCoordinate());
 
         // Create and add Player 2
-        player2 = new Player(2, DEEPPINK, 50, new Wallet(), new ArrayList<>(), new ArrayList<>(), GRID_SIZE, GRID_SIZE -1, CELL_SIZE / 2,0);
+        player2 = new Player(2, DEEPPINK, 0, new Wallet(), new ArrayList<>(), new ArrayList<>(), GRID_SIZE, GRID_SIZE -1, CELL_SIZE / 2,0);
         gridPane.add(player2.getShape(CELL_SIZE), player2.getXCoordinate(), player2.getYCoordinate());
 
         // Creating instance of Dice
@@ -528,25 +512,39 @@ public class SalesmanGame extends Application {
         int numberOfTraps = random.nextInt(MAX_TRAPS - MIN_TRAPS + 1) + MIN_TRAPS; // Generate a random number of traps within the specified range
         for (int i = 0; i < numberOfTraps; i++) {
             int penalty = random.nextInt(10) + 1; // Random penalty between 1 and 10
-            Point location = new Point(random.nextInt(GRID_SIZE), random.nextInt(GRID_SIZE));
-            traps.add(new Trap(penalty, location));
-        }
-        return traps;
-    }
-
-    private void initializeValuableTreasures() {
-        Random random = new Random();
-        Set<Point> occupiedCells = new HashSet<>(); // Keep track of occupied cells
-        for (ValuableTreasure treasure : valuableTreasures) {
             int x, y;
             do {
                 x = random.nextInt(GRID_SIZE);
                 y = random.nextInt(GRID_SIZE);
-            } while (occupiedCells.contains(new Point(x, y))); // Check if the cell is already occupied by another valuable treasure
+            } while (isPointOccupied(x, y)); // Check if the location is already occupied
+            Point location = new Point(x, y);
+            traps.add(new Trap(penalty, location));
+            // Add the trap location to the occupiedPoints list
+            addOccupiedPoint(x, y);
+        }
+        return traps;
+    }
 
+
+
+    // Method to initialize treasures
+    private void initializeValuableTreasures() {
+        Random random = new Random(); // Initialize the Random object
+        // Loop through the predefined valuable treasures
+        for (ValuableTreasure treasure : valuableTreasures) {
+            int x, y;
+            do {
+                // Generate random coordinates
+                x = random.nextInt(GRID_SIZE);
+                y = random.nextInt(GRID_SIZE);
+            } while (isPointOccupied(x, y)); // Check if the coordinates are already occupied
+
+            // Set the xCoordinate and yCoordinate directly
             treasure.setXCoordinate(x);
             treasure.setYCoordinate(y);
-            occupiedCells.add(new Point(x, y));
+
+            // Add the newly initialized point to the list of occupied points
+            addOccupiedPoint(x, y);
         }
     }
 
@@ -614,26 +612,31 @@ public class SalesmanGame extends Application {
 
 
     // method for creating random location of marked objects/ lost items (loot)
-    public static List<Point> createLostItems() {
-        List<Point> cells = new ArrayList<>();
-        Set<Point> occupiedCells = new HashSet<>();
+    public static List<Point> createLostItems(Set<Point> occupiedCells) {
+        List<Point> loot = new ArrayList<>();
+        Random random = new Random();
 
-        for (int i = 0; i < MARKED_OBJECTS; i++) {
-
+        while (loot.size() < MARKED_OBJECTS) {
             int x, y;
+
             do {
-                x = (int) (Math.random() * GRID_SIZE);
-                y = (int) (Math.random() * GRID_SIZE);
-                Point loot = new Point(x, y);
-                cells.add(loot);
-            }
-            while (occupiedCells.contains(new Point(x, y)));
-            occupiedCells.add(new Point(x, y));
+                x = random.nextInt(GRID_SIZE);
+                y = random.nextInt(GRID_SIZE);
+            } while (occupiedCells.contains(new Point(x, y)));
+
+
+            Point lootPoint = new Point(x, y);
+            loot.add(lootPoint);
+            occupiedCells.add(lootPoint);
         }
-        // evenly distributing the marked objects between left and right side
-        Collections.sort(cells, Comparator.comparing(Point::getX).thenComparing(Point::getY));
-        return cells;
+
+        return loot;
     }
+
+
+
+
+
 
     // Method to check if a cell is occupied by a valuable treasure
     private boolean isCellOccupied(int row, int col) {
@@ -793,8 +796,11 @@ public class SalesmanGame extends Application {
             // Close vbox after values are entered
             ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
             // Display winner
-                    if((player1.getPoint() + player2.getPoint()) == 8){
+                    if(player1.getPoint()>=5 || player2.getPoint()>=5){
                         movementPlayer1.displayWinner();
+                    }
+                    else if (player1.getPoint()==4 && player2.getPoint()==4){
+                        movementPlayer1.displayDraw();
                     }
 
         });
@@ -858,4 +864,17 @@ public class SalesmanGame extends Application {
         dialogStage.setTitle("No Points!");
         dialogStage.show();
     }
+    // Method to add occupied points
+    private void addOccupiedPoint(int x, int y) {
+        occupiedPoints.add(new Point(x, y));
+    }
+    private static boolean isPointOccupied(int x, int y) {
+        for (Point occupiedPoint : occupiedPoints) {
+            if (occupiedPoint.x == x && occupiedPoint.y == y) {
+                return true; // The point is occupied
+            }
+        }
+        return false; // The point is not occupied
+    }
+
 }
