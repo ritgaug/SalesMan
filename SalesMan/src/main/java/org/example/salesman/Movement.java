@@ -317,6 +317,14 @@ public class Movement {
 
     private void updatePlayerPosition(Player player) {
 
+        if (isWallHouse(player.getXCoordinate(), player.getYCoordinate())) {
+            errorMessage("You cannot enter a wall house!");
+            Point previousLocation = cellsVisted.get(cellsVisted.size() - 1);
+            player.setXCoordinate(previousLocation.x);
+            player.setYCoordinate(previousLocation.y);
+            return; // Exit the method to prevent further execution
+        }
+
         // check if player is on marked object / loot
         Loot.atMarkedObject(player.getXCoordinate(), player.getYCoordinate(), player);
 
@@ -506,5 +514,27 @@ public class Movement {
 
         // Show the stage
         drawDisplay.show();
+    }
+    private boolean isWallHouse(int x, int y) {
+        // Define the coordinates of the wall houses
+        int[][] wallHouses = {{1, 0}, {0, 8}, {0, 4}, {9, 6}, {8, 0}};
+
+        // Check if the given coordinates match any of the wall houses
+        for (int[] coordinates : wallHouses) {
+            if (coordinates[0] == x && coordinates[1] == y) {
+                return true; // This cell is a wall house
+            }
+        }
+
+        return false; // Not a wall house
+    }
+
+    // Method to display an error message
+    private void errorMessage(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Illegal Move");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
