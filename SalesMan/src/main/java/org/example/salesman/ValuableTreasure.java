@@ -1,5 +1,11 @@
 package org.example.salesman;
 
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
 // ValuableTreasure class
 public class ValuableTreasure {
     private boolean isInPlayerInventory;//lets you know if the object has been found by a player
@@ -121,6 +127,28 @@ public class ValuableTreasure {
     public boolean getisInPlayerInventory(){
         return isInPlayerInventory;
     }
+    // Method for treasure cell
+    void displayTreasureCell(){
+
+            Stage displayTreasure = new Stage();
+            displayTreasure.setTitle("Treasure Cell");
+            VBox treasureCell = new VBox();
+            treasureCell.setAlignment(Pos.CENTER);
+            treasureCell.setSpacing(10);
+
+
+
+            Label label = new Label("Treasure Name: "+treasureName+"\nLocation: ("+xCoordinate+","+yCoordinate+")\nTreasure Value: "+valueOfTreasure);
+            treasureCell.getChildren().add(label);
+
+            // Create scene and set it to the stage
+            Scene treasureScene = new Scene(treasureCell, 300, 150);
+            displayTreasure.setScene(treasureScene);
+
+            // Show the stage
+            displayTreasure.show();
+
     }
+}
 
 

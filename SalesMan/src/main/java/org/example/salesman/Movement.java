@@ -33,15 +33,17 @@ public class Movement {
     private int stepsPlayer1 = 0;
     private int stepsPlayer2 = 0;
     private List<Trap> traps;
+    private List<ValuableTreasure> valuableTreasures;
 
     private Dice dice;
-    public Movement(Player player1, Player player2, GridPane gridPane , Dice dice, List<Trap> traps) {
+    public Movement(Player player1, Player player2, GridPane gridPane , Dice dice, List<Trap> traps,List<ValuableTreasure> valuableTreasures) {
         this.player1 = player1;
         this.player2 = player2; // Initialize player 2
         this.gridPane = gridPane;
         LocationList();
         this.dice = dice;
         this.traps = traps ;
+        this.valuableTreasures = valuableTreasures;
 
             // Move Right for Player 1
             moveRightPlayer1 = new Button("Right");
@@ -317,6 +319,12 @@ public class Movement {
 
     private void updatePlayerPosition(Player player) {
 
+        for (ValuableTreasure treasure : valuableTreasures){
+            if (player.getXCoordinate() == treasure.getXCoordinate() && player.getYCoordinate() == treasure.getYCoordinate()){
+                treasure.displayTreasureCell();
+            }
+        }
+
         // check if player is on marked object / loot
         Loot.atMarkedObject(player.getXCoordinate(), player.getYCoordinate(), player);
 
@@ -440,9 +448,8 @@ public class Movement {
         String winnerText;
         if (player1.getPoint() > player2.getPoint()) {
             winnerText = "Winner is player 1!";
-        } else if (player1.getPoint() == player2.getPoint()){
-            winnerText = "Game over. No Winner.";
-        } else {
+        }
+         else {
             winnerText = "Winner is player 2!";
         }
 
@@ -481,7 +488,7 @@ public class Movement {
             System.out.println("You don't have enough money!\nTrap not activated");
         }
     }
-    // Method when both players collect 4 points and the game is draw
+    // Method when both players collect 4 points and the game is drawn
     void displayDraw() {
         Stage drawDisplay = new Stage();
         VBox draw = new VBox();

@@ -282,7 +282,7 @@ public class SalesmanGame extends Application {
         dice.addToGrid(gridPane, 0, 10);
 
         // Inside the SalesmanGame class, after creating player1 and player2
-        movementPlayer1 = new Movement(player1, player2, gridPane,dice,traps);
+        movementPlayer1 = new Movement(player1, player2, gridPane,dice,traps,valuableTreasures);
         movementPlayer1.addButtonsToGrid(gridPane, 6, 10); // Add movement buttons for player 1
 
         // Modify trapButton event handler to trigger traps for both players
@@ -722,7 +722,10 @@ public class SalesmanGame extends Application {
                     if (treasure.getPoint() > 0) {
                         player1.updatePoint(treasure.getPoint());
                         treasure.setPoint(0);
+                        player1.getPlayerWallet().addMoney(treasure.getValueOfTreasure());
+                        treasure.setValueOfTreasure(0);
                         player1.addTreasure(treasure.getTreasureName());
+                        treasure.setTreasureName("empty");
                         collect2 = true;
                     }
                 }
@@ -745,7 +748,10 @@ public class SalesmanGame extends Application {
                     if (treasure.getPoint() > 0) {
                             player2.updatePoint(treasure.getPoint());
                             treasure.setPoint(0);
+                            player2.getPlayerWallet().addMoney(treasure.getValueOfTreasure());
+                            treasure.setValueOfTreasure(0);
                             player2.addTreasure(treasure.getTreasureName());
+                            treasure.setTreasureName("empty");
                             collect2 = true;
                         }
                 }
@@ -872,5 +878,6 @@ public class SalesmanGame extends Application {
         }
         return false; // The point is not occupied
     }
+
 
 }
