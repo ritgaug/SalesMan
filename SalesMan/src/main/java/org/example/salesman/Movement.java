@@ -329,6 +329,12 @@ public class Movement {
             int lastY = previousLocation.y;
             player.setYCoordinate(lastY);
             gridPane.add(player.getShape(CELL_SIZE), lastX, lastY);
+            if(player == player1){
+                stepsPlayer1--;
+            }
+            if(player == player2){
+                stepsPlayer2--;
+            }
         }
 
         //Display treasure cells
