@@ -315,7 +315,10 @@ public class SalesmanGame extends Application {
             }
         });
 
-        startTime = System.currentTimeMillis(); // Record the start time when the program starts
+        startTime = System.currentTimeMillis(); // Record the start time (in milliseconds) when the program starts
+
+        //This line creates a new Label object named elapsedTimeLabel. The text content of this label is set to "00:00:00".
+        //This label displays the elapsed time
         Label elapsedTimeLabel = new Label("00:00:00");
 
         //This line creates a new button with the text "Status Board player 1" and assigns it to the variable statusBoardButton
@@ -325,22 +328,29 @@ public class SalesmanGame extends Application {
 // It defines the action to be performed when the button is clicked
         statusBoardButton.setOnAction(event -> {
 
-            // Create a new stage for displaying the status board
+            // This line creates a new window for displaying the status board
             Stage statusWindow = new Stage();
 
-            // Create a vertical box layout for organizing content
+            // This line creates a new vertical box layout and assigns it to the variable layout.
+            // A VBox is a layout pane that arranges everything in it in a single vertical column from top to bottom.
             VBox layout = new VBox();
+            //This line sets the alignment of the layout to center.
             layout.setAlignment(Pos.CENTER);
+            //This line sets the spacing between each component within the layout to 10 pixels.
             layout.setSpacing(10);
 
+            //calculates and shows the elapsed time of the player since the game has started
             long elapsedTime = System.currentTimeMillis() - startTime;
             long seconds = elapsedTime / 1000;
             long minutes = seconds / 60;
             long hours = minutes / 60;
+            //formats the elapsed time in a HH:MM:SS
             String elapsedTimeStr = String.format("%02d:%02d:%02d", hours, minutes % 60, seconds % 60);
 
-            // Create a label to display "Status Board"
+            // This line creates a new label with the text "Elapsed Time"
+            // concatenated with the formatted elapsed time string (elapsedTimeStr).
             Label time = new Label("Elapsed Time: "+elapsedTimeStr );
+            //Same but for player 1 strength
             Label strength2 = new Label("Player 1 Strength: "+ player1.getPlayerStrength());
             Label money2 = new Label("Player 1 Money: " + player1.getPlayerWallet().getBalance());
             Label points2 = new Label("Player 1 Points: "+player1.getPoint());
@@ -357,26 +367,31 @@ public class SalesmanGame extends Application {
             layout.getChildren().add(weapons2);
             layout.getChildren().add(path2);
 
+            //The loop iterates over each point in the PlayerMoves.pathTraveledPlayer1
+            // list and adds a text representation of each point to the layout.
             for (Point point : PlayerMoves.pathTraveledPlayer1) {
                 Text pointText = new Text("[" + point.getX() + ", " + point.getY() + "]");
                 layout.getChildren().add(pointText);
             }
-
+            //This line creates a scroll pane, which allows for scrolling when the content exceeds the visible area.
             ScrollPane scrollPane = new ScrollPane();
+            //sets the scroll pane to the layout (popup window) that was previously created
             scrollPane.setContent(layout);
+            //These lines: content inside the ScrollPane will be resized to fit the available width and height without the need for horizontal or vertical scrolling
             scrollPane.setFitToWidth(true);
             scrollPane.setFitToHeight(true);
 
-            // Create a scene with the ScrollPane
+            // All the content within the ScrollPane will be displayed within this scene.
+            //sets its dimensions to be 300 pixels wide and 400 pixels tall
             Scene statusScene = new Scene(scrollPane, 300, 400);
 
-            // Set the scene to the stage
+            // This line sets the created scene (statusScene) as the scene to be displayed within the statusWindow
             statusWindow.setScene(statusScene);
 
             // Set the title of the new window
             statusWindow.setTitle("Status Board");
 
-            // Show the new window
+            // Show the new window on the screen
             statusWindow.show();
         });
 
